@@ -1,0 +1,16 @@
+{
+  "capturedAt": "2026-09-05T14:45:23.592Z",
+  "files": {
+    "ruflo-codex-control": "d45e0ef7ad853ae22cae10cc7e7352e5ffdf7d053d010db967da4a465755d3ae",
+    "ruflo-on": "d06df0d512e5b4affbb659e6cc74de2c5b657b64f4563892fc12f32855688983",
+    "ruflo-codex-bin": "7a45a0f9d499c8fd8857a8628a0dfaef6351f63e06361c2a8fa12c9ba78e922d",
+    "ruflo-config": "1e4973323658a3af79b710011b8131a093f42aec7d576d35598b49e577719640",
+    "ruflo-model-routing": "4b59302faa7a0abe09919dc0cdf379ebc70b454eb4313476f694370e526b6ed6"
+  },
+  "globalCursorMcp": "/Users/ivan.todorov/.cursor/mcp.json",
+  "globalCursorMcpSha256": "749696dd9721cf3e5a0acc0bd0e704626da58976cc5861d869e919fbe22b7f63",
+  "globalCursorMcpNames": [
+    "github-official",
+    "chrome-devtools-existing"
+  ]
+}

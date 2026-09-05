@@ -1,0 +1,9 @@
+{
+  "name": "ruflo-codex-project-runtime",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Project-local pinned Ruflo runtime for Codex",
+  "dependencies": {
+    "ruflo": "3.38.21"
+  }
+}

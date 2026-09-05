@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "rufloVersion": "3.38.21",
+  "maxConcurrentWorkers": 3,
+  "maxWritersPerWorkingDirectory": 1,
+  "worktreeIsolationForConcurrentWriters": true,
+  "runtime": ".ruflo/runtime",
+  "metrics": ".ruflo/metrics",
+  "processRegistry": ".ruflo/run",
+  "hooks": {
+    "mode": "project-local-wrapper",
+    "preTask": true,
+    "postTask": true,
+    "globalPluginInstalled": false
+  },
+  "mcp": {
+    "mode": "worker-cli-override",
+    "globalRegistration": false,
+    "startupTimeoutSeconds": 120
+  }
+}

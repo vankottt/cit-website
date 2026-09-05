@@ -1,0 +1,300 @@
+#!/usr/bin/env node
+import { spawn, spawnSync } from 'node:child_process';
+import { createHash, randomUUID } from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const project = findProject(process.cwd());
+const root = path.join(project, '.ruflo');
+const configPath = path.join(root, 'config.json');
+const routingPath = path.join(root, 'model-routing.json');
+const runtimeBin = path.join(root, 'runtime', 'node_modules', '.bin', 'ruflo');
+const runDir = path.join(root, 'run');
+const metricsDir = path.join(root, 'metrics');
+const stateDir = path.join(root, 'state');
+
+function findProject(start) {
+  let cursor = path.resolve(start);
+  for (;;) {
+    if (fs.existsSync(path.join(cursor, '.ruflo'))) return cursor;
+    const parent = path.dirname(cursor);
+    if (parent === cursor) return path.resolve(start);
+    cursor = parent;
+  }
+}
+
+function readJson(file) { return JSON.parse(fs.readFileSync(file, 'utf8')); }
+function writeJsonAtomic(file, value) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  const temp = `${file}.${process.pid}.tmp`;
+  fs.writeFileSync(temp, `${JSON.stringify(value, null, 2)}\n`, { mode: 0o600 });
+  fs.renameSync(temp, file);
+}
+function argValue(args, name) {
+  const index = args.indexOf(name);
+  return index >= 0 ? args[index + 1] : undefined;
+}
+function hasArg(args, name) { return args.includes(name); }
+function sha256(value) { return createHash('sha256').update(value).digest('hex'); }
+
+function scoreTask(task) {
+  const text = task.toLowerCase();
+  let score = Math.min(3, Math.floor(task.length / 500));
+  const complex = ['architecture', 'security', 'vulnerability', 'migration', 'distributed', 'race condition', 'cross-system', 'hard debug', 'root cause', 'production incident'];
+  const normal = ['implement', 'refactor', 'debug', 'integration', 'database', 'api', 'frontend', 'backend', 'test'];
+  const simple = ['typo', 'rename', 'format', 'copy edit', 'documentation cleanup', 'simple transformation'];
+  if (complex.some((word) => text.includes(word))) score += 3;
+  if (normal.some((word) => text.includes(word))) score += 1;
+  if (simple.some((word) => text.includes(word))) score -= 2;
+  if (/\b(auth|permission|credential|payment|delete|destructive)\b/.test(text)) score += 2;
+  if (/\b(multiple|across|several|unknown|ambiguous)\b/.test(text)) score += 1;
+  if (score <= 0) return 'simple';
+  if (score <= 2) return 'normal';
+  if (score <= 4) return 'complex';
+  return 'very-complex';
+}
+
+function rufloRoute(task) {
+  fs.mkdirSync(stateDir, { recursive: true });
+  const env = {
+    ...process.env,
+    CLAUDE_FLOW_DB_PATH: path.join(stateDir, 'ruflo.db'),
+    RUFLO_TELEMETRY_ENABLED: 'false',
+    CLAUDE_FLOW_TELEMETRY_ENABLED: 'false',
+  };
+  const result = spawnSync(runtimeBin, ['hooks', 'route', '--task', task, '--json'], {
+    cwd: stateDir,
+    env,
+    encoding: 'utf8',
+    timeout: 30000,
+    maxBuffer: 2 * 1024 * 1024,
+  });
+  const combined = `${result.stdout ?? ''}\n${result.stderr ?? ''}`.trim();
+  let parsed = null;
+  for (const candidate of [result.stdout, combined]) {
+    try { parsed = JSON.parse(candidate); break; } catch {}
+  }
+  return {
+    ok: result.status === 0,
+    exitCode: result.status,
+    parsed,
+    output: combined.slice(0, 4000),
+  };
+}
+
+function translateRufloTier(ruflo, fallbackTier) {
+  const raw = JSON.stringify(ruflo.parsed ?? ruflo.output ?? '').toLowerCase();
+  if (/opus|very.?complex|tier.?3|high complexity/.test(raw)) return fallbackTier === 'very-complex' ? fallbackTier : 'complex';
+  if (/sonnet|tier.?2|medium complexity/.test(raw)) return fallbackTier === 'simple' ? 'normal' : fallbackTier;
+  if (/haiku|tier.?1|low complexity/.test(raw)) return fallbackTier;
+  return fallbackTier;
+}
+
+function chooseRoute(task, requestedTier) {
+  const routing = readJson(routingPath);
+  const fallbackTier = requestedTier ?? scoreTask(task);
+  const ruflo = rufloRoute(task);
+  const tier = requestedTier ?? translateRufloTier(ruflo, fallbackTier);
+  const selected = routing.routes[tier] ?? routing.fallback;
+  return { tier, ...selected, ruflo, localComplexityTier: fallbackTier };
+}
+
+function runHook(name, args) {
+  if (!fs.existsSync(runtimeBin)) return { ok: false, reason: 'runtime missing' };
+  fs.mkdirSync(stateDir, { recursive: true });
+  const result = spawnSync(runtimeBin, ['hooks', name, ...args, '--json'], {
+    cwd: stateDir,
+    env: {
+      ...process.env,
+      CLAUDE_FLOW_DB_PATH: path.join(stateDir, 'ruflo.db'),
+      RUFLO_TELEMETRY_ENABLED: 'false',
+      CLAUDE_FLOW_TELEMETRY_ENABLED: 'false',
+    },
+    encoding: 'utf8',
+    timeout: 30000,
+    maxBuffer: 1024 * 1024,
+  });
+  return { ok: result.status === 0, exitCode: result.status, output: `${result.stdout ?? ''}${result.stderr ?? ''}`.slice(0, 2000) };
+}
+
+function extractUsage(events) {
+  const usage = { inputTokens: 0, cachedInputTokens: 0, outputTokens: 0, reasoningTokens: 0, totalTokens: 0 };
+  for (const event of events) {
+    const candidates = [event.usage, event.token_usage, event?.item?.usage, event?.response?.usage].filter(Boolean);
+    for (const item of candidates) {
+      usage.inputTokens = Math.max(usage.inputTokens, Number(item.input_tokens ?? item.inputTokens ?? 0));
+      usage.cachedInputTokens = Math.max(usage.cachedInputTokens, Number(item.cached_input_tokens ?? item.cachedInputTokens ?? item.input_tokens_details?.cached_tokens ?? 0));
+      usage.outputTokens = Math.max(usage.outputTokens, Number(item.output_tokens ?? item.outputTokens ?? 0));
+      usage.reasoningTokens = Math.max(usage.reasoningTokens, Number(item.reasoning_tokens ?? item.reasoning_output_tokens ?? item.reasoningTokens ?? item.output_tokens_details?.reasoning_tokens ?? 0));
+      usage.totalTokens = Math.max(usage.totalTokens, Number(item.total_tokens ?? item.totalTokens ?? 0));
+    }
+  }
+  if (!usage.totalTokens) usage.totalTokens = usage.inputTokens + usage.outputTokens;
+  return usage;
+}
+
+function updateTotals() {
+  const files = fs.existsSync(metricsDir) ? fs.readdirSync(metricsDir).filter((name) => name.startsWith('worker-') && name.endsWith('.json')) : [];
+  const records = files.map((name) => readJson(path.join(metricsDir, name)));
+  const totals = records.reduce((acc, item) => {
+    acc.workers += 1;
+    if (item.status === 'completed') acc.completed += 1;
+    else acc.failed += 1;
+    for (const key of ['inputTokens', 'cachedInputTokens', 'outputTokens', 'reasoningTokens', 'totalTokens']) {
+      acc.usage[key] += Number(item.usage?.[key] ?? 0);
+    }
+    const mode = item.executionMode ?? 'ruflo';
+    acc.byMode[mode] ??= { workers: 0, totalTokens: 0 };
+    acc.byMode[mode].workers += 1;
+    acc.byMode[mode].totalTokens += Number(item.usage?.totalTokens ?? 0);
+    const modelKey = `${item.model}/${item.reasoningEffort}`;
+    acc.byModel[modelKey] ??= { workers: 0, totalTokens: 0 };
+    acc.byModel[modelKey].workers += 1;
+    acc.byModel[modelKey].totalTokens += Number(item.usage?.totalTokens ?? 0);
+    return acc;
+  }, { generatedAt: new Date().toISOString(), workers: 0, completed: 0, failed: 0, usage: { inputTokens: 0, cachedInputTokens: 0, outputTokens: 0, reasoningTokens: 0, totalTokens: 0 }, byMode: {}, byModel: {}, modelCreditCostEfficiency: 'Report separately from tokens when account-native credit or cost telemetry is available; no invented price conversion.' });
+  writeJsonAtomic(path.join(metricsDir, 'session-totals.json'), totals);
+}
+
+async function runWorker(options) {
+  if (!fs.existsSync(path.join(root, 'enabled'))) throw new Error('Ruflo is OFF. Run ruflo-on first.');
+  const task = options.task;
+  const role = options.role ?? 'worker';
+  const cwd = path.resolve(options.cwd ?? project);
+  const executionMode = options.mode === 'pure' ? 'pure-codex' : 'ruflo';
+  const routing = readJson(routingPath);
+  const pureTier = options.tier ?? scoreTask(task);
+  const route = executionMode === 'ruflo'
+    ? chooseRoute(task, options.tier)
+    : { tier: pureTier, ...(routing.routes[pureTier] ?? routing.fallback), ruflo: { ok: false, exitCode: null, output: '' }, localComplexityTier: pureTier };
+  if (options.model) route.model = options.model;
+  if (options.reasoning) route.reasoningEffort = options.reasoning;
+  const id = `${new Date().toISOString().replace(/[:.]/g, '-')}-${randomUUID().slice(0, 8)}`;
+  const registryPath = path.join(runDir, `${id}.json`);
+  const start = new Date();
+  const readOnly = options.readOnly;
+  const mcpCommand = runtimeBin;
+  const args = [
+    'exec', '--json', '--ephemeral', '--skip-git-repo-check',
+    '--sandbox', readOnly ? 'read-only' : 'workspace-write',
+    '--model', route.model,
+    '-c', `model_reasoning_effort="${route.reasoningEffort}"`,
+  ];
+  if (executionMode === 'ruflo') {
+    args.push(
+      '-c', `mcp_servers.ruflo.command="${mcpCommand.replaceAll('\\', '\\\\').replaceAll('"', '\\"')}"`,
+      '-c', 'mcp_servers.ruflo.args=["mcp","start"]',
+      '-c', 'mcp_servers.ruflo.startup_timeout_sec=120',
+    );
+  }
+  args.push('-C', cwd, `[${executionMode} worker ${id}; role=${role}; tier=${route.tier}] ${task}`);
+  const before = executionMode === 'ruflo' ? runHook('pre-task', ['--description', task]) : { ok: false };
+  const registry = { id, pid: null, role, task, model: route.model, reasoningEffort: route.reasoningEffort, tier: route.tier, cwd, readOnly, startedAt: start.toISOString(), command: 'codex exec', status: 'starting' };
+  writeJsonAtomic(registryPath, registry);
+  const child = spawn('codex', args, { cwd, env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
+  registry.pid = child.pid;
+  registry.status = 'running';
+  writeJsonAtomic(registryPath, registry);
+  let stdout = '';
+  let stderr = '';
+  child.stdout.on('data', (chunk) => { stdout += chunk.toString(); process.stdout.write(chunk); });
+  child.stderr.on('data', (chunk) => { stderr += chunk.toString(); process.stderr.write(chunk); });
+  const exitCode = await new Promise((resolve, reject) => {
+    child.on('error', reject);
+    child.on('close', resolve);
+  });
+  const end = new Date();
+  const events = stdout.split(/\r?\n/).filter(Boolean).flatMap((line) => { try { return [JSON.parse(line)]; } catch { return []; } });
+  const usage = extractUsage(events);
+  const after = executionMode === 'ruflo' ? runHook('post-task', ['--task-id', id, '--success', exitCode === 0 ? 'true' : 'false']) : { ok: false };
+  const metric = {
+    workerId: id,
+    executionMode,
+    benchmarkLabel: options.benchmarkLabel ?? null,
+    role,
+    task,
+    tier: route.tier,
+    localComplexityTier: route.localComplexityTier,
+    rufloRouting: { ok: route.ruflo.ok, exitCode: route.ruflo.exitCode, outputSha256: sha256(route.ruflo.output ?? '') },
+    model: route.model,
+    reasoningEffort: route.reasoningEffort,
+    startTime: start.toISOString(),
+    endTime: end.toISOString(),
+    durationMs: end - start,
+    usage,
+    status: exitCode === 0 ? 'completed' : 'failed',
+    exitCode,
+    retries: 0,
+    workingDirectory: cwd,
+    worktree: cwd,
+    pid: child.pid,
+    sandbox: readOnly ? 'read-only' : 'workspace-write',
+    hooks: { preTask: before.ok, postTask: after.ok },
+    stderrTail: stderr.slice(-2000),
+  };
+  writeJsonAtomic(path.join(metricsDir, `worker-${id}.json`), metric);
+  registry.status = metric.status;
+  registry.completedAt = end.toISOString();
+  writeJsonAtomic(registryPath, registry);
+  updateTotals();
+  return exitCode;
+}
+
+async function parallel(specPath) {
+  const config = readJson(configPath);
+  const spec = readJson(path.resolve(specPath));
+  if (!Array.isArray(spec.workers) || spec.workers.length === 0) throw new Error('Spec must contain a non-empty workers array.');
+  const max = Math.min(Number(config.maxConcurrentWorkers ?? 3), 3);
+  const writingCwds = new Set();
+  for (const worker of spec.workers) {
+    if (!worker.readOnly) {
+      const cwd = path.resolve(worker.cwd ?? project);
+      if (writingCwds.has(cwd)) throw new Error(`Unsafe parallel spec: multiple writing workers share ${cwd}`);
+      writingCwds.add(cwd);
+    }
+  }
+  let cursor = 0;
+  let failed = false;
+  async function lane() {
+    while (cursor < spec.workers.length) {
+      const worker = spec.workers[cursor++];
+      const code = await runWorker({ task: worker.task, role: worker.role, tier: worker.tier, cwd: worker.cwd, readOnly: Boolean(worker.readOnly) });
+      if (code !== 0) failed = true;
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(max, spec.workers.length) }, lane));
+  return failed ? 1 : 0;
+}
+
+async function main() {
+  const [command, ...args] = process.argv.slice(2);
+  if (!command || ['help', '--help', '-h'].includes(command)) {
+    console.log('Usage: ruflo-codex route "TASK" | run --task "TASK" [--mode ruflo|pure] [--role ROLE] [--tier TIER] [--model MODEL] [--reasoning EFFORT] [--benchmark-label LABEL] [--read-only] [--cwd DIR] | parallel SPEC.json | totals');
+    return 0;
+  }
+  if (!fs.existsSync(routingPath) || !fs.existsSync(configPath)) throw new Error(`Ruflo project configuration is missing under ${root}`);
+  if (command === 'route') {
+    const task = args.join(' ').trim();
+    if (!task) throw new Error('route requires a task');
+    const route = chooseRoute(task);
+    console.log(JSON.stringify({ tier: route.tier, model: route.model, reasoningEffort: route.reasoningEffort, localComplexityTier: route.localComplexityTier, rufloRouteOk: route.ruflo.ok }, null, 2));
+    return 0;
+  }
+  if (command === 'run') {
+    const task = argValue(args, '--task');
+    if (!task) throw new Error('run requires --task');
+    return runWorker({ task, mode: argValue(args, '--mode'), role: argValue(args, '--role'), tier: argValue(args, '--tier'), model: argValue(args, '--model'), reasoning: argValue(args, '--reasoning'), benchmarkLabel: argValue(args, '--benchmark-label'), cwd: argValue(args, '--cwd'), readOnly: hasArg(args, '--read-only') });
+  }
+  if (command === 'parallel') {
+    if (!args[0]) throw new Error('parallel requires a JSON spec path');
+    return parallel(args[0]);
+  }
+  if (command === 'totals') {
+    updateTotals();
+    console.log(fs.readFileSync(path.join(metricsDir, 'session-totals.json'), 'utf8').trim());
+    return 0;
+  }
+  throw new Error(`Unknown command: ${command}`);
+}
+
+main().then((code) => { process.exitCode = code; }).catch((error) => { console.error(`ruflo-codex: ${error.message}`); process.exitCode = 1; });

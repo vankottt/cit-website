@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "rufloVersion": "3.38.21",
+  "host": "cursor",
+  "maxConcurrentWorkers": 3,
+  "maxWritersPerWorkingDirectory": 1,
+  "worktreeIsolationForConcurrentWriters": true,
+  "agentBin": "agent",
+  "runtime": ".ruflo/runtime",
+  "metrics": ".ruflo/cursor/metrics",
+  "processRegistry": ".ruflo/cursor/run",
+  "mcp": {
+    "mode": "project-cursor-mcp.json",
+    "globalRegistration": false,
+    "wrapper": ".ruflo/cursor/bin/ruflo-mcp.mjs"
+  }
+}

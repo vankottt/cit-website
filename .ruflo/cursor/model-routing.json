@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "host": "cursor",
+  "source": "Live `agent --list-models` for this Cursor account on 2026-09-04, Cursor Agent CLI 2026.09.02-c22c1a3.",
+  "cliAuthRequiredForLiveList": false,
+  "effort": {
+    "cliSyntax": "model id suffixes such as -thinking-high, -xhigh, -high, -medium, -low",
+    "applied": true,
+    "reason": "Cursor CLI does not expose a separate per-worker --reasoning flag. Effort is selected by choosing the verified model identifier."
+  },
+  "fallback": {
+    "model": "claude-sonnet-5-thinking-high"
+  },
+  "routes": {
+    "simple": {
+      "model": "composer-2.5-fast",
+      "useFor": ["mechanical edits", "simple transformations", "documentation cleanup", "straightforward questions"]
+    },
+    "normal": {
+      "model": "claude-sonnet-5-thinking-high",
+      "useFor": ["ordinary implementation", "bounded debugging", "routine refactoring"]
+    },
+    "complex": {
+      "model": "claude-opus-5-thinking-high",
+      "useFor": ["cross-file implementation", "ambiguous debugging", "integration work", "security-sensitive changes"]
+    },
+    "very-complex": {
+      "model": "claude-opus-5-thinking-xhigh",
+      "useFor": ["architecture", "hard debugging", "cross-system decisions", "high-risk security work"]
+    }
+  }
+}
