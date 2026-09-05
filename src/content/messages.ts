@@ -41,6 +41,11 @@ export interface Messages {
   notFoundBody: string;
   backHome: string;
   copyright: string;
+  loopCloses: string;
+  breadcrumb: string;
+  adaptNote: string;
+  theoreticalFramework: string;
+  operationalMethodology: string;
   statuses: Record<ProjectStatus, string>;
 }
 
@@ -83,6 +88,11 @@ const messages: Record<Locale, Messages> = {
     notFoundBody: "Търсената страница не съществува или е преместена.",
     backHome: "Към началната страница",
     copyright: "Всички права запазени",
+    loopCloses: "Цикълът се затваря",
+    breadcrumb: "Път",
+    adaptNote: "Адаптиране → ново проектиране",
+    theoreticalFramework: "Теоретична рамка",
+    operationalMethodology: "Оперативна методология",
     statuses: {
       "pilot-concept": "Пилотна концепция",
       "proposed-mandate": "Предложен изследователски мандат",
@@ -129,6 +139,11 @@ const messages: Record<Locale, Messages> = {
     notFoundBody: "The page you requested does not exist or has been moved.",
     backHome: "Back to the homepage",
     copyright: "All rights reserved",
+    loopCloses: "The loop closes",
+    breadcrumb: "Breadcrumb",
+    adaptNote: "Adapt → redesign",
+    theoreticalFramework: "Theoretical framework",
+    operationalMethodology: "Operational methodology",
     statuses: {
       "pilot-concept": "Pilot concept",
       "proposed-mandate": "Proposed research mandate",

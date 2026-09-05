@@ -124,7 +124,7 @@ export default async function HomePage({ params }: Params) {
           <MethodologyLoop
             stages={stages.map((s) => ({ code: s.code, short: s.short[locale], title: s.title[locale], body: s.body[locale] }))}
             tone="on-dark"
-            labels={{ stage: m.stage, loopNote: locale === "bg" ? "Цикълът се затваря" : "The loop closes" }}
+            labels={{ stage: m.stage, loopNote: m.loopCloses }}
           />
         </div>
         <div className="mt-12">

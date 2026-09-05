@@ -7,13 +7,7 @@ import type { Locale } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 import { CloseIcon, MenuIcon } from "@/components/ui/Icons";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-
-export interface MobileNavLink {
-  href: string;
-  label: string;
-  emphasis?: boolean;
-  active?: boolean;
-}
+import { isActivePath, type NavLink } from "./DesktopNav";
 
 export function MobileMenu({
   locale,
@@ -21,7 +15,7 @@ export function MobileMenu({
   labels,
 }: {
   locale: Locale;
-  links: MobileNavLink[];
+  links: NavLink[];
   labels: { open: string; close: string; menu: string; language: string };
 }) {
   const [open, setOpen] = useState(false);
@@ -29,11 +23,6 @@ export function MobileMenu({
   const pathname = usePathname();
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
-  // Close on navigation.
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
 
   // Escape closes; lock body scroll while open; move focus into the panel.
   useEffect(() => {
@@ -78,24 +67,33 @@ export function MobileMenu({
       >
         <nav aria-label={labels.menu} className="container-site pt-4 pb-10">
           <ul className="divide-y divide-line border-b border-line">
-            {links.map((l, i) => (
+            {links.map((l, i) => {
+              const active = isActivePath(pathname ?? "", l.href);
+              return (
               <li key={l.href}>
                 <Link
                   ref={i === 0 ? firstLinkRef : undefined}
                   href={l.href}
-                  aria-current={l.active ? "page" : undefined}
+                  aria-current={active ? "page" : undefined}
+                  onClick={() => setOpen(false)}
                   className={cn(
                     "flex items-center justify-between py-4 font-serif text-[1.5rem] leading-tight tracking-[-0.01em] text-ink transition-colors duration-150 hover:text-marine",
                     l.emphasis && "font-medium",
                   )}
                 >
                   {l.label}
-                  <span aria-hidden="true" className={cn("h-1.5 w-1.5 rounded-full", l.active ? "bg-amber" : "bg-transparent")} />
+                  <span aria-hidden="true" className={cn("h-1.5 w-1.5 rounded-full", active ? "bg-amber" : "bg-transparent")} />
                 </Link>
               </li>
-            ))}
+              );
+            })}
           </ul>
-          <div className="mt-8 flex items-center justify-between">
+          <div
+            className="mt-8 flex items-center justify-between"
+            onClick={(e) => {
+              if ((e.target as HTMLElement).closest("a")) setOpen(false);
+            }}
+          >
             <span className="label">{labels.language}</span>
             <LanguageSwitcher current={locale} label={labels.language} />
           </div>

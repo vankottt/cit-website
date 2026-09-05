@@ -20,13 +20,13 @@ export function InstitutionalNetwork({ locale }: { locale: Locale }) {
           <p className="mt-2 font-mono text-meta uppercase tracking-[0.06em] text-ink-3">{site.anchorShort[locale]}</p>
         </div>
         <dl className="divide-y divide-line md:col-span-5">
-          <div className="flex items-start justify-between gap-6 p-6 md:p-8">
+          <div className="flex flex-col gap-2 p-6 sm:flex-row sm:items-start sm:justify-between sm:gap-6 md:p-8">
             <dt className="text-small font-medium text-ink">{c.agreementLabel[locale]}</dt>
-            <dd className="label shrink-0 text-right">{c.agreementStatus[locale]}</dd>
+            <dd className="label sm:text-right">{c.agreementStatus[locale]}</dd>
           </div>
-          <div className="flex items-start justify-between gap-6 p-6 md:p-8">
+          <div className="flex flex-col gap-2 p-6 sm:flex-row sm:items-start sm:justify-between sm:gap-6 md:p-8">
             <dt className="text-small font-medium text-ink">{c.councilLabel[locale]}</dt>
-            <dd className="label shrink-0 text-right">{c.councilStatus[locale]}</dd>
+            <dd className="label sm:text-right">{c.councilStatus[locale]}</dd>
           </div>
         </dl>
       </div>

@@ -20,14 +20,14 @@ export function PillarsCycle({ locale, title, desc, compact = false }: { locale:
   const node = (c: { x: number; y: number }, code: string, accent = false) => (
     <g>
       <circle cx={c.x} cy={c.y} r={r} fill="var(--color-paper)" stroke={accent ? "var(--color-amber)" : "var(--color-ink)"} strokeWidth={accent ? 1.4 : 1} />
-      <text x={c.x} y={c.y + 5} textAnchor="middle" fontSize="15" fontWeight="500" className="font-serif" fill="var(--color-ink)">
+      <text x={c.x} y={c.y + 5} textAnchor="middle" fontSize="17" fontWeight="500" className="font-serif" fill="var(--color-ink)">
         {code}
       </text>
     </g>
   );
 
   const label = (x: number, y: number, name: string, anchor: "start" | "middle" | "end") => (
-    <text x={x} y={y} textAnchor={anchor} fontSize="14" fontWeight="500" className="font-sans" fill="var(--color-ink)">
+    <text x={x} y={y} textAnchor={anchor} fontSize="17" fontWeight="500" className="font-sans" fill="var(--color-ink)">
       {name}
     </text>
   );

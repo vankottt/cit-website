@@ -21,11 +21,14 @@ export function MethodologyLoop({
   tone = "on-dark",
   labels,
   defaultActive = 0,
+  mobile = "rail",
 }: {
   stages: LoopStage[];
   tone?: "ink" | "on-dark";
   labels: { stage: string; loopNote: string };
   defaultActive?: number;
+  /** "rail" lists all stages below md; "none" when the page already lists them. */
+  mobile?: "rail" | "none";
 }) {
   const [active, setActive] = useState(defaultActive);
   const panelId = useId();
@@ -176,7 +179,8 @@ export function MethodologyLoop({
       </div>
 
       {/* Mobile rail */}
-      <ol className={cn("md:hidden border-l", dark ? "border-on-dark/30" : "border-line-strong")}>
+      {mobile === "rail" ? (
+      <ol className={cn("md:hidden ml-3.5 border-l", dark ? "border-on-dark/30" : "border-line-strong")}>
         {stages.map((s, i) => (
           <li key={s.code} className="relative pb-6 pl-8 last:pb-0">
             <span
@@ -193,6 +197,11 @@ export function MethodologyLoop({
         ))}
         <li className={cn("pl-8 pt-2 font-mono text-[0.6875rem] uppercase tracking-[0.06em]", dark ? "text-on-dark-muted" : "text-ink-3")}>↺ {labels.loopNote}</li>
       </ol>
+      ) : (
+        <p className={cn("md:hidden font-mono text-[0.6875rem] uppercase tracking-[0.06em]", dark ? "text-on-dark-muted" : "text-ink-3")}>
+          {stages.map((s) => s.code).join(" → ")} ↺
+        </p>
+      )}
     </div>
   );
 }
