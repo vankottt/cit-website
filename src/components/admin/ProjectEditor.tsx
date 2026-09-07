@@ -105,6 +105,7 @@ export function ProjectEditor({ project, notice, saved }: { project?: ProjectRec
           <input name="methodologyName" defaultValue={project?.methodologyName ?? "ASAESIS"} />
         </label>
         <label>
+          <input type="hidden" name="featuredSubmitted" value="1" />
           <input type="checkbox" name="featured" defaultChecked={project?.featured} /> Featured on homepage
         </label>
         <label>

@@ -58,7 +58,7 @@ export function TeamGrid({
         );
       })}
       {upcoming.map((i) => (
-        <li key={`upcoming-${i}`} className="max-w-[11rem] text-center">
+        <li key={`upcoming-${i}`} className="person-tile w-full max-w-[14.5rem] text-center">
           <PersonPortraitVacant />
           <p className="mt-4 text-small text-pretty text-ink-3">{m.teamUpcoming}</p>
         </li>

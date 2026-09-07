@@ -35,6 +35,8 @@ export interface Messages {
   stage: string;
   stages: string;
   source: string;
+  publishedOn: string;
+  author: string;
   topics: string;
   relatedProjects: string;
   relatedInsights: string;
@@ -64,6 +66,11 @@ export interface Messages {
   youtubeWatch: string;
   heroVideoPause: string;
   heroVideoPlay: string;
+  newsCarousel: string;
+  newsPrevious: string;
+  newsNext: string;
+  stageStructure: string;
+  stageLoop: string;
   statuses: Record<ProjectStatus, string>;
 }
 
@@ -100,6 +107,8 @@ const messages: Record<Locale, Messages> = {
     stage: "Етап",
     stages: "Етапи",
     source: "Източник",
+    publishedOn: "Дата",
+    author: "Автор",
     topics: "Теми",
     relatedProjects: "Свързани проекти",
     relatedInsights: "Свързани анализи",
@@ -129,6 +138,11 @@ const messages: Record<Locale, Messages> = {
     youtubeWatch: "Гледайте в YouTube",
     heroVideoPause: "Пауза",
     heroVideoPlay: "Пусни",
+    newsCarousel: "Новини",
+    newsPrevious: "Предишна новина",
+    newsNext: "Следваща новина",
+    stageStructure: "Структура",
+    stageLoop: "Цикъл",
     statuses: {
       "pilot-concept": "Пилотна концепция",
       "proposed-mandate": "Предложен изследователски мандат",
@@ -169,6 +183,8 @@ const messages: Record<Locale, Messages> = {
     stage: "Stage",
     stages: "Stages",
     source: "Source",
+    publishedOn: "Date",
+    author: "Author",
     topics: "Topics",
     relatedProjects: "Related projects",
     relatedInsights: "Related insights",
@@ -198,6 +214,11 @@ const messages: Record<Locale, Messages> = {
     youtubeWatch: "Watch on YouTube",
     heroVideoPause: "Pause",
     heroVideoPlay: "Play",
+    newsCarousel: "News",
+    newsPrevious: "Previous news item",
+    newsNext: "Next news item",
+    stageStructure: "Structure",
+    stageLoop: "Loop",
     statuses: {
       "pilot-concept": "Pilot concept",
       "proposed-mandate": "Proposed research mandate",

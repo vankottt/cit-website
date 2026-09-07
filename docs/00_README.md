@@ -39,7 +39,8 @@ Do not allow the coding agent to continuously redesign the site while implementi
 
 ## V1 scope
 Primary navigation: About / Methodology / News / Insights / Projects / Team / Work with us, plus BG/EN.
-Homepage: Header → Hero → About (system idea, pillars, institutional network) → Methodology → News → Insights → Featured project → Team preview → Work with us → Footer
+Homepage (V1 Build Pack): Header → Hero → About (system idea, pillars, institutional network) → Methodology → News → Insights → Featured project → Team preview → Work with us → Footer.
+Goal 2 (2026-09-07) homepage: Header → Hero → Why CIT / Core System Model → pillars → Institutional anchor → ASAESIS → Featured project → News → Team → Work with us → Footer. Insights stays in nav, not on the home scroll. See `docs/DESIGN_DECISIONS.md` §7.
 
 ## Live benchmark usage
 04_BENCHMARK_REFERENCE_MAP contains the curated current representative-page URLs. They are navigation aids, not a crawl requirement. Stanford HAI is the primary visual north star; other benchmarks are task-specific functional/content references. The active coding agent should open the smallest relevant set of live pages only when resolving a concrete question, translate the useful principle into the single CIT design system, and record material reference influence in DESIGN_DECISIONS.md.

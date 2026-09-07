@@ -1,11 +1,33 @@
-import type { InsightRecord } from "@/lib/cms/types";
+import type { InsightRecord, MediaRecord } from "@/lib/cms/types";
 import { previewInsightAction, publishInsightAction, saveInsightAction } from "@/app/admin/actions";
+import { validateInsightPublish } from "@/lib/cms/truth";
 
-export function InsightEditor({ insight, notice, saved }: { insight?: InsightRecord; notice?: string; saved?: boolean }) {
+export function InsightEditor({
+  insight,
+  media = [],
+  notice,
+  saved,
+}: {
+  insight?: InsightRecord;
+  media?: MediaRecord[];
+  notice?: string;
+  saved?: boolean;
+}) {
+  const issues = insight ? validateInsightPublish(insight) : [];
   return (
     <>
       {notice ? <p role="alert">{notice}</p> : null}
       {saved ? <p className="admin-muted">Saved as draft (not published).</p> : null}
+      {issues.length ? (
+        <ul className="admin-card">
+          {issues.map((issue) => (
+            <li key={issue.code}>
+              {issue.blocking ? "Block: " : "Warn: "}
+              {issue.message}
+            </li>
+          ))}
+        </ul>
+      ) : null}
       <form action={saveInsightAction} className="admin-form admin-card">
         <input type="hidden" name="id" value={insight?.id ?? ""} />
         <label>
@@ -48,6 +70,38 @@ export function InsightEditor({ insight, notice, saved }: { insight?: InsightRec
         <label>
           Related projects
           <textarea name="relatedProjects" defaultValue={(insight?.relatedProjectSlugs ?? []).join("\n")} />
+        </label>
+        <label>
+          Source publication date
+          <input type="date" name="date" defaultValue={insight?.date?.slice(0, 10)} />
+        </label>
+        <label>
+          Author (optional)
+          <input name="author" defaultValue={insight?.author} />
+        </label>
+        <label>
+          Source BG
+          <textarea name="sourceBg" defaultValue={insight?.sourceBg} />
+        </label>
+        <label>
+          Source EN
+          <textarea name="sourceEn" defaultValue={insight?.sourceEn} />
+        </label>
+        <label>
+          Card / hero image (media library)
+          <select name="heroMediaId" defaultValue={insight?.heroMediaId ?? ""}>
+            <option value="">— none —</option>
+            {media.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.title || item.id}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          SEO title BG / EN
+          <input name="seoTitleBg" defaultValue={insight?.seo.titleBg} />
+          <input name="seoTitleEn" defaultValue={insight?.seo.titleEn} />
         </label>
         <label>
           SEO description BG / EN

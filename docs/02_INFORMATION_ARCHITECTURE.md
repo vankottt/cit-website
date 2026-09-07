@@ -10,22 +10,29 @@
 - Work with us
 - BG / EN
 
-Confirmed 2026-09-06: this order is shared by the header, footer, mobile menu and homepage section sequence in both locales. Work with us remains the collaboration CTA at the end of the strip.
+Confirmed 2026-09-06: this nav order is shared by the header, footer and mobile menu in both locales. Work with us remains the collaboration CTA at the end of the strip.
+
+Homepage document order is independent of the nav strip (Goal 2, 2026-09-07): Insights stays in navigation and at `/insights`, but is no longer a homepage preview. Featured project precedes News.
 
 ## Principle
 Keep V1 navigation compact, research-oriented and understandable to non-academic visitors. Do not create top-level items merely because content may exist later. **News** is a publishing channel for confirmed articles (text and video), including UASG materials republished with source.
 
 ## Homepage sequence
+Goal 2 (2026-09-07) supersedes the V1/V2 homepage that placed Insights and a governance preview on the home scroll. Nav IA is unchanged.
+
 1. Header — brand, navigation, language switch, collaboration CTA.
-2. Hero — one clear proposition, short support copy, maximum two actions.
-3. About cluster — system idea, three integrated pillars (Education / Academic Research / Applied Science), then institutional & research network (confirmed relationships only). Network stays in this cluster so scroll-spy does not jump back to About later on the page.
-4. Methodology preview — Define → Map → Analyse → Redesign → Implement → Measure → Adapt. This is a website simplification and must not be presented as formally fixed ASAESIS stage naming unless confirmed.
-5. News preview — confirmed articles with text and video; honest empty state when none are published.
-6. Insights preview — concept notes only; no empty categories.
-7. Featured applied project — strongest confirmed pilot/project, with clear status.
-8. Team preview — confirmed roles only; development placeholders must not ship as real people.
-9. Work with us — routes for public institutions, universities/researchers, business/industry and funding/innovation partners.
-10. Footer — institutional anchor, real contact and legal/privacy links.
+2. Hero — one clear proposition, short support copy, maximum two actions (infrastructure overlay; pause; reduced motion).
+3. Why CIT / Core System Model — system idea and the signature `SystemLoop` diagram.
+4. Education · Academic research · Applied science — compact three-column structural statement.
+5. Institutional anchor — UASG only; planned agreement/council status lives on About, not here.
+6. ASAESIS preview — desktop interactive ten-stage loop; compact homepage mobile index. Official method remains ten stages on `/methodology`.
+7. Featured applied project — Wine × Tourism as Pilot concept, before News.
+8. News — editorial CSS scroll-snap strip of confirmed articles; drafting fallback when an item has no legitimate media. No invented items.
+9. Team preview — named people without invented CIT roles; one quiet future-profile slot.
+10. Work with us — four audience entry rows; detail on `/work-with-us`. No invented inquiry inbox.
+11. Footer — institutional anchor and legal/privacy links.
+
+Insights remain a distinct public channel. Governance remains on About and Team.
 
 ## V1 sitemap
 /

@@ -6,11 +6,15 @@ import { pageMetadata } from "@/lib/metadata";
 import { insightsPage as c } from "@/content/pages";
 import { t } from "@/content/messages";
 import { insights } from "@/content/insights";
-import { getInsightForPublic, listPublishedInsights, listPublishedProjects } from "@/lib/cms/repository";
+import { getInsightForPublic, listPublishedInsights, listPublishedProjects, loadAllRecords } from "@/lib/cms/repository";
 import { insightRouteKey } from "@/lib/insight-channel";
 import { InsightArticle } from "@/components/editorial/InsightArticle";
+import { resolveNewsMedia } from "@/lib/news-presentation";
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
+
+/** Preview cookies and CMS reads must run per request. */
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return locales.flatMap((locale) => insights.filter((i) => i.type !== "news").map((i) => ({ locale, slug: i.slug })));
@@ -31,9 +35,14 @@ export default async function InsightDetailPage({ params }: Params) {
   if (!insight) notFound();
   if (insight.type === "news") redirect(href(locale, "news", slug));
   const m = t(locale);
-  const [publishedInsights, publishedProjects] = await Promise.all([listPublishedInsights(), listPublishedProjects()]);
+  const [publishedInsights, publishedProjects, { media }] = await Promise.all([
+    listPublishedInsights(),
+    listPublishedProjects(),
+    loadAllRecords(),
+  ]);
   const related = (insight.relatedProjects ?? []).map((relatedSlug) => publishedProjects.find((p) => p.slug === relatedSlug)).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const others = publishedInsights.filter((i) => i.slug !== insight.slug);
+  const hero = resolveNewsMedia(insight, media, locale);
 
   return (
     <InsightArticle
@@ -46,6 +55,7 @@ export default async function InsightDetailPage({ params }: Params) {
       othersHeading={m.allInsights}
       others={others}
       relatedProjects={related}
+      hero={hero}
     />
   );
 }

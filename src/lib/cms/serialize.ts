@@ -87,6 +87,9 @@ export function insightToRecord(insight: Insight): InsightRecord {
     relatedProjectSlugs: insight.relatedProjects ?? [],
     sourceBg: insight.source.bg,
     sourceEn: insight.source.en,
+    date: insight.date,
+    author: insight.author,
+    heroMediaId: insight.heroMediaId,
     seo: {
       titleBg: insight.title.bg,
       titleEn: insight.title.en,
@@ -110,6 +113,9 @@ export function recordToInsight(record: InsightRecord): Insight {
     topics: { bg: record.topicsBg, en: record.topicsEn },
     relatedProjects: record.relatedProjectSlugs,
     source: { bg: record.sourceBg ?? "", en: record.sourceEn ?? "" },
+    date: record.date,
+    author: record.author,
+    heroMediaId: record.heroMediaId,
   };
 }
 

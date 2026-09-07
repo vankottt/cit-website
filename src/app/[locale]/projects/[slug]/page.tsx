@@ -20,6 +20,9 @@ import { ArrowLink } from "@/components/ui/ArrowLink";
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
 
+/** Preview cookies and CMS reads must run per request. */
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return locales.flatMap((locale) => projects.map((p) => ({ locale, slug: p.slug })));
 }

@@ -37,13 +37,17 @@ export const campusPhotos = {
 export type CampusPhotoId = keyof typeof campusPhotos;
 
 /**
- * Homepage overlay clip. Source file: `Video/202609062306.mp4` (colour).
- * Web encode in `public/videos/hero.mp4` (muted grayscale H.264). Poster is a
- * frame from that encode. The footage shows transport infrastructure; it is
- * not presented as CIT laboratory, team or project activity.
+ * Homepage overlay clip. Source file: `Video/202609062306.mp4` (colour, 3 min).
+ * Production web loop is a 15s grayscale H.264 excerpt:
+ * - `/videos/hero.mp4` — 1920×1080, ~2.3 MiB
+ * - `/videos/hero-mobile.mp4` — 960×540, ~0.5 MiB
+ * Poster is a frame from that encode. The footage shows transport
+ * infrastructure; it is not presented as CIT laboratory, team or project activity.
+ * Video is not preloaded; the poster is the first paint.
  */
 export const heroVideo = {
   src: "/videos/hero.mp4",
+  mobileSrc: "/videos/hero-mobile.mp4",
   poster: {
     src: "/images/hero/poster.jpg",
     width: 1920,

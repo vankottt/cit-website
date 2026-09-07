@@ -43,25 +43,25 @@ export const home = {
     failuresCol: { bg: "Къде се проваля", en: "Where it fails" },
   },
   pillars: {
-    label: { bg: "Три интегрирани стълба", en: "Three integrated pillars" },
-    heading: { bg: "Образование, изследвания и приложение – една система с обратна връзка", en: "Education, research and application as one feedback system" },
+    label: { bg: "Три стълба", en: "Three pillars" },
+    heading: { bg: "Образование · изследвания · приложна наука", en: "Education · research · applied science" },
     body: {
-      bg: "Образование, изследвания и приложна наука работят като една система с обратна връзка – лаборатория за архитектура и инженеринг на институциите, а не традиционно академично звено.",
-      en: "Education, research and applied science operate as one feedback system — a laboratory for the architecture and engineering of institutions, not a conventional academic unit.",
+      bg: "Трите стълба работят като една система с обратна връзка – лаборатория за архитектура и инженеринг на институциите.",
+      en: "The three pillars operate as one feedback system — a laboratory for the architecture and engineering of institutions.",
     },
     diagramTitle: { bg: "Цикълът на трите стълба", en: "The three-pillar cycle" },
   },
   methodology: {
     label: { bg: "Методология", en: "Methodology" },
-    heading: { bg: "ASAESIS: от целите на системата до нейното непрекъснато адаптиране", en: "ASAESIS: from a system's goals to its continuous adaptation" },
+    heading: { bg: "От целите на системата до нейното адаптиране", en: "From a system's goals to its adaptation" },
     body: {
-      bg: "ASAESIS превръща алгоритмизацията на социалните процеси в десет етапа, които се затварят в наблюдение и адаптация.",
-      en: "ASAESIS turns the algorithmization of social processes into ten stages that close in monitoring and adaptation.",
+      bg: "Десет етапа, които се затварят в наблюдение и адаптация. Пълните описания са на страницата на методологията.",
+      en: "Ten stages that close in monitoring and adaptation. Full descriptions live on the methodology page.",
     },
     diagramTitle: { bg: "Десетте етапа на методологията", en: "The ten stages of the methodology" },
   },
   featured: {
-    label: { bg: "Приложен проект", en: "Applied project" },
+    label: { bg: "Приложен пилот", en: "Applied pilot" },
     chainTitle: { bg: "Анализираната пазарна верига", en: "The market chain under analysis" },
   },
   insights: {
@@ -74,18 +74,18 @@ export const home = {
   },
   news: {
     label: { bg: "Новини", en: "News" },
-    heading: { bg: "Актуални материали", en: "Current materials" },
+    heading: { bg: "Потвърдени материали", en: "Confirmed materials" },
     body: {
-      bg: "Потвърдени статии и видеозаписи, включително материали от УАСГ с посочен източник. Не са научни публикации.",
-      en: "Confirmed articles and video recordings, including UASG materials with a stated source. They are not research publications.",
+      bg: "Статии и записи с посочен източник. Не са научни публикации на Центъра.",
+      en: "Articles and recordings with a stated source. They are not research publications of the Center.",
     },
   },
   network: {
-    label: { bg: "Институционална мрежа", en: "Institutional network" },
-    heading: { bg: "Институционална основа в УАСГ", en: "Institutionally anchored at UASG" },
+    label: { bg: "Институционална основа", en: "Institutional anchor" },
+    heading: { bg: "Институционална основа: УАСГ", en: "Institutionally anchored at UASG" },
     body: {
-      bg: ["Центърът се създава с институционална основа в УАСГ."],
-      en: ["The Center is being established with its institutional base at UASG."],
+      bg: ["Центърът е институционално основан в Университета по архитектура, строителство и геодезия."],
+      en: ["The Center is institutionally anchored at the University of Architecture, Civil Engineering and Geodesy."],
     },
     agreementLabel: { bg: "Междууниверситетско споразумение", en: "Inter-university agreement" },
     agreementStatus: { bg: "В процес на финализиране", en: "Being finalized" },
@@ -95,14 +95,13 @@ export const home = {
   people: {
     label: { bg: "Екип", en: "Team" },
     heading: { bg: "Интердисциплинарен екип", en: "Interdisciplinary team" },
-    structureTitle: { bg: "Предвидена структура", en: "Planned structure" },
   },
   work: {
     label: { bg: "Сътрудничество", en: "Work with us" },
     heading: { bg: "Четири пътя за сътрудничество", en: "Four routes for collaboration" },
     body: {
-      bg: "Четири входа – публични институции, университети, бизнес и финансиращи организации. Портфолиото е в разработка; направленията следват плана.",
-      en: "Four entry points — public institutions, universities, business and funding organizations. The portfolio is in development; the routes follow the plan.",
+      bg: "Публични институции, университети, бизнес и финансиращи организации. Подробностите са на страницата за сътрудничество.",
+      en: "Public institutions, universities, business and funding organizations. Detail lives on the collaboration page.",
     },
   },
 } as const;

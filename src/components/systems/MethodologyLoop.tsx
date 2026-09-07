@@ -26,31 +26,31 @@ export function MethodologyLoop({
 }: {
   stages: LoopStage[];
   tone?: "ink" | "on-dark";
-  labels: { stage: string; loopNote: string };
+  labels: { stage: string; loopNote: string; structure?: string; loop?: string };
   defaultActive?: number;
-  /** "rail" lists all stages below md; "none" when the page already lists them. */
-  mobile?: "rail" | "none";
+  /** "rail" lists all stages; "compact" is homepage-only (one open description); "none" when the page already lists them. */
+  mobile?: "rail" | "compact" | "none";
 }) {
   const [active, setActive] = useState(defaultActive);
   const [pinned, setPinned] = useState(false);
-  const [playhead, setPlayhead] = useState<number | null>(null);
+  const [playhead, setPlayhead] = useState<number | "idle" | "done">("idle");
   const panelId = useId();
   const dark = tone === "on-dark";
   const top = stages.slice(0, 5);
   const bottom = stages.slice(5, 10);
-  const highlighted = playhead ?? active;
-  const current = stages[active] ?? stages[0]!;
   const { ref, ready, visible } = useInView();
+  const cycling = visible && ready && !pinned && playhead !== "done";
+  const highlighted = typeof playhead === "number" ? playhead : cycling ? 0 : active;
+  const current = stages[active] ?? stages[0]!;
 
   useEffect(() => {
     if (!visible || !ready || pinned) return;
     let i = 0;
-    setPlayhead(0);
     const id = window.setInterval(() => {
       i += 1;
       if (i >= stages.length) {
         window.clearInterval(id);
-        setPlayhead(null);
+        setPlayhead("done");
         return;
       }
       setPlayhead(i);
@@ -60,7 +60,7 @@ export function MethodologyLoop({
 
   const select = (index: number) => {
     setPinned(true);
-    setPlayhead(null);
+    setPlayhead("done");
     setActive(index);
   };
 
@@ -255,6 +255,54 @@ export function MethodologyLoop({
         </div>
       </div>
 
+      {/* Compact homepage mobile: stage index without all bodies at once. */}
+      {mobile === "compact" ? (
+        <div className="lg:hidden">
+          <ol className={cn("divide-y", dark ? "divide-on-dark/20 border-y border-on-dark/20" : "divide-line border-y border-line")}>
+            {stages.map((s, i) => {
+              const loop = i === stages.length - 1;
+              const kind = loop ? labels.loop : labels.structure;
+              return (
+                <li key={s.code}>
+                  <button
+                    type="button"
+                    aria-pressed={i === active}
+                    aria-controls={`${panelId}-compact`}
+                    onClick={() => select(i)}
+                    className="flex w-full items-baseline gap-4 py-3 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber"
+                  >
+                    <span className={cn("font-mono text-[0.75rem] tracking-[0.04em]", i === active ? "text-amber" : dark ? "text-on-dark-muted" : "text-ink-3")}>
+                      {s.code}
+                    </span>
+                    <span className={cn("flex-1 text-small font-medium", i === active ? (dark ? "text-on-dark" : "text-ink") : dark ? "text-on-dark-muted" : "text-ink-2")}>
+                      {s.short}
+                    </span>
+                    {kind ? (
+                      <span className={cn("font-mono text-[0.6875rem] uppercase tracking-[0.06em]", dark ? "text-on-dark-muted" : "text-ink-3")}>
+                        {loop ? "↺ " : ""}
+                        {kind}
+                      </span>
+                    ) : null}
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+          <div
+            id={`${panelId}-compact`}
+            role="region"
+            aria-live="polite"
+            className={cn("mt-5 border-t pt-5", dark ? "border-on-dark/20" : "border-line")}
+          >
+            <p className={dark ? "label-dark" : "label"}>
+              {labels.stage} {current.code}
+            </p>
+            <h3 className={cn("mt-2 font-serif text-h4", dark ? "text-on-dark" : "text-ink")}>{current.title}</h3>
+            <p className={cn("mt-2 text-small", dark ? "text-on-dark-muted" : "text-ink-2")}>{current.body}</p>
+          </div>
+        </div>
+      ) : null}
+
       {/* Mobile rail */}
       {mobile === "rail" ? (
       <ol className={cn("lg:hidden ml-3.5 border-l", dark ? "border-on-dark/30" : "border-line-strong")}>
@@ -274,11 +322,11 @@ export function MethodologyLoop({
         ))}
         <li className={cn("pl-8 pt-2 font-mono text-[0.6875rem] uppercase tracking-[0.06em]", dark ? "text-on-dark-muted" : "text-ink-3")}>↺ {labels.loopNote}</li>
       </ol>
-      ) : (
+      ) : mobile === "none" ? (
         <p className={cn("lg:hidden font-mono text-[0.6875rem] uppercase tracking-[0.06em]", dark ? "text-on-dark-muted" : "text-ink-3")}>
           {stages.map((s) => s.code).join(" → ")} ↺
         </p>
-      )}
+      ) : null}
     </div>
   );
 }

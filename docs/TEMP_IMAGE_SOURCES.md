@@ -7,14 +7,14 @@ These files are **temporary development/preview assets**. They provide instituti
 | Filename | Source page | Original image URL | Intended placement | Notes |
 |---|---|---|---|---|
 | `public/images/temporary-uacg/campus-facade.jpg` | [uacg.bg homepage](https://uacg.bg/) | `https://uacg.bg/uploads/slide_layer/32/slider4.webp` | About / mission | Cropped to the left (campus facade with the university name). The source file is a homepage slider collage; the origami/admissions panel was excluded. |
-| `public/images/temporary-uacg/campus-hall.jpg` | [uacg.bg homepage](https://uacg.bg/) | `https://uacg.bg/uploads/slide_layer/136/slider-kandidatsvai.webp` | Homepage institutional network; About / institutional context; Work with us | Cropped to the right (interior corridor with Hydraulic Engineering faculty boards). The posed student panel on the left of the source collage was excluded. |
+| `public/images/temporary-uacg/campus-hall.jpg` | [uacg.bg homepage](https://uacg.bg/) | `https://uacg.bg/uploads/slide_layer/136/slider-kandidatsvai.webp` | Homepage institutional figure; About / institutional context; Work with us | Cropped to the right (interior corridor with Hydraulic Engineering faculty boards). The posed student panel on the left of the source collage was excluded. Homepage no longer uses a full-bleed marine plate. |
 
 ## Per-asset inventory
 
 | Filename | Original source URL | Source institution | Intended use | Alt text BG | Alt text EN | temporary | replacement required |
 |---|---|---|---|---|---|---|---|
 | `campus-facade.jpg` | `https://uacg.bg/uploads/slide_layer/32/slider4.webp` | UASG (`uacg.bg`) | About / mission | Фасада на Университета по архитектура, строителство и геодезия в София, с името на университета над входа. | Facade of the University of Architecture, Civil Engineering and Geodesy in Sofia, with the university name above the entrance. | true | true |
-| `campus-hall.jpg` | `https://uacg.bg/uploads/slide_layer/136/slider-kandidatsvai.webp` | UASG (`uacg.bg`) | Homepage network; About / context; Work with us | Коридор в УАСГ с изложбени табла на Хидротехническия факултет. | A corridor at UASG with exhibition boards of the Faculty of Hydraulic Engineering. | true | true |
+| `campus-hall.jpg` | `https://uacg.bg/uploads/slide_layer/136/slider-kandidatsvai.webp` | UASG (`uacg.bg`) | Homepage institutional figure; About / context; Work with us | Коридор в УАСГ с изложбени табла на Хидротехническия факултет. | A corridor at UASG with exhibition boards of the Faculty of Hydraulic Engineering. | true | true |
 
 **REPLACE BEFORE FINAL PUBLIC LAUNCH.**
 

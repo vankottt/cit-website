@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import type { StaffRecord, StaffRole } from "@/lib/cms/types";
 import { cmsMode } from "@/lib/cms/mode";
 import { getLocalStore } from "@/lib/cms/local-store";
+import { requireSessionSecret } from "@/lib/auth/secrets";
 
 const COOKIE = "cit_admin_session";
 const MAX_AGE = 60 * 60 * 12;
@@ -17,7 +18,7 @@ export interface AdminSession {
 }
 
 function secret(): string {
-  return process.env.CIT_ADMIN_SESSION_SECRET || process.env.CIT_ADMIN_DEV_PASSWORD || "cit-dev-session-not-for-production";
+  return requireSessionSecret();
 }
 
 function sign(payload: string): string {

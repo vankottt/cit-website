@@ -31,7 +31,7 @@ export function DesktopNav({
 }) {
   return (
     <nav aria-label={label} className="hidden xl:block">
-      <ul className="flex items-center gap-5 2xl:gap-7">
+      <ul className="flex items-center gap-4 2xl:gap-6">
         {links.map((l) => {
           const hashHref = onHome ? homeHashHref(locale, l.navKey) : null;
           const href = hashHref ?? l.href;

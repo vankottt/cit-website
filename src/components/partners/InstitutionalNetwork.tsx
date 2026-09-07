@@ -8,8 +8,7 @@ import { t } from "@/content/messages";
  * as a text lockup plus the planned agreement and council as status rows.
  * No logo wall; nothing implied beyond the sources.
  *
- * `panel` — lockup + status (About).
- * `status` — hairline rows only; the homepage plate already carries the UASG name.
+ * `panel` — lockup + status (About). Homepage uses a concise UASG statement instead.
  */
 export function InstitutionalNetwork({
   locale,
@@ -21,26 +20,26 @@ export function InstitutionalNetwork({
   const m = t(locale);
   const c = home.network;
   const status = (
-    <dl className={variant === "status" ? "grid gap-6 sm:grid-cols-2" : "divide-y divide-line md:col-span-5"}>
+    <dl className={variant === "status" ? "grid gap-6 sm:grid-cols-2" : "min-w-0 divide-y divide-line md:col-span-5"}>
       <div
         className={
           variant === "status"
             ? "flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
-            : "flex flex-col gap-2 p-6 sm:flex-row sm:items-start sm:justify-between sm:gap-6 md:p-8"
+            : "flex min-w-0 flex-col gap-2 p-6 md:p-8 lg:flex-row lg:items-start lg:justify-between lg:gap-6"
         }
       >
-        <dt className="text-small font-medium text-ink">{c.agreementLabel[locale]}</dt>
-        <dd className="label sm:text-right">{c.agreementStatus[locale]}</dd>
+        <dt className="min-w-0 text-small font-medium text-ink">{c.agreementLabel[locale]}</dt>
+        <dd className="label min-w-0 text-pretty lg:text-right">{c.agreementStatus[locale]}</dd>
       </div>
       <div
         className={
           variant === "status"
             ? "flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
-            : "flex flex-col gap-2 p-6 sm:flex-row sm:items-start sm:justify-between sm:gap-6 md:p-8"
+            : "flex min-w-0 flex-col gap-2 p-6 md:p-8 lg:flex-row lg:items-start lg:justify-between lg:gap-6"
         }
       >
-        <dt className="text-small font-medium text-ink">{c.councilLabel[locale]}</dt>
-        <dd className="label sm:text-right">{c.councilStatus[locale]}</dd>
+        <dt className="min-w-0 text-small font-medium text-ink">{c.councilLabel[locale]}</dt>
+        <dd className="label min-w-0 text-pretty lg:text-right">{c.councilStatus[locale]}</dd>
       </div>
     </dl>
   );

@@ -51,10 +51,10 @@ export function Hero({
         <div className="relative isolate min-h-[32rem] overflow-hidden md:min-h-[38rem] lg:min-h-[42rem]">
           {visual}
           <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-marine via-marine/85 to-marine/55 md:bg-gradient-to-r md:from-marine md:from-[38%] md:via-marine/78 md:to-marine/20"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-marine via-marine/82 to-marine/50 md:bg-gradient-to-r md:from-marine md:from-[32%] md:via-marine/70 md:to-marine/12"
             aria-hidden="true"
           />
-          <Container className="hero-copy-in relative z-10 flex min-h-[32rem] flex-col justify-start pt-20 pb-16 md:min-h-[38rem] md:pb-20 lg:min-h-[42rem]">
+          <Container className="hero-copy-in relative z-10 flex min-h-[32rem] flex-col justify-end pt-16 pb-14 md:min-h-[38rem] md:justify-center md:pt-20 md:pb-20 lg:min-h-[42rem]">
             {label ? <p className="label-dark">{label}</p> : null}
             <h1
               className={cn(

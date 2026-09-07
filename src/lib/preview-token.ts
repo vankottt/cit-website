@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { requirePreviewSecret } from "@/lib/auth/secrets";
 
 export interface PreviewGrant {
   kind: "project" | "insight" | "person";
@@ -7,7 +8,7 @@ export interface PreviewGrant {
 }
 
 export function previewSecret(env: Record<string, string | undefined> = process.env as Record<string, string | undefined>): string {
-  return env.CIT_PREVIEW_SECRET || env.CIT_ADMIN_SESSION_SECRET || env.CIT_ADMIN_DEV_PASSWORD || "cit-preview-dev";
+  return requirePreviewSecret(env);
 }
 
 function sign(payload: string, secret: string): string {

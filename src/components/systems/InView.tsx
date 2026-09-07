@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useRef, useState, useEffect, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { useIsClient, usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 /**
  * Marks its subtree `js-ready` after mount and `is-in-view` when it enters
@@ -25,19 +26,14 @@ export function InView({
 
 export function useInView<T extends HTMLElement = HTMLDivElement>() {
   const ref = useRef<T>(null);
-  const [ready, setReady] = useState(false);
+  const reducedMotion = usePrefersReducedMotion();
+  const isClient = useIsClient();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || reducedMotion) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setVisible(true);
-      return;
-    }
-
-    setReady(true);
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {
@@ -49,7 +45,7 @@ export function useInView<T extends HTMLElement = HTMLDivElement>() {
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [reducedMotion]);
 
-  return { ref, ready, visible };
+  return { ref, ready: isClient && !reducedMotion, visible: reducedMotion || visible };
 }

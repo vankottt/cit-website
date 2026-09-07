@@ -19,4 +19,8 @@ The admin UI is operational: dashboard counts, bilingual fields, draft/review/pu
 
 Insight body is one block per line. A YouTube watch / youtu.be / Shorts URL on its own line (BG and EN) renders as an embedded clip on the public site — no autoplay, no pasted HTML.
 
-Set **Type** to `Concept note (Insights)` or `News article`. News items appear on `/news`, not on Insights.
+Set **Type** to `Concept note (Insights)` or `News article`. News items appear on `/news`, not on Insights. News cannot be published without a source publication date and BG/EN source text. Card/hero images are chosen from the media library; they are optional for publish.
+
+Saving an existing record merges submitted fields into the stored record. Fields the form does not send are preserved. Empty submitted values still clear the corresponding optional field.
+
+Signing secrets and preview vs production env: `docs/ENVIRONMENTS.md`.

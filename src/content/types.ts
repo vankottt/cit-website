@@ -92,6 +92,12 @@ export interface Insight {
   topics: L<string[]>;
   relatedProjects?: string[];
   source: L;
+  /** Source publication date (YYYY-MM-DD). Optional on concept notes; required to publish news. */
+  date?: string;
+  /** Optional credited author. Institutional news may omit this. */
+  author?: string;
+  /** Media-library id when a card/hero image is chosen. Not required to publish. */
+  heroMediaId?: string;
 }
 
 export interface Person {

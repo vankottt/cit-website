@@ -3,7 +3,7 @@ import { loadAllRecords } from "@/lib/cms/repository";
 import { InsightEditor } from "@/components/admin/InsightEditor";
 
 export default async function AdminInsightsPage({ searchParams }: { searchParams: Promise<{ error?: string; saved?: string }> }) {
-  const { insights } = await loadAllRecords();
+  const { insights, media } = await loadAllRecords();
   const { error, saved } = await searchParams;
   return (
     <>
@@ -19,7 +19,7 @@ export default async function AdminInsightsPage({ searchParams }: { searchParams
         ))}
       </ul>
       <h2 style={{ marginTop: "2rem" }}>New article</h2>
-      <InsightEditor />
+      <InsightEditor media={media} />
     </>
   );
 }

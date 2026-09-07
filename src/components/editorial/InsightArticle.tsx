@@ -4,9 +4,12 @@ import { href, type RouteKey } from "@/lib/paths";
 import type { Insight, Project } from "@/content/types";
 import { t } from "@/content/messages";
 import { insightRouteKey } from "@/lib/insight-channel";
+import { formatSourceDate } from "@/lib/format-source-date";
 import { Container } from "@/components/layout/Container";
 import { Blocks } from "@/components/editorial/Blocks";
 import { ArrowLink } from "@/components/ui/ArrowLink";
+import { EditorialFigure } from "@/components/editorial/EditorialFigure";
+import type { NewsCardMedia } from "@/lib/news-presentation";
 
 export function InsightArticle({
   insight,
@@ -18,6 +21,7 @@ export function InsightArticle({
   othersHeading,
   others,
   relatedProjects,
+  hero,
 }: {
   insight: Insight;
   locale: Locale;
@@ -28,10 +32,13 @@ export function InsightArticle({
   othersHeading: string;
   others: Insight[];
   relatedProjects: Project[];
+  hero?: NewsCardMedia | null;
 }) {
   const m = t(locale);
   const topics = insight.topics[locale].filter(Boolean);
   const source = insight.source[locale].trim();
+  const dated = insight.date ? formatSourceDate(insight.date, locale) : "";
+  const author = insight.author?.trim();
 
   return (
     <article>
@@ -55,6 +62,12 @@ export function InsightArticle({
         </Container>
       </header>
 
+      {hero ? (
+        <Container className="pb-2">
+          <EditorialFigure src={hero.src} alt={hero.alt} sizes="(min-width: 1024px) 1120px, 92vw" ratio="aspect-[16/7]" />
+        </Container>
+      ) : null}
+
       <Container className="pb-section">
         <div className="grid gap-10 border-t border-line pt-10 lg:grid-cols-12 lg:gap-12">
           <aside className="lg:col-span-3" aria-label={typeLabel}>
@@ -70,6 +83,18 @@ export function InsightArticle({
                     <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-amber" />
                     {statusLabel}
                   </dd>
+                </div>
+              ) : null}
+              {dated ? (
+                <div className="border-b border-line py-3">
+                  <dt className="label">{m.publishedOn}</dt>
+                  <dd className="mt-1 text-ink">{dated}</dd>
+                </div>
+              ) : null}
+              {author ? (
+                <div className="border-b border-line py-3">
+                  <dt className="label">{m.author}</dt>
+                  <dd className="mt-1 text-ink">{author}</dd>
                 </div>
               ) : null}
               {topics.length ? (

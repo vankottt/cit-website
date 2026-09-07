@@ -62,16 +62,19 @@ async function main() {
   for (const i of data.insights) {
     statements.push(`insert into public.insights (
       id, slug, type, title_bg, title_en, summary_bg, summary_en, body_bg, body_en, topics_bg, topics_en,
-      related_project_slugs, source_bg, source_en, published_on, author, seo, publication_state,
+      related_project_slugs, source_bg, source_en, published_on, author, hero_media_id, seo, publication_state,
       created_at, updated_at, published_at
     ) values (
       ${lit(i.id)}, ${lit(i.slug)}, ${lit(i.type)}, ${lit(i.titleBg)}, ${lit(i.titleEn)}, ${lit(i.summaryBg)}, ${lit(i.summaryEn)},
       ${lit(i.bodyBg)}, ${lit(i.bodyEn)}, ${lit(i.topicsBg)}, ${lit(i.topicsEn)}, ${lit(i.relatedProjectSlugs)},
       ${lit(i.sourceBg ?? null)}, ${lit(i.sourceEn ?? null)}, ${lit(i.date ?? null)}, ${lit(i.author ?? null)},
-      ${lit(i.seo)}, ${lit(i.publicationState)}, ${lit(i.createdAt)}, ${lit(i.updatedAt)}, ${lit(i.publishedAt ?? null)}
+      ${lit(i.heroMediaId ?? null)}, ${lit(i.seo)}, ${lit(i.publicationState)}, ${lit(i.createdAt)}, ${lit(i.updatedAt)}, ${lit(i.publishedAt ?? null)}
     ) on conflict (slug) do update set
-      title_bg = excluded.title_bg, title_en = excluded.title_en, summary_bg = excluded.summary_bg,
+      type = excluded.type, title_bg = excluded.title_bg, title_en = excluded.title_en, summary_bg = excluded.summary_bg,
       summary_en = excluded.summary_en, body_bg = excluded.body_bg, body_en = excluded.body_en,
+      topics_bg = excluded.topics_bg, topics_en = excluded.topics_en, related_project_slugs = excluded.related_project_slugs,
+      source_bg = excluded.source_bg, source_en = excluded.source_en, published_on = excluded.published_on,
+      author = excluded.author, hero_media_id = excluded.hero_media_id, seo = excluded.seo,
       publication_state = excluded.publication_state, updated_at = excluded.updated_at, published_at = excluded.published_at;`);
   }
 

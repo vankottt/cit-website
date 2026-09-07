@@ -78,6 +78,22 @@ export function validateInsightPublish(insight: InsightRecord): PublishIssue[] {
   if (!isNonEmptyText(insight.summaryBg) || !isNonEmptyText(insight.summaryEn)) {
     issues.push({ code: "summary", message: "Both BG and EN summaries are required to publish.", blocking: true });
   }
+  if (insight.type === "news") {
+    if (!isNonEmptyText(insight.date)) {
+      issues.push({
+        code: "news-date",
+        message: "News requires a source publication date before it can be published.",
+        blocking: true,
+      });
+    }
+    if (!isNonEmptyText(insight.sourceBg) || !isNonEmptyText(insight.sourceEn)) {
+      issues.push({
+        code: "news-source",
+        message: "News requires a stated source in both BG and EN before it can be published.",
+        blocking: true,
+      });
+    }
+  }
   return issues;
 }
 

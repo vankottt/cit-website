@@ -5,14 +5,14 @@ import { href } from "@/lib/paths";
 import { pageMetadata } from "@/lib/metadata";
 import { newsPage as c } from "@/content/pages";
 import { t } from "@/content/messages";
-import { getInsightForPublic, listPublishedNews, listPublishedProjects } from "@/lib/cms/repository";
+import { getInsightForPublic, listPublishedNews, listPublishedProjects, loadAllRecords } from "@/lib/cms/repository";
 import { InsightArticle } from "@/components/editorial/InsightArticle";
+import { resolveNewsMedia } from "@/lib/news-presentation";
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
 
-export function generateStaticParams() {
-  return [];
-}
+/** Preview cookies and CMS reads must run per request. */
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { locale: raw, slug } = await params;
@@ -29,9 +29,14 @@ export default async function NewsDetailPage({ params }: Params) {
   if (!article) notFound();
   if (article.type !== "news") redirect(href(locale, "insights", slug));
   const m = t(locale);
-  const [publishedNews, publishedProjects] = await Promise.all([listPublishedNews(), listPublishedProjects()]);
+  const [publishedNews, publishedProjects, { media }] = await Promise.all([
+    listPublishedNews(),
+    listPublishedProjects(),
+    loadAllRecords(),
+  ]);
   const related = (article.relatedProjects ?? []).map((relatedSlug) => publishedProjects.find((p) => p.slug === relatedSlug)).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const others = publishedNews.filter((i) => i.slug !== article.slug);
+  const hero = resolveNewsMedia(article, media, locale);
 
   return (
     <InsightArticle
@@ -44,6 +49,7 @@ export default async function NewsDetailPage({ params }: Params) {
       othersHeading={m.allNews}
       others={others}
       relatedProjects={related}
+      hero={hero}
     />
   );
 }

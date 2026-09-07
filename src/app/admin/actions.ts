@@ -19,7 +19,8 @@ import {
   transitionPerson,
   transitionProject,
 } from "@/lib/cms/repository";
-import type { InsightRecord, PartnerRecord, PersonRecord, ProjectRecord, PublicationState, SiteSettingsRecord } from "@/lib/cms/types";
+import type { PartnerRecord, PublicationState, SiteSettingsRecord } from "@/lib/cms/types";
+import { insightRecordFromForm, personRecordFromForm, projectRecordFromForm } from "@/lib/cms/form-merge";
 import { insightRouteKey } from "@/lib/insight-channel";
 import { href } from "@/lib/paths";
 import { newUploadId, setPreviewCookie } from "@/lib/preview";
@@ -37,7 +38,11 @@ export async function loginAction(formData: FormData) {
   if (mode === "local") {
     const staff = await localLogin(email, password);
     if (!staff) redirect("/admin/login?error=" + encodeURIComponent("Invalid email or password."));
-    await setAdminSessionCookie({ userId: staff.userId, email: staff.email, role: staff.role, exp: Date.now() + 1000 * 60 * 60 * 12 });
+    try {
+      await setAdminSessionCookie({ userId: staff.userId, email: staff.email, role: staff.role, exp: Date.now() + 1000 * 60 * 60 * 12 });
+    } catch (error) {
+      redirect("/admin/login?error=" + encodeURIComponent(error instanceof Error ? error.message : "Session signing is not configured."));
+    }
     redirect("/admin");
   }
   if (mode === "supabase") {
@@ -50,12 +55,17 @@ export async function loginAction(formData: FormData) {
       await supabase.auth.signOut();
       redirect("/admin/login?error=" + encodeURIComponent("This account is not on the staff list."));
     }
-    await setAdminSessionCookie({
-      userId: staff.user_id,
-      email: staff.email,
-      role: staff.role,
-      exp: Date.now() + 1000 * 60 * 60 * 12,
-    });
+    try {
+      await setAdminSessionCookie({
+        userId: staff.user_id,
+        email: staff.email,
+        role: staff.role,
+        exp: Date.now() + 1000 * 60 * 60 * 12,
+      });
+    } catch (error) {
+      await supabase.auth.signOut();
+      redirect("/admin/login?error=" + encodeURIComponent(error instanceof Error ? error.message : "Session signing is not configured."));
+    }
     redirect("/admin");
   }
   redirect("/admin/login?error=" + encodeURIComponent("CMS is not configured."));
@@ -89,48 +99,7 @@ function lines(form: FormData, key: string): string[] {
 export async function saveProjectAction(formData: FormData) {
   const session = await requireStaff();
   const existing = await findProject(text(formData, "id") || text(formData, "slug"));
-  const now = new Date().toISOString();
-  const payload = existing?.payload ?? {};
-  const record: ProjectRecord = {
-    id: existing?.id ?? `project-${text(formData, "slug")}`,
-    slug: text(formData, "slug"),
-    titleBg: text(formData, "titleBg"),
-    titleEn: text(formData, "titleEn"),
-    summaryBg: text(formData, "summaryBg"),
-    summaryEn: text(formData, "summaryEn"),
-    standfirstBg: text(formData, "standfirstBg"),
-    standfirstEn: text(formData, "standfirstEn"),
-    status: text(formData, "status") || "pilot-concept",
-    lifecycle: (text(formData, "lifecycle") as ProjectRecord["lifecycle"]) || "concept",
-    typeBg: text(formData, "typeBg"),
-    typeEn: text(formData, "typeEn"),
-    domainBg: text(formData, "domainBg"),
-    domainEn: text(formData, "domainEn"),
-    methodologyName: text(formData, "methodologyName") || "ASAESIS",
-    heroMediaId: text(formData, "heroMediaId") || undefined,
-    payload: {
-      ...payload,
-      systemProblem: { bg: lines(formData, "systemProblemBg"), en: lines(formData, "systemProblemEn") },
-      objective: { bg: lines(formData, "objectiveBg"), en: lines(formData, "objectiveEn") },
-      expectedOutcomes: { bg: lines(formData, "expectedBg"), en: lines(formData, "expectedEn") },
-      measuredResults: { bg: lines(formData, "measuredBg"), en: lines(formData, "measuredEn") },
-    },
-    seo: {
-      titleBg: text(formData, "seoTitleBg"),
-      titleEn: text(formData, "seoTitleEn"),
-      descriptionBg: text(formData, "seoDescriptionBg"),
-      descriptionEn: text(formData, "seoDescriptionEn"),
-    },
-    publicationState: existing?.publicationState ?? "draft",
-    featured: formData.get("featured") === "on",
-    relatedProjectSlugs: lines(formData, "relatedProjects"),
-    relatedInsightSlugs: lines(formData, "relatedInsights"),
-    createdAt: existing?.createdAt ?? now,
-    updatedAt: now,
-    publishedAt: existing?.publishedAt,
-    createdBy: existing?.createdBy ?? session.userId,
-    updatedBy: session.userId,
-  };
+  const record = projectRecordFromForm(formData, existing, session.userId);
   const result = await saveProject(record);
   if (!result.ok) redirect(`/admin/projects/${record.slug}?error=${encodeURIComponent(result.error)}`);
   revalidatePath("/admin");
@@ -169,35 +138,7 @@ export async function saveInsightAction(formData: FormData) {
   const session = await requireStaff();
   const { insights } = await loadAllRecords();
   const existing = insights.find((i) => i.slug === text(formData, "slug") || i.id === text(formData, "id"));
-  const now = new Date().toISOString();
-  const record: InsightRecord = {
-    id: existing?.id ?? `insight-${text(formData, "slug")}`,
-    slug: text(formData, "slug"),
-    type: text(formData, "type") === "news" ? "news" : "concept-note",
-    titleBg: text(formData, "titleBg"),
-    titleEn: text(formData, "titleEn"),
-    summaryBg: text(formData, "summaryBg"),
-    summaryEn: text(formData, "summaryEn"),
-    bodyBg: lines(formData, "bodyBg"),
-    bodyEn: lines(formData, "bodyEn"),
-    topicsBg: lines(formData, "topicsBg"),
-    topicsEn: lines(formData, "topicsEn"),
-    relatedProjectSlugs: lines(formData, "relatedProjects"),
-    sourceBg: text(formData, "sourceBg"),
-    sourceEn: text(formData, "sourceEn"),
-    seo: {
-      titleBg: text(formData, "seoTitleBg"),
-      titleEn: text(formData, "seoTitleEn"),
-      descriptionBg: text(formData, "seoDescriptionBg"),
-      descriptionEn: text(formData, "seoDescriptionEn"),
-    },
-    publicationState: existing?.publicationState ?? "draft",
-    createdAt: existing?.createdAt ?? now,
-    updatedAt: now,
-    publishedAt: existing?.publishedAt,
-    createdBy: existing?.createdBy ?? session.userId,
-    updatedBy: session.userId,
-  };
+  const record = insightRecordFromForm(formData, existing, session.userId);
   const result = await saveInsight(record);
   if (!result.ok) redirect(`/admin/insights/${record.slug}?error=${encodeURIComponent(result.error)}`);
   revalidatePath("/admin/insights");
@@ -239,31 +180,7 @@ export async function savePersonAction(formData: FormData) {
   const session = await requireStaff();
   const { people } = await loadAllRecords();
   const existing = people.find((p) => p.slug === text(formData, "slug") || p.id === text(formData, "id"));
-  const now = new Date().toISOString();
-  const record: PersonRecord = {
-    id: existing?.id ?? `person-${text(formData, "slug")}`,
-    slug: text(formData, "slug"),
-    kind: (text(formData, "kind") as PersonRecord["kind"]) || "appointed_person",
-    nameBg: text(formData, "nameBg"),
-    nameEn: text(formData, "nameEn"),
-    roleBg: text(formData, "roleBg") || undefined,
-    roleEn: text(formData, "roleEn") || undefined,
-    affiliationBg: text(formData, "affiliationBg") || undefined,
-    affiliationEn: text(formData, "affiliationEn") || undefined,
-    expertiseBg: lines(formData, "expertiseBg"),
-    expertiseEn: lines(formData, "expertiseEn"),
-    bioBg: lines(formData, "bioBg"),
-    bioEn: lines(formData, "bioEn"),
-    photoMediaId: text(formData, "photoMediaId") || undefined,
-    relatedProjectSlugs: lines(formData, "relatedProjects"),
-    relatedInsightSlugs: lines(formData, "relatedInsights"),
-    seo: {},
-    publicationState: existing?.publicationState ?? "draft",
-    createdAt: existing?.createdAt ?? now,
-    updatedAt: now,
-    createdBy: existing?.createdBy ?? session.userId,
-    updatedBy: session.userId,
-  };
+  const record = personRecordFromForm(formData, existing, session.userId);
   const result = await savePerson(record);
   if (!result.ok) redirect(`/admin/people?error=${encodeURIComponent(result.error)}`);
   redirect("/admin/people?saved=1");

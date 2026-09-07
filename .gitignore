@@ -35,5 +35,7 @@ yarn-error.log*
 /Video/
 /Team Photos/
 /Logo/
+# Ruflo generated runtime, state and metrics. Tracked tooling under .ruflo/
+# (adapter, routing, config) stays in the index; do not re-add node_modules.
 /.ruflo/
 supabase/.temp/

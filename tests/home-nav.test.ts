@@ -32,6 +32,7 @@ describe("homepage section map", () => {
     expect(navKeyForHomeSection("network")).toBe("about");
     expect(navKeyForHomeSection("featured-project")).toBe("projects");
     expect(navKeyForHomeSection("people")).toBe("people");
+    expect(navKeyForHomeSection("insights")).toBe(null);
     expect(navKeyForHomeSection("missing")).toBe(null);
   });
 
@@ -41,9 +42,8 @@ describe("homepage section map", () => {
       "pillars",
       "network",
       "methodology",
-      "news",
-      "insights",
       "featured-project",
+      "news",
       "people",
       "work-with-us",
     ]);
@@ -53,6 +53,7 @@ describe("homepage section map", () => {
     expect(homeHashHref("bg", "methodology")).toBe("/bg#methodology");
     expect(homeHashHref("en", "projects")).toBe("/en#featured-project");
     expect(homeHashHref("en", "news")).toBe("/en#news");
+    expect(homeHashHref("bg", "insights")).toBe(null);
     expect(homeHashHref("bg", "privacy")).toBe(null);
   });
 });

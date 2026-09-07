@@ -4,6 +4,7 @@ import { insights as seedInsights } from "@/content/insights";
 import { projects as seedProjects } from "@/content/projects";
 import { cmsMode } from "./mode";
 import { getLocalStore, updateLocalStore } from "./local-store";
+import { recordContentSource } from "./content-source";
 import { insightToRecord, projectToRecord, recordToInsight, recordToPerson, recordToProject, seedMedia, seedPartners, seedSettings } from "./serialize";
 import { canViewForPublic, isPublished, partnerIsPublic, personIsPublic, seoIncomplete, translationState, validateInsightPublish, validatePersonPublish, validateProjectPublish } from "./truth";
 import type {
@@ -38,16 +39,22 @@ export async function loadAllRecords(): Promise<{
 }> {
   const mode = cmsMode();
   if (mode === "local") {
+    recordContentSource("local");
     const store = await getLocalStore();
     return store;
   }
   if (mode === "supabase") {
     try {
       const { loadSupabaseRecords } = await import("./supabase-repo");
-      return await loadSupabaseRecords();
+      const records = await loadSupabaseRecords();
+      recordContentSource("supabase");
+      return records;
     } catch (error) {
-      console.error("CMS unavailable, falling back to seed", error);
+      const reason = error instanceof Error ? error.message : "unknown CMS error";
+      recordContentSource("seed-fallback", reason);
     }
+  } else {
+    recordContentSource("seed");
   }
   return {
     projects: seedProjectRecords(),
@@ -243,10 +250,11 @@ export async function saveMedia(record: MediaRecord): Promise<{ ok: true } | { o
 }
 
 export async function deleteMedia(id: string): Promise<{ ok: true } | { ok: false; error: string }> {
-  const { projects, people, settings, media } = await loadAllRecords();
+  const { projects, people, insights, settings, media } = await loadAllRecords();
   const used =
     projects.some((p) => p.heroMediaId === id) ||
     people.some((p) => p.photoMediaId === id) ||
+    insights.some((i) => i.heroMediaId === id) ||
     settings.data.heroMediaId === id ||
     settings.data.institutionalMediaId === id ||
     settings.data.researchMediaId === id ||

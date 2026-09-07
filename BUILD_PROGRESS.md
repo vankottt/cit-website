@@ -4,9 +4,47 @@ Durable checkpoint log. Re-read with `AGENTS.md` and `PLAN.md` after any long ga
 
 ## Current checkpoint
 
+**Homepage / News / visual refinement — Goal 2 (2026-09-07):** public editorial surface is a finished Drafting Editorial institution page, not a prototype dump. Goal 1 CMS/auth/indexing/platform was not reopened. `CIT_ALLOW_INDEXING` was not enabled. No inquiry inbox was invented.
+
+Homepage document order: Hero → Why CIT / Core System Model → pillars → Institutional anchor → ASAESIS → Featured project → News strip → Team → Work with us → Footer. Insights preview and GovernanceList are off the homepage; `/insights`, nav Insights, About/Team governance remain.
+
+News: CSS scroll-snap editorial strip (no library, no autoplay). Prev/next only when more than one item overflows. One confirmed UASG article uses a drafting-grid fallback — no campus filler photos, no YouTube thumbnails as card images. `/news` uses the same card hierarchy as a vertical row list. Insights stay a ruled concept-note list.
+
+ASAESIS: desktop ten-stage loop retained; homepage mobile is a compact index (one open body). `/methodology` keeps the full rail. Official method remains ten stages.
+
+Institutional homepage: concise UASG statement + contained grayscale hall figure. Planned agreement/council rows stay on About. Featured Wine × Tourism precedes News; status remains Pilot concept.
+
+CIT curve experiment: prototyped between Methodology → Featured and News → Team; **rejected** in the browser (marine bite under the sticky header, not rigid architecture + adaptive flow). Hairline joins remain.
+
+Navigation: denser header (`4.75–5.25rem`, 48px mark). IA routes unchanged. Type families and colour tokens unchanged.
+
+Docs aligned: `DESIGN_DECISIONS.md` §7, `PLAN.md` milestone B, `AGENTS.md` homepage line, `docs/02_INFORMATION_ARCHITECTURE.md`, `docs/00_README.md`, `docs/07_BUILD_WORKFLOW.md`, `docs/TEMP_IMAGE_SOURCES.md`. Stanford HAI V1 “no carousel” is preserved as history; Goal 2 authorizes a CIT-native editorial strip.
+
+Quality: `npm run check` pass (typecheck, eslint, 57 tests, production build). Browser (Playwright vs `localhost:3005`): BG 1440×1000, 1280×800, 768×1024, 390×844 — no horizontal overflow; EN 1280×800 and 390×844 likewise. Homepage section ids: about → pillars → network → methodology → featured-project → news → people → work-with-us. No `#insights`. Insights header/mobile links go to `/bg/insights`. Compact ASAESIS visible at 768/390, hidden at 1440; desktop ten-stage buttons keyboard-activate stage 05. News: one card, no prev/next, drafting fallback. Reduced motion: no hero video. Work with us: no mailto/form. About 768 wrap holds. CIT curve absent.
+
+## Previous checkpoint
+
+**Production hardening Goal 1 (2026-09-07):** technically production-ready for performance, signing secrets, CMS/News integrity, env/indexing, hygiene and `npm run check`. Not the homepage visual Goal 2. `CIT_ALLOW_INDEXING` was not enabled. No contact inbox was invented.
+
+Hero: 15s grayscale loop of the same infrastructure footage — `hero.mp4` 1920×1080 ~2.3 MiB, `hero-mobile.mp4` 960×540 ~0.5 MiB, `preload="none"`, poster first paint. Replaces the previous 3 min / ~51 MiB `preload="auto"` encode; concept (muted loop, pause, reduced-motion poster) unchanged.
+
+Auth: production requires `CIT_ADMIN_SESSION_SECRET`; known strings `cit-dev-session-not-for-production` / `cit-preview-dev` never sign preview or production. Preview may use a configured password. Local dev fallback remains.
+
+News/CMS: date/author/heroMediaId survive seed → record → Supabase → admin → public. Saving a partial admin form no longer nulls omitted metadata. News publish requires date + BG/EN source; concept notes do not. Homepage card media is optional. CMS seed fallback is preserved and logged (`[cit-cms]`) plus an `/admin` banner.
+
+SEO: canonical, BG/EN/x-default, OG/Twitter, admin/preview noindex, robots Disallow:/ unless indexable. Privacy removed from the sitemap (page is noindex). Preview canonical no longer prefers the production host.
+
+News detail 500 (`static → dynamic` via cookies) fixed with `force-dynamic` on news/insights/projects slug routes.
+
+Ruflo: untracked `.ruflo/runtime/node_modules` (~49,929 files). Tooling kept.
+
+Quality: `npm run check` pass (typecheck, eslint, 54 tests, production build). Browser: BG 1440×1000 pause/play; 390×844 loads `hero-mobile.mp4` without overflow; EN 1280×800 reduced-motion has poster and no video; 768×1024 news article shows date/source; `/admin` noindex and login gate.
+
+## Earlier checkpoints
+
 **Homepage overlay (2026-09-06):** local muted loop from `Video/202609062306.mp4`, served as grayscale `public/videos/hero.mp4`, pause control, poster under reduced motion. Not the previous UASG YouTube mock. Footage is transport infrastructure and is not captioned as CIT activity. Stanford HAI video is not used. Insight YouTube embeds remain without autoplay.
 
-**IA order (2026-09-06):** header, footer, mobile menu and homepage share About → Methodology → News → Insights → Projects → Team. Work with us stays last as the collaboration CTA. Institutional network sits in the About cluster (after pillars) so scroll-spy does not jump back to About later. Build Pack 02 listed Projects → Insights → News; confirmed team decision supersedes it.
+**IA order (2026-09-06):** header, footer and mobile menu share About → Methodology → News → Insights → Projects → Team. Work with us stays last as the collaboration CTA. Homepage *document* order was later changed in Goal 2 (Insights off the home scroll; featured project before News). Build Pack 02 listed Projects → Insights → News; confirmed team decision supersedes it for **nav**; Goal 2 supersedes it for **homepage sections**.
 
 Public labels: People → Team (Екип / Team). News channel (`/news`) now has one confirmed UASG article (`kogato-praktikata-vleze-v-universiteta`, source uacg.bg 02.12.2025) with YouTube `kfV3dGGHO5s` as a mid-body embed. Distinct from Insights concept notes. STRABAG, Stara Zagora, EQE-Control and NSORB are named in the UASG source only — not CIT partners. The source line `съм Строителен факултет` is republished as `към`.
 
@@ -50,23 +88,26 @@ Rendered `meta robots` and `X-Robots-Tag`: `noindex, nofollow`. Missing project 
 - Programme: „Алгоритмизация на социалните процеси“. Method: **ASAESIS**, 10 public stages.
 - Confirmed institution: UASG only.
 - Wine × tourism: pilot concept. Sector mandate: proposed research mandate.
-- No confirmed team, contact channels, partners, funding, or measured results.
+- Named people may appear without invented CIT roles. No confirmed inquiry inbox, partner universities, funding awards, or measured results.
 
 ## Conflicts logged
 
 - Public name vs source “Център за смарт технологии” — confirmed public name stands.
 - Methodology 10 vs mandate 12 vs teaser 5 — public method remains the 10 stages.
+- V1 Stanford HAI note said a news carousel was not taken. Goal 2 (2026-09-07) authorizes a CIT-native editorial strip; history is preserved in `DESIGN_DECISIONS.md` §1 and §7.
+- V1/V2 homepage placed Insights and governance on the home scroll. Goal 2 removes those previews without removing the routes.
 
 ## External blockers (not workarounds for incomplete V2)
 
-- **Supabase** is connected for production CMS (`cit-website` / Frankfurt). Public People remains empty until appointed people are confirmed. Enable leaked-password protection in Auth settings when convenient. Preview and production currently share this database.
-- **Temporary UASG photographs** must be replaced before a final public launch (`docs/TEMP_IMAGE_SOURCES.md`).
+- **Supabase** is connected for production CMS (`cit-website` / Frankfurt). Enable leaked-password protection in Auth settings when convenient. Preview and production currently share this database — separate projects are documented in `docs/ENVIRONMENTS.md` and cannot be created from this repository. Apply `supabase/migrations/20260907120000_insight_hero_media.sql` to the hosted project before editors rely on insight card/hero media.
+- **Temporary UASG photographs** must be replaced before a final public launch (`docs/TEMP_IMAGE_SOURCES.md`). Homepage hall photo is a contained figure, not a full-bleed marine plate.
 - **`CIT_ALLOW_INDEXING` must stay unset/false** on the current Vercel preview alias. No production DNS was changed.
 - **No confirmed inquiry inbox** — Work with us has no submission form by design.
+- **News media library:** the one confirmed article has no `heroMediaId`. Card/hero photos appear only when editors attach legitimate media.
 
 ## Quality gates
 
-- `npm run check` — pass (typecheck, eslint, 17 tests, production build).
+- Goal 2 (2026-09-07): `npm run check` pass — typecheck, eslint, 57 tests, production build.
 - Hydration warnings observed in the Cursor browser were `data-cursor-ref` instrumentation, not production markup.
 
 ## Preview deployment (2026-09-05)

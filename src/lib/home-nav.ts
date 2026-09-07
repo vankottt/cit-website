@@ -7,21 +7,22 @@ export const homeSpySectionIds = [
   "pillars",
   "network",
   "methodology",
-  "news",
-  "insights",
   "featured-project",
+  "news",
   "people",
   "work-with-us",
 ] as const;
 
 export type HomeSpySectionId = (typeof homeSpySectionIds)[number];
 
-/** Hash target when the primary nav is used on the homepage. */
-export const homeNavHash: Record<Exclude<RouteKey, "home" | "privacy">, HomeSpySectionId> = {
+/**
+ * Hash target when the primary nav is used on the homepage.
+ * Insights has no homepage preview — that item goes to `/insights`.
+ */
+export const homeNavHash: Partial<Record<Exclude<RouteKey, "home" | "privacy">, HomeSpySectionId>> = {
   about: "about",
   methodology: "methodology",
   projects: "featured-project",
-  insights: "insights",
   news: "news",
   people: "people",
   "work-with-us": "work-with-us",
@@ -33,7 +34,6 @@ const sectionToNav: Record<HomeSpySectionId, Exclude<RouteKey, "home" | "privacy
   network: "about",
   methodology: "methodology",
   "featured-project": "projects",
-  insights: "insights",
   news: "news",
   people: "people",
   "work-with-us": "work-with-us",
@@ -49,7 +49,9 @@ export function navKeyForHomeSection(sectionId: string): Exclude<RouteKey, "home
 
 export function homeHashHref(locale: Locale, key: RouteKey): string | null {
   if (key === "home" || key === "privacy") return null;
-  return `/${locale}#${homeNavHash[key]}`;
+  const hash = homeNavHash[key];
+  if (!hash) return null;
+  return `/${locale}#${hash}`;
 }
 
 /** Marks the current section from the pathname (e.g. /bg/projects/x → Projects). */

@@ -11,11 +11,13 @@ Copy `.env.example`. For hosted Auth set:
 
 These are set on the Vercel project for production and preview. Leave them unset in `.env.local` if you want the local file store (`CIT_ADMIN_DEV_PASSWORD`) instead.
 
+Preview and production should use separate Supabase projects when possible. Exact environment rules: `docs/ENVIRONMENTS.md`.
+
 Optional: `CIT_ALLOW_INDEXING=true` only on the final production hostname.
 
 ## 2. Migrations
 
-SQL lives in `supabase/migrations/20260905120000_init.sql` (tables, indexes, RLS, storage bucket `media`). Content IDs are `text` so they match the admin/seed slugs.
+SQL lives in `supabase/migrations/` (tables, indexes, RLS, storage bucket `media`, insight `hero_media_id`). Content IDs are `text` so they match the admin/seed slugs.
 
 ```sh
 npx supabase login

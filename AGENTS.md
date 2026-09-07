@@ -19,7 +19,7 @@ Never invent names, formal roles/titles, partners, clients, funding awards, comp
 
 ## Information architecture (V1)
 Nav: About · Methodology · News · Insights · Projects · Team · Work with us · BG/EN.
-Homepage: Header → Hero → About (system idea, pillars, institutional network) → Methodology → News → Insights → Featured project → Team preview → Work with us → Footer.
+Homepage (Goal 2, 2026-09-07; supersedes the V1 Insights-on-homepage scroll): Header → Hero → Why CIT / Core System Model → Education · Research · Applied Science → Institutional anchor → ASAESIS → Featured project → News → Team → Work with us → Footer. Insights remains a primary-nav route, not a homepage preview.
 Routes live under `src/app/[locale]/…` for `bg` and `en`; `/` redirects to a locale.
 
 ## Engineering rules

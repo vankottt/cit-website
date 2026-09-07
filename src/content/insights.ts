@@ -221,6 +221,7 @@ export const insights: Insight[] = [
       bg: ["УАСГ", "Образование", "Инфраструктура"],
       en: ["UASG", "Education", "Infrastructure"],
     },
+    date: "2025-12-02",
     source: {
       bg: `Университетска новина на uacg.bg, 2 декември 2025. ${UASG_CONSTRUCTION_GAME_SOURCE}`,
       en: `University news on uacg.bg, 2 December 2025. ${UASG_CONSTRUCTION_GAME_SOURCE}`,

@@ -32,5 +32,8 @@ describe("UASG construction-game news seed", () => {
     expect(article?.source.en).toContain("uacg.bg");
     expect(article?.source.bg).toContain("2 декември 2025");
     expect(article?.source.en).toContain("2 December 2025");
+    expect(article?.date).toBe("2025-12-02");
+    expect(article?.author).toBeUndefined();
+    expect(article?.heroMediaId).toBeUndefined();
   });
 });

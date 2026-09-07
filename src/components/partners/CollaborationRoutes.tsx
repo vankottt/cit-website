@@ -4,27 +4,24 @@ import { href } from "@/lib/paths";
 import { collaborationRoutes } from "@/content/collaboration";
 import { ArrowRight } from "@/components/ui/Icons";
 
-/** Four entry points as a ruled list (homepage preview). */
+/** Four audiences as a compact ruled list — detail lives on /work-with-us. */
 export function CollaborationRoutesPreview({ locale }: { locale: Locale }) {
   return (
-    <ol className="grid border-t border-line md:grid-cols-2">
-      {collaborationRoutes.map((r, i) => (
-        <li key={r.slug} className={i % 2 === 0 ? "border-b border-line md:border-r" : "border-b border-line"}>
-          <Link href={`${href(locale, "work-with-us")}#${r.slug}`} className="group flex h-full flex-col justify-between gap-6 p-6 md:p-8">
-            <div>
-              <p className="label">{r.code}</p>
-              <h3 className="mt-3 text-h3 text-ink transition-colors duration-150 group-hover:text-marine">{r.audience[locale]}</h3>
-              <p className="mt-3 text-small text-ink-3">{r.audienceExamples[locale].slice(0, 3).join(" · ")}</p>
-            </div>
-            <ul className="space-y-1.5 text-small text-ink-2">
-              {r.modes[locale].slice(0, 3).map((mode) => (
-                <li key={mode} className="flex gap-3">
-                  <span aria-hidden="true" className="mt-[0.7em] h-px w-3 shrink-0 bg-line-strong" />
-                  {mode}
-                </li>
-              ))}
-            </ul>
-            <ArrowRight className="text-ink-3 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-marine" size={18} />
+    <ol className="divide-y divide-line border-y border-line">
+      {collaborationRoutes.map((r) => (
+        <li key={r.slug}>
+          <Link
+            href={`${href(locale, "work-with-us")}#${r.slug}`}
+            className="group grid gap-2 py-5 no-underline md:grid-cols-12 md:items-baseline md:gap-8"
+          >
+            <p className="label md:col-span-2">{r.code}</p>
+            <h3 className="text-h4 text-ink transition-colors duration-150 group-hover:text-marine md:col-span-5">
+              {r.audience[locale]}
+            </h3>
+            <p className="text-small text-ink-3 md:col-span-4">{r.audienceExamples[locale][0]}</p>
+            <span className="hidden md:col-span-1 md:flex md:justify-end">
+              <ArrowRight className="text-ink-3 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-marine" size={16} />
+            </span>
           </Link>
         </li>
       ))}

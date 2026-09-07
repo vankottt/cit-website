@@ -15,7 +15,6 @@ const staticRoutes: Array<{ key: RouteKey; priority: number }> = [
   { key: "news", priority: 0.6 },
   { key: "people", priority: 0.5 },
   { key: "work-with-us", priority: 0.8 },
-  { key: "privacy", priority: 0.3 },
 ];
 
 function entry(key: RouteKey, priority: number, slug?: string): MetadataRoute.Sitemap {

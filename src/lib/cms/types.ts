@@ -91,8 +91,11 @@ export interface InsightRecord {
   relatedProjectSlugs: string[];
   sourceBg?: string;
   sourceEn?: string;
+  /** Source publication date (YYYY-MM-DD). Distinct from CMS publishedAt. */
   date?: string;
   author?: string;
+  /** Media-library id for cards/hero. Presentation, not a publish gate. */
+  heroMediaId?: string;
   seo: SeoFields;
   publicationState: PublicationState;
   createdAt: string;

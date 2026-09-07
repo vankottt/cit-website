@@ -10,7 +10,7 @@ This file records the selected original CIT design direction and every material 
 ### Stanford HAI — https://hai.stanford.edu/ (visual north star)
 Observed (principles only, no values copied): a five-item primary nav plus a small utility group and a compact lockup that names the university; a single-statement hero over one large media surface with two restrained actions; large section headings with tight tracking and a 27px lead paragraph next to them; 18px body; section padding in the 48–96px range; full-width tinted bands alternating with white; numbered section markers in a mono face; large photographic tiles; a deep plum block for one section only.
 Taken for CIT: nav restraint and institutional anchor in the lockup; one-statement hero with ≤2 actions; the heading + lead pairing; 96px vertical rhythm; alternating white / tinted bands; a single dark band reserved for methodology.
-Explicitly not taken: Circular typeface, plum/lavender/blue palette, rounded photo panels, video hero, carousel news strip, the "01 Research" numbered section labels, any layout composition.
+Explicitly not taken: Circular typeface, plum/lavender/blue palette, rounded photo panels, video hero (later superseded by CIT's own infrastructure overlay — §6), the "01 Research" numbered section labels, any layout composition. A news carousel was not taken from HAI in V1; Goal 2 (2026-09-07) introduces a CIT-native editorial strip — see §7.
 
 ### Dark Matter Labs — https://darkmatterlabs.org/
 Taken: the idea that system components can carry short codes (e.g. "A-1") and that a methodology can be shown as a matrix of intersecting elements. Translated into CIT's mono "stage code" labels on nodes (`01`–`10`) and the component → failure-mode table.
@@ -72,10 +72,11 @@ Rule: amber is a marker, never a surface. Marine is used for one dark band per p
 - Every diagram has a visually hidden or adjacent textual explanation and reflows to a vertical list ≤ 768px.
 
 ### Motion
-- Only: hover/focus transitions (150–200ms), methodology stage highlight on hover/focus, a single dash-offset draw of the loop path on first view. All disabled under `prefers-reduced-motion`. No scroll-jacking, parallax, autoplay video or ambient animation.
+- Only: hover/focus transitions (150–200ms), methodology stage highlight on hover/focus, a single dash-offset draw of the loop path on first view. All disabled under `prefers-reduced-motion`. No scroll-jacking, parallax or ambient animation.
+- **Homepage overlay video (2026-09-06, encoding 2026-09-07):** the muted looping local infrastructure clip with pause control is an explicit exception to the older generic “no autoplay video” rule. Insight YouTube embeds remain without autoplay. See section 6.
 
 ### Imagery and mark
-- Signature visual layer remains diagrams. Temporary UASG campus photography (cropped from official homepage sliders) is used only as institutional atmosphere: large facade after the homepage diagram hero; hall on the network band; facade on About / mission; hall on About / context and Work with us. Captions state the source and that the images do not depict CIT activity. Tracked in `docs/TEMP_IMAGE_SOURCES.md`; replace before final public launch. No stock photography, no generated "AI" imagery, no campus photos attached to project or insight records.
+- Signature visual layer remains diagrams. Temporary UASG campus photography (cropped from official homepage sliders) is used only as institutional atmosphere. Goal 2 (2026-09-07): homepage no longer uses a full-bleed marine hall plate; `campus-hall.jpg` is a contained institutional figure beside the UASG statement. Facade remains on About / mission; hall on About / context and Work with us. Captions state the source and that the images do not depict CIT activity. Tracked in `docs/TEMP_IMAGE_SOURCES.md`; replace before final public launch. No stock photography, no generated "AI" imagery, no campus photos attached to project or insight records. The homepage opening is the infrastructure overlay from §6, not a campus photograph.
 - **Team portraits** (2026-09-06, revised): grayscale cutouts over a large circular `marine-tint` plate that turns `marine` on hover. The torso sits inside the circle; only a little of the crown breaks the rim. Never colourised. Hover on the portrait is graphic only (`translateY(-4px) scale(1.018)`, 220ms, gated to `hover: hover` + `pointer: fine`); the portrait is not a link. LinkedIn remains a name+icon control when a URL is confirmed. One quiet “+” slot replaces three equal “Coming Soon” circles. Roles omitted until confirmed.
 - **Logo**: the CIT mark is `Logo/Logo.jpg` (navy structure + grey bars, 1600×1600). It is used as `public/brand/cit-mark.png` (white background removed, greys preserved) on paper, `public/brand/cit-mark-white.png` (navy knocked out to `on-dark`, greys lifted) on the marine footer, and `src/app/icon.png` / `apple-icon.png` on white for favicons. The `marine` token stays `#102849`, sampled from this mark. The drafted three-node SVG mark stays retired.
 
@@ -102,7 +103,7 @@ V1 already had the right identity. Browser evidence on the deployed site showed 
 
 ### Visual grammar (unchanged tokens, changed rhythm)
 
-Stanford HAI still informs only whitespace, hierarchy and the alternation of statement / large media / short explanation. CIT remains serif + drafting diagrams + marine/amber. No Stanford red, no numbered “01 Research” kickers, no photo carousels.
+Stanford HAI still informs only whitespace, hierarchy and the alternation of statement / large media / short explanation. CIT remains serif + drafting diagrams + marine/amber. No Stanford red, no numbered “01 Research” kickers, no photographic tile carousels. Goal 2’s News strip is a CIT-native editorial feed (scroll-snap, drafting fallback), not a HAI photo carousel — see §7.
 
 Homepage signature visuals are limited to two:
 
@@ -129,8 +130,47 @@ Operational, not editorial: system UI, no marine hero bands, no diagrams. Public
 
 ## 6. Homepage overlay — local video (2026-09-06)
 
-The opening uses a muted looping `<video>` from the project `Video/` folder (`202609062306.mp4`), served as `public/videos/hero.mp4` (grayscale H.264 encode). Poster / reduced-motion fallback is a frame from that encode (`public/images/hero/poster.jpg`). Pause control remains. The original file in `Video/` stays in colour. Insight YouTube embeds stay without autoplay.
+The opening uses a muted looping `<video>` from the project `Video/` folder (`202609062306.mp4`), served as a 15-second grayscale H.264 loop: `public/videos/hero.mp4` (1920×1080, ~2.3 MiB) and `public/videos/hero-mobile.mp4` (960×540, ~0.5 MiB) for viewports ≤767px. The video element uses `preload="none"`; the poster (`public/images/hero/poster.jpg`) is the first paint. Pause control remains. Reduced motion never mounts the video. The original file in `Video/` stays in colour and is three minutes; the web loop is an excerpt of the same footage, not a replacement concept. Insight YouTube embeds stay without autoplay.
 
-The clip shows transport infrastructure (aerial). It is not captioned as CIT laboratory, team or project activity. The previous UASG YouTube mock is retired.
+The clip shows transport infrastructure (aerial). It is not captioned as CIT laboratory, team or project activity. The previous UASG YouTube mock is retired. The older generic “no autoplay video” motion rule in section 2 is superseded by this homepage overlay decision.
+
+## 7. Goal 2 — homepage, News and visual refinement (2026-09-07)
+
+This pass is a controlled evolution of V2 homepage composition. It does not replace Drafting Editorial.
+
+### Homepage narrative (supersedes the 2026-09-06 IA scroll order)
+
+Document order is now:
+
+Hero → Why CIT / Core System Model → Education · Research · Applied Science → Institutional anchor → ASAESIS → Featured project → News → Team → Work with us → Footer.
+
+Removed from the homepage (not from the site): Insights preview; compact GovernanceList. Insights remains in primary nav and `/insights`. Governance remains on About and Team. Clicking Insights on the homepage goes to `/insights` rather than an in-page hash.
+
+Visible documentary density is reduced by relocation, not by emptying the idea: pillars are a three-column structural statement; Work with us is four audience rows; institutional copy no longer leads with “being finalized” / “planned”.
+
+### Signature visuals
+
+Still two: Core System Model, then ASAESIS. The homepage no longer stacks a full-bleed marine photo band on top of the methodology band. Hero overlay remains the media exception from §6. Methodology remains the page’s one dark editorial band, plus footer.
+
+Institutional homepage treatment: concise UASG statement beside a contained grayscale hall photograph, captioned as temporary atmosphere. Planned agreement/council status stays on About.
+
+ASAESIS desktop loop is unchanged in concept. Homepage mobile uses a compact ten-row index (code, short title, Structure/Loop) with one open description. The methodology page keeps the full rail.
+
+Featured Wine × Tourism sits before News, with status, methodology link and the market chain on a drafting grid. Status remains Pilot concept.
+
+### News editorial strip
+
+Homepage News is a CSS scroll-snap strip (no carousel library, no autoplay). Target peek of the next card when more than one item exists; previous/next controls only when the strip overflows. One confirmed article uses a CIT-native drafting fallback — no campus photography and no invented images. `/news` listing uses the same card hierarchy (media, type · date, headline, summary, link). Insights stay a ruled concept-note list.
+
+### CIT curve experiment — rejected
+
+A comma/C-hook join (CIT mark + ASAESIS return, not a Turing sine) was prototyped between Methodology → Featured project and News → Team. In the browser it read as a marine bite under the sticky header, not as rigid architecture + adaptive flow. Removed. Section joins remain hairline rules.
+
+### Navigation, type, colour
+
+Header is slightly denser (`4.75–5.25rem`, 48px mark). Font families and colour tokens are unchanged. Amber remains a marker.
+
+Stanford HAI still informs whitespace and hierarchy only. The news strip is a CIT translation of an institutional editorial feed, not a clone of hai.stanford.edu.
+
 
 

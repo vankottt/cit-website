@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { lifecycleFromStatus, partnerIsPublic, personIsPublic, canViewForPublic, translationState, validatePersonPublish, validateProjectPublish } from "../src/lib/cms/truth";
-import type { PartnerRecord, PersonRecord, ProjectRecord } from "../src/lib/cms/types";
+import { lifecycleFromStatus, partnerIsPublic, personIsPublic, canViewForPublic, translationState, validateInsightPublish, validatePersonPublish, validateProjectPublish } from "../src/lib/cms/truth";
+import type { InsightRecord, PartnerRecord, PersonRecord, ProjectRecord } from "../src/lib/cms/types";
 
 const baseProject = (): ProjectRecord => ({
   id: "1",
@@ -97,5 +97,41 @@ describe("truth controls", () => {
     expect(canViewForPublic("draft", { kind: "project", slug: "wine" }, "project", "wine")).toBe(true);
     expect(canViewForPublic("draft", { kind: "project", slug: "other" }, "project", "wine")).toBe(false);
     expect(canViewForPublic("review", { kind: "insight", slug: "wine" }, "project", "wine")).toBe(false);
+  });
+
+  it("requires source and publication date only for news", () => {
+    const note: InsightRecord = {
+      id: "1",
+      slug: "note",
+      type: "concept-note",
+      titleBg: "Заглавие",
+      titleEn: "Title",
+      summaryBg: "резюме",
+      summaryEn: "summary",
+      bodyBg: [],
+      bodyEn: [],
+      topicsBg: [],
+      topicsEn: [],
+      relatedProjectSlugs: [],
+      seo: {},
+      publicationState: "draft",
+      createdAt: "",
+      updatedAt: "",
+    };
+    expect(validateInsightPublish(note).filter((i) => i.blocking)).toHaveLength(0);
+
+    const news = { ...note, slug: "news", type: "news" };
+    const issues = validateInsightPublish(news);
+    expect(issues.some((i) => i.code === "news-date" && i.blocking)).toBe(true);
+    expect(issues.some((i) => i.code === "news-source" && i.blocking)).toBe(true);
+
+    const complete = {
+      ...news,
+      date: "2025-12-02",
+      sourceBg: "uacg.bg",
+      sourceEn: "uacg.bg",
+    };
+    expect(validateInsightPublish(complete).filter((i) => i.blocking)).toHaveLength(0);
+    expect(validateInsightPublish(complete).some((i) => i.code === "news-hero")).toBe(false);
   });
 });
