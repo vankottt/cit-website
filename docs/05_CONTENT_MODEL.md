@@ -50,7 +50,7 @@ Fields
 - publication date
 - author(s)
 - summary
-- body (line blocks: `## ` heading, `- ` list, whole-line YouTube URL, otherwise paragraph)
+- body (line blocks: `## ` heading, `- ` list, whole-line YouTube URL, whole-line media-library id, otherwise paragraph)
 - topics
 - related projects
 - hero/media

@@ -11,6 +11,7 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
 import { RuledList } from "@/components/editorial/Blocks";
+import { CollaborationRouteIcon } from "@/components/partners/CollaborationRoutes";
 import { Chain } from "@/components/systems/Chain";
 
 type Params = { params: Promise<{ locale: string }> };
@@ -57,8 +58,10 @@ export default async function WorkWithUsPage({ params }: Params) {
           {collaborationRoutes.map((r) => (
             <li key={r.slug} id={r.slug} className="grid gap-6 border-t border-line py-10 lg:grid-cols-12 lg:gap-10">
               <div className="lg:col-span-4">
-                <p className="label">{r.code}</p>
-                <h3 className="mt-2 text-h2 text-ink">{r.audience[locale]}</h3>
+                <span className="inline-flex text-ink-3">
+                  <CollaborationRouteIcon slug={r.slug} size={24} />
+                </span>
+                <h3 className="mt-3 text-h2 text-ink">{r.audience[locale]}</h3>
                 <p className="label mt-6 mb-2">{f.audience[locale]}</p>
                 <ul className="space-y-1 text-small text-ink-2">
                   {r.audienceExamples[locale].map((ex) => (

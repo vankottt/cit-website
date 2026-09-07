@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { people, publicTeamList, teamUpcomingCount, linkedInHref } from "../src/content/people";
+import { people, publicTeamList, teamUpcomingCount, joinSlotCount, linkedInHref } from "../src/content/people";
 
 describe("public team", () => {
   it("lists Boris, then Georgi Vassilev, then Ivan Todorov", () => {
@@ -17,6 +17,10 @@ describe("public team", () => {
 
   it("reserves a single quiet slot for profiles still to be announced", () => {
     expect(teamUpcomingCount).toBe(1);
+    expect(joinSlotCount(people)).toBe(1);
+    expect(
+      joinSlotCount([...people, { slug: "dev-fixture-researcher", name: { bg: "", en: "" }, expertise: { bg: [], en: [] }, bio: { bg: [], en: [] } }]),
+    ).toBe(0);
   });
 
   it("exposes a LinkedIn URL only when it is confirmed", () => {

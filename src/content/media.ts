@@ -14,10 +14,6 @@ export const campusPhotos = {
       bg: "Фасада на Университета по архитектура, строителство и геодезия в София, с името на университета над входа.",
       en: "Facade of the University of Architecture, Civil Engineering and Geodesy in Sofia, with the university name above the entrance.",
     } satisfies L,
-    caption: {
-      bg: "Кампусът на УАСГ, София. Временна снимка от официалния сайт на университета; не изобразява дейност на Центъра. За замяна преди окончателно публично пускане.",
-      en: "UASG campus, Sofia. Temporary photograph from the university's official site; it does not depict Center activity. Replace before final public launch.",
-    } satisfies L,
   },
   hall: {
     src: "/images/temporary-uacg/campus-hall.jpg",
@@ -26,10 +22,6 @@ export const campusPhotos = {
     alt: {
       bg: "Коридор в УАСГ с изложбени табла на Хидротехническия факултет.",
       en: "A corridor at UASG with exhibition boards of the Faculty of Hydraulic Engineering.",
-    } satisfies L,
-    caption: {
-      bg: "Интериор в УАСГ. Атмосферна снимка от официалния сайт на университета; не изобразява лаборатория, екип или проект на Центъра. За замяна преди окончателно публично пускане.",
-      en: "Interior at UASG. Atmospheric photograph from the university's official site; it does not depict a Center laboratory, team or project. Replace before final public launch.",
     } satisfies L,
   },
 } as const;
@@ -52,9 +44,76 @@ export const constructionGameInfographic = {
     bg: "Инфографика на „Българска строителна игра“: роли на инвеститори, строители и строителен надзор в симулация на общински строителен процес.",
     en: "Infographic of the Bulgarian Construction Game: roles of investors, builders and construction supervision in a simulated municipal construction process.",
   } satisfies L,
-  caption: {
-    bg: "Инфографика към „Българска строителна игра“. Идея и концепция: д-р инж. Станислав Дарачев, © 2025. Не изобразява дейност или резултат на Центъра.",
-    en: "Infographic for the Bulgarian Construction Game. Idea and concept: Dr Eng. Stanislav Darachev, © 2025. Does not depict Center activity or results.",
+} as const;
+
+/**
+ * Editorial illustration for the confirmed seed concept note
+ * `why-social-systems-behave-like-algorithms`.
+ * Generated image; it does not depict CIT staff, a Center operations room, or results.
+ */
+export const socialSystemsIllustration = {
+  id: "media-social-systems-as-algorithms",
+  src: "/images/insights/social-systems-as-algorithms.jpg",
+  width: 1024,
+  height: 768,
+  byteSize: 195665,
+  mimeType: "image/jpeg",
+  alt: {
+    bg: "Генерирана илюстрация: група хора разглежда карта на градски потоци върху голям екран. Не изобразява екип или дейност на Центъра.",
+    en: "Generated illustration: a group of people studying a map of urban flows on a large screen. It does not depict Center staff or activity.",
+  } satisfies L,
+} as const;
+
+/**
+ * Editorial illustration for the confirmed seed concept note
+ * `asaesis-from-framework-to-method`.
+ * Generated image; it does not depict CIT staff, a Center workshop, or results.
+ */
+export const asaesisMethodIllustration = {
+  id: "media-asaesis-from-framework-to-method",
+  src: "/images/insights/asaesis-from-framework-to-method.jpg",
+  width: 1024,
+  height: 768,
+  byteSize: 168539,
+  mimeType: "image/jpeg",
+  alt: {
+    bg: "Генерирана илюстрация: хора разглеждат блокова схема на бяла дъска в работна зала. Не изобразява екип или дейност на Центъра.",
+    en: "Generated illustration: people studying a flowchart on a whiteboard in a workroom. It does not depict Center staff or activity.",
+  } satisfies L,
+} as const;
+
+/**
+ * Editorial illustration for the confirmed seed concept note
+ * `testing-instead-of-assuming` (card / hero).
+ * Generated image; it does not depict CIT staff, a Center laboratory, or results.
+ */
+export const testingInsteadIllustration = {
+  id: "media-testing-instead-of-assuming",
+  src: "/images/insights/testing-instead-of-assuming.jpg",
+  width: 1024,
+  height: 768,
+  byteSize: 187970,
+  mimeType: "image/jpeg",
+  alt: {
+    bg: "Генерирана илюстрация: хора измерват натоварване върху бетонна греда в изпитателна зала. Не изобразява лаборатория или екип на Центъра.",
+    en: "Generated illustration: people measuring load on a concrete beam in a testing hall. It does not depict a Center laboratory or team.",
+  } satisfies L,
+} as const;
+
+/**
+ * Second figure for `testing-instead-of-assuming`, placed in the article body.
+ * Generated image; it does not depict a Center model, site or result.
+ */
+export const testingModelIllustration = {
+  id: "media-testing-instead-of-assuming-model",
+  src: "/images/insights/testing-instead-of-assuming-model.jpg",
+  width: 1024,
+  height: 768,
+  byteSize: 145661,
+  mimeType: "image/jpeg",
+  alt: {
+    bg: "Генерирана илюстрация: поредица от диаграми, свързани със златиста линия към пейзаж и макет. Не изобразява модел или резултат на Центъра.",
+    en: "Generated illustration: a sequence of diagrams linked by a gold line to a landscape and a model. It does not depict a Center model or result.",
   } satisfies L,
 } as const;
 
@@ -77,10 +136,6 @@ export const devNewsFixturePhotos = {
       bg: "Демонстрационно изображение: човек измерва показатели на крайбрежна вода с портативен уред. Генерирана фикстура; не изобразява дейност на Центъра.",
       en: "Demonstration image: a person measuring coastal water with a handheld instrument. Generated fixture; it does not depict Center activity.",
     } satisfies L,
-    caption: {
-      bg: "Генерирана демонстрационна фотография за изпитване на новинарския интерфейс. Не е снимка на Центъра.",
-      en: "Generated demonstration photograph for News UI testing. Not a Center photograph.",
-    } satisfies L,
   },
   coastalResilienceClassroom: {
     id: `${DEV_NEWS_FIXTURE_MEDIA_ID_PREFIX}coastal-resilience-classroom`,
@@ -93,10 +148,6 @@ export const devNewsFixturePhotos = {
       bg: "Демонстрационно изображение: преподавател показва карта на крайбрежна устойчивост пред аудитория. Генерирана фикстура; не изобразява обучение на Центъра.",
       en: "Demonstration image: an instructor presenting a coastal-resilience map to a class. Generated fixture; it does not depict Center teaching.",
     } satisfies L,
-    caption: {
-      bg: "Генерирана демонстрационна фотография за изпитване на новинарския интерфейс. Не е снимка на Центъра.",
-      en: "Generated demonstration photograph for News UI testing. Not a Center photograph.",
-    } satisfies L,
   },
   goldenHourVineyard: {
     id: `${DEV_NEWS_FIXTURE_MEDIA_ID_PREFIX}golden-hour-vineyard`,
@@ -108,10 +159,6 @@ export const devNewsFixturePhotos = {
     alt: {
       bg: "Демонстрационно изображение: чаша вино и лозе при залез. Генерирана фикстура; не изобразява обект или резултат на Центъра.",
       en: "Demonstration image: a glass of wine and a vineyard at sunset. Generated fixture; it does not depict a Center site or result.",
-    } satisfies L,
-    caption: {
-      bg: "Генерирана демонстрационна фотография за изпитване на новинарския интерфейс. Не е снимка на Центъра.",
-      en: "Generated demonstration photograph for News UI testing. Not a Center photograph.",
     } satisfies L,
   },
 } as const;
@@ -127,7 +174,6 @@ function analysisPhoto(
   file: string,
   byteSize: number,
   alt: L,
-  caption: L,
 ) {
   return {
     id: `${ANALYSIS_MEDIA_ID_PREFIX}${slug}-${locale}`,
@@ -137,7 +183,6 @@ function analysisPhoto(
     byteSize,
     mimeType: "image/jpeg",
     alt,
-    caption,
   } as const;
 }
 
@@ -151,10 +196,6 @@ export const analysisInsightPhotos = {
       bg: "Диаграма на затворен цикъл: стимул, откриване, реакция и обратна връзка.",
       en: "Diagram of a closed loop: stimulus, detection, response and feedback, labelled in Bulgarian.",
     },
-    {
-      bg: "Графика 1. Затворен цикъл на обратна връзка. Редакционна диаграма, не е измерим резултат на Центъра.",
-      en: "Graphic 1. Closed feedback loop. Editorial diagram; not a measured Center result.",
-    },
   ),
   feedbackLoopEn: analysisPhoto(
     "closed-feedback-loop",
@@ -164,10 +205,6 @@ export const analysisInsightPhotos = {
     {
       bg: "Диаграма на кръгов цикъл на обратна връзка: stimulus, detection, response, feedback.",
       en: "Circular feedback loop diagram: stimulus, detection, response and feedback.",
-    },
-    {
-      bg: "Графика 1. Затворен цикъл на обратна връзка (английска версия). Редакционна диаграма, не е измерим резултат на Центъра.",
-      en: "Graphic 1. Closed feedback loop. Editorial diagram; not a measured Center result.",
     },
   ),
   hierarchyNetworkBg: analysisPhoto(
@@ -179,10 +216,6 @@ export const analysisInsightPhotos = {
       bg: "Сравнение между йерархия на четири нива и мрежова система от възли.",
       en: "Comparison of a four-level hierarchy and a networked node system, labelled in Bulgarian.",
     },
-    {
-      bg: "Графика 2. Йерархия и мрежова структура. Редакционна диаграма, не е организационна схема на Центъра.",
-      en: "Graphic 2. Hierarchy versus network structure. Editorial diagram; not an org chart of the Center.",
-    },
   ),
   hierarchyNetworkEn: analysisPhoto(
     "hierarchy-network",
@@ -192,10 +225,6 @@ export const analysisInsightPhotos = {
     {
       bg: "Сравнение между проста пирамида и свързана мрежова решетка.",
       en: "Comparison of a simple pyramid and a connected network grid.",
-    },
-    {
-      bg: "Графика 2. Йерархия и мрежова структура (английска версия). Редакционна диаграма, не е организационна схема на Центъра.",
-      en: "Graphic 2. Hierarchy versus network structure. Editorial diagram; not an org chart of the Center.",
     },
   ),
   decisionTreeBg: analysisPhoto(
@@ -207,10 +236,6 @@ export const analysisInsightPhotos = {
       bg: "Алгоритмично дърво: начало, решение, опция А и опция Б с крайни състояния.",
       en: "Algorithmic decision tree in Bulgarian: start, decision, option A and option B with end states.",
     },
-    {
-      bg: "Графика 3. Алгоритмично дърво на решенията. Редакционна диаграма, не е работеща информационна система на Центъра.",
-      en: "Graphic 3. Algorithmic decision tree. Editorial diagram; not a live Center information system.",
-    },
   ),
   decisionTreeEn: analysisPhoto(
     "algorithmic-decision-tree",
@@ -220,10 +245,6 @@ export const analysisInsightPhotos = {
     {
       bg: "Алгоритмично дърво: START, DECISION, OPTION A, OPTION B и стъпки.",
       en: "Algorithmic decision tree: start, decision, option A, option B and subsequent steps.",
-    },
-    {
-      bg: "Графика 3. Алгоритмично дърво на решенията (английска версия). Редакционна диаграма, не е работеща информационна система на Центъра.",
-      en: "Graphic 3. Algorithmic decision tree. Editorial diagram; not a live Center information system.",
     },
   ),
 } as const;

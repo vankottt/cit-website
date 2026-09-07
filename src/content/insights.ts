@@ -1,4 +1,10 @@
-import { constructionGameInfographic } from "./media";
+import {
+  asaesisMethodIllustration,
+  constructionGameInfographic,
+  socialSystemsIllustration,
+  testingInsteadIllustration,
+  testingModelIllustration,
+} from "./media";
 import type { Insight } from "./types";
 
 /* Concept notes restating the Center's working framework — not research
@@ -16,6 +22,7 @@ export const insights: Insight[] = [
   {
     slug: "why-social-systems-behave-like-algorithms",
     type: "concept-note",
+    heroMediaId: socialSystemsIllustration.id,
     title: {
       bg: "Защо социалните системи се държат като алгоритми",
       en: "Why social systems behave like algorithms",
@@ -77,6 +84,7 @@ export const insights: Insight[] = [
   {
     slug: "asaesis-from-framework-to-method",
     type: "concept-note",
+    heroMediaId: asaesisMethodIllustration.id,
     title: {
       bg: "ASAESIS: от теоретична рамка към възпроизводим метод",
       en: "ASAESIS: from theoretical framework to reproducible method",
@@ -120,6 +128,7 @@ export const insights: Insight[] = [
   {
     slug: "testing-instead-of-assuming",
     type: "concept-note",
+    heroMediaId: testingInsteadIllustration.id,
     title: {
       bg: "Проверка вместо предположение",
       en: "Testing instead of assuming",
@@ -139,6 +148,7 @@ export const insights: Insight[] = [
         "- Изпитване",
         "- Адаптиране",
         "Резултатът не е статична стратегия, а адаптивен модел, който може да бъде коригиран според измереното реално поведение на системата.",
+        testingModelIllustration.id,
         "## Какво означава това за проектите",
         "Първите приложни проекти на Центъра трябва да търсят видими и сравнително бързи резултати, а не само дългосрочни структурни ефекти. Приоритет получават решения, които могат да бъдат внедрени практически, създават измерим резултат, могат да бъдат пилотно проверени, използват по-добре съществуващи ресурси и намаляват системни и административни загуби. Това не изключва по-дълбоки реформи, когато анализът покаже, че именно те са необходимата предпоставка за устойчив резултат.",
         "## Очаквано не означава постигнато",
@@ -154,6 +164,7 @@ export const insights: Insight[] = [
         "- Test",
         "- Adapt",
         "The result is not a static strategy but an adaptive model that can be corrected against the system's measured real behaviour.",
+        testingModelIllustration.id,
         "## What this means for projects",
         "The Center's first applied projects should seek visible and relatively quick results, not only long-term structural effects. Priority goes to solutions that can be implemented in practice, create a measurable result, can be piloted, make better use of existing resources and reduce systemic and administrative losses. This does not exclude deeper reforms where the analysis shows they are the necessary precondition for a sustainable result.",
         "## Expected is not achieved",

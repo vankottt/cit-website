@@ -9,7 +9,9 @@ import { Container } from "@/components/layout/Container";
 import { Blocks } from "@/components/editorial/Blocks";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { EditorialFigure } from "@/components/editorial/EditorialFigure";
+import { ANALYSIS_MEDIA_ID_PREFIX } from "@/content/media";
 import type { NewsCardMedia } from "@/lib/news-presentation";
+import type { MediaRecord } from "@/lib/cms/types";
 
 export function InsightArticle({
   insight,
@@ -22,6 +24,7 @@ export function InsightArticle({
   others,
   relatedProjects,
   hero,
+  media,
 }: {
   insight: Insight;
   locale: Locale;
@@ -33,12 +36,14 @@ export function InsightArticle({
   others: Insight[];
   relatedProjects: Project[];
   hero?: NewsCardMedia | null;
+  media?: MediaRecord[];
 }) {
   const m = t(locale);
   const topics = insight.topics[locale].filter(Boolean);
   const source = insight.source[locale].trim();
   const dated = insight.date ? formatSourceDate(insight.date, locale) : "";
   const author = insight.author?.trim();
+  const containFigure = Boolean(hero?.contain || insight.heroMediaId?.startsWith(ANALYSIS_MEDIA_ID_PREFIX));
 
   return (
     <article>
@@ -67,10 +72,9 @@ export function InsightArticle({
           <EditorialFigure
             src={hero.src}
             alt={hero.alt}
-            caption={hero.caption}
             sizes="(min-width: 1024px) 1120px, 92vw"
-            ratio={hero.contain ? "aspect-[16/9]" : "aspect-[16/7]"}
-            imageClassName={hero.contain ? "object-contain" : "object-cover object-left"}
+            ratio={containFigure ? "aspect-[16/9]" : "aspect-[16/7]"}
+            imageClassName={containFigure ? "object-contain" : "object-cover object-left"}
             priority
           />
         </Container>
@@ -126,7 +130,7 @@ export function InsightArticle({
             </dl>
           </aside>
           <div className="lg:col-span-8 lg:col-start-5">
-            <Blocks blocks={insight.body[locale]} locale={locale} className="max-w-[68ch]" />
+            <Blocks blocks={insight.body[locale]} locale={locale} media={media} className="max-w-[68ch]" />
             {relatedProjects.length ? (
               <div className="mt-12 border-t border-line pt-6">
                 <p className="label mb-3">{m.relatedProjects}</p>

@@ -46,8 +46,7 @@ export function DesktopNav({
                     if (hashHref && scrollToHomeHash(hashHref)) e.preventDefault();
                   }}
                   className={cn(
-                    "inline-flex h-9 items-center rounded-ctrl border px-3.5 font-sans text-small font-medium transition-colors duration-150",
-                    active ? "border-marine bg-marine text-on-dark" : "border-ink text-ink hover:border-marine hover:text-marine",
+                    "inline-flex h-9 items-center rounded-ctrl px-3.5 font-sans text-small font-medium text-on-dark transition-colors duration-150 bg-marine hover:bg-marine-2",
                   )}
                 >
                   {l.label}

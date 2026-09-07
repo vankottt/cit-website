@@ -3,7 +3,7 @@ import { isLocale, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/metadata";
 import { peoplePage as c } from "@/content/pages";
 import { disciplines } from "@/content/methodology";
-import { publicTeamList, teamUpcomingCount } from "@/content/people";
+import { publicTeamList, teamUpcomingCount, joinSlotCount } from "@/content/people";
 import { listPublicPeople } from "@/lib/cms/repository";
 import { PageHeader } from "@/components/editorial/PageHeader";
 import { Section } from "@/components/layout/Section";
@@ -34,7 +34,7 @@ export default async function PeoplePage({ params }: Params) {
           {list.length === 0 ? <p className="border-l-2 border-amber pl-4 text-body text-ink-2">{c.teamEmpty[locale]}</p> : null}
         </SectionHeading>
         {list.length > 0 || teamUpcomingCount ? (
-          <TeamGrid people={list} locale={locale} upcomingCount={teamUpcomingCount} className="mt-12" />
+          <TeamGrid people={list} locale={locale} upcomingCount={joinSlotCount(list)} className="mt-12" />
         ) : null}
       </Section>
 

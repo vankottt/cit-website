@@ -328,7 +328,7 @@ export async function deleteMedia(id: string): Promise<{ ok: true } | { ok: fals
   const used =
     projects.some((p) => p.heroMediaId === id) ||
     people.some((p) => p.photoMediaId === id) ||
-    insights.some((i) => mediaPairMatches(i.heroMediaId, id)) ||
+    insights.some((i) => mediaPairMatches(i.heroMediaId, id) || i.bodyBg.includes(id) || i.bodyEn.includes(id)) ||
     settings.data.heroMediaId === id ||
     settings.data.institutionalMediaId === id ||
     settings.data.researchMediaId === id ||

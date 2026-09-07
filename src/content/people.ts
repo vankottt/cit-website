@@ -44,12 +44,13 @@ const confirmedPeople: Person[] = [
   },
 ];
 
+const DEV_JOIN_PLACEHOLDER_SLUG = "dev-fixture-researcher";
+
 const devFixtures: Person[] = [
   {
-    slug: "dev-fixture-researcher",
-    name: { bg: "[Фикстура] Име Фамилия", en: "[Fixture] First Last" },
-    role: { bg: "[Фикстура] Роля за разработка", en: "[Fixture] Development role" },
-    affiliation: { bg: "[Фикстура] Институция", en: "[Fixture] Institution" },
+    slug: DEV_JOIN_PLACEHOLDER_SLUG,
+    name: { bg: "Тук може да си ти!", en: "This could be you!" },
+    role: { bg: "Виж как да се включиш!", en: "See how to join." },
     expertise: { bg: ["Системно инженерство", "Статистика"], en: ["Systems engineering", "Statistics"] },
     bio: {
       bg: ["Това е фикстура за разработка. Не представлява реално лице и не се показва в производствената версия."],
@@ -64,6 +65,16 @@ export const people: Person[] = devFixturesEnabled ? [...confirmedPeople, ...dev
 
 /** Empty portrait slots after the named team. Not people records. */
 export const teamUpcomingCount = 1;
+
+/** Skip the extra “+” slot when the join placeholder tile is already in the grid. */
+export function joinSlotCount(visible: Person[]): number {
+  if (visible.some((person) => person.slug === DEV_JOIN_PLACEHOLDER_SLUG)) return 0;
+  return teamUpcomingCount;
+}
+
+export function isJoinPlaceholder(person: Person): boolean {
+  return person.slug === DEV_JOIN_PLACEHOLDER_SLUG;
+}
 
 export function getPerson(slug: string): Person | undefined {
   return people.find((p) => p.slug === slug);

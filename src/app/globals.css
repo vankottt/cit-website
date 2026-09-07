@@ -23,6 +23,10 @@
   --color-marine-2: #1a3a66;
   --color-marine-tint: #e6ebf3;
 
+  /* Collaboration fill — teal-green sibling of marine, not a diagram accent */
+  --color-spruce: #1e6b58;
+  --color-spruce-2: #1a5b4b;
+
   /* CIT accent */
   --color-amber: #d98e2b;
   --color-amber-ink: #8a5514;

@@ -1,22 +1,28 @@
 import { Fragment, type ReactNode } from "react";
 import type { Locale } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
+import type { MediaRecord } from "@/lib/cms/types";
 import { parseYouTubeBlock } from "@/lib/youtube";
+import { parseLibraryMediaBlock, resolveMediaById } from "@/lib/news-presentation";
 import { YoutubeEmbed } from "@/components/editorial/YoutubeEmbed";
+import { EditorialFigure } from "@/components/editorial/EditorialFigure";
 
 /**
  * Renders lightweight content blocks: lines starting with "## " become h2,
  * consecutive "- " lines become a list, a whole-line YouTube URL becomes an
- * embed, anything else is a paragraph. Not HTML — URLs are parsed, not iframes.
+ * embed, a whole-line media-library id becomes an editorial figure,
+ * anything else is a paragraph. Not HTML — URLs are parsed, not iframes.
  */
 export function Blocks({
   blocks,
   className,
   locale,
+  media,
 }: {
   blocks: readonly string[];
   className?: string;
   locale: Locale;
+  media?: MediaRecord[];
 }) {
   const out: ReactNode[] = [];
   let list: string[] = [];
@@ -39,8 +45,28 @@ export function Blocks({
     }
     flush();
     const clip = parseYouTubeBlock(b);
-    if (clip) out.push(<YoutubeEmbed key={`yt-${i}`} clip={clip} locale={locale} />);
-    else if (b.startsWith("## ")) out.push(<h2 key={`h-${i}`}>{b.slice(3)}</h2>);
+    if (clip) {
+      out.push(<YoutubeEmbed key={`yt-${i}`} clip={clip} locale={locale} />);
+      return;
+    }
+    const mediaId = parseLibraryMediaBlock(b);
+    if (mediaId) {
+      const figure = media ? resolveMediaById(mediaId, media, locale) : null;
+      if (figure) {
+        out.push(
+          <EditorialFigure
+            key={`fig-${i}`}
+            src={figure.src}
+            alt={figure.alt}
+            sizes="(min-width: 1024px) 720px, 92vw"
+            ratio="aspect-[16/9]"
+            imageClassName={figure.contain ? "object-contain" : "object-cover object-center"}
+          />,
+        );
+      }
+      return;
+    }
+    if (b.startsWith("## ")) out.push(<h2 key={`h-${i}`}>{b.slice(3)}</h2>);
     else out.push(<p key={`p-${i}`}>{b}</p>);
   });
   flush();

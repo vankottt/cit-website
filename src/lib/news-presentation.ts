@@ -1,4 +1,4 @@
-import { ANALYSIS_MEDIA_ID_PREFIX, constructionGameInfographic } from "@/content/media";
+import { constructionGameInfographic } from "@/content/media";
 import type { Insight } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 import type { MediaRecord } from "@/lib/cms/types";
@@ -32,6 +32,29 @@ export function mediaPairMatches(heroMediaId: string | undefined, mediaId: strin
   return false;
 }
 
+export function resolveMediaById(id: string, media: MediaRecord[], locale: Locale): NewsCardMedia | null {
+  const preferredId = localizedMediaId(id, locale);
+  const record = media.find((item) => item.id === preferredId) ?? media.find((item) => item.id === id);
+  if (!record?.publicUrl) return null;
+  const alt = (locale === "bg" ? record.altBg : record.altEn).trim();
+  const caption = (locale === "bg" ? record.captionBg : record.captionEn)?.trim();
+  return {
+    src: record.publicUrl,
+    alt: alt || record.title || id,
+    width: record.width,
+    height: record.height,
+    caption: caption || undefined,
+    contain: record.id === constructionGameInfographic.id,
+  };
+}
+
+/** Whole-line media-library id in an insight body, same rule as YouTube URLs. */
+export function parseLibraryMediaBlock(block: string): string | null {
+  const raw = block.trim();
+  if (!/^media-[a-z0-9-]+$/i.test(raw)) return null;
+  return raw;
+}
+
 /**
  * Card/hero image from the media library only.
  * Does not attach campus atmosphere photos or YouTube thumbnails as filler.
@@ -39,19 +62,9 @@ export function mediaPairMatches(heroMediaId: string | undefined, mediaId: strin
  */
 export function resolveNewsMedia(insight: Insight, media: MediaRecord[], locale: Locale): NewsCardMedia | null {
   if (!insight.heroMediaId) return null;
-  const preferredId = localizedMediaId(insight.heroMediaId, locale);
-  const record = media.find((item) => item.id === preferredId) ?? media.find((item) => item.id === insight.heroMediaId);
-  if (!record?.publicUrl) return null;
-  const alt = (locale === "bg" ? record.altBg : record.altEn).trim();
-  const caption = (locale === "bg" ? record.captionBg : record.captionEn)?.trim();
-  return {
-    src: record.publicUrl,
-    alt: alt || insight.title[locale],
-    width: record.width,
-    height: record.height,
-    caption: caption || undefined,
-    contain: record.id.startsWith(ANALYSIS_MEDIA_ID_PREFIX) || record.id === constructionGameInfographic.id,
-  };
+  const resolved = resolveMediaById(insight.heroMediaId, media, locale);
+  if (!resolved) return null;
+  return { ...resolved, alt: resolved.alt === insight.heroMediaId ? insight.title[locale] : resolved.alt };
 }
 
 export function newsMediaMap(insights: Insight[], media: MediaRecord[], locale: Locale): Record<string, NewsCardMedia | null> {

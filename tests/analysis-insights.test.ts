@@ -3,12 +3,18 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { analysisInsights, ANALYSIS_BODY_VIDEOS, ANALYSIS_INSIGHT_SLUGS } from "../src/content/analysis-insights";
 import { insights } from "../src/content/insights";
-import { analysisInsightPhotos } from "../src/content/media";
+import {
+  analysisInsightPhotos,
+  asaesisMethodIllustration,
+  socialSystemsIllustration,
+  testingInsteadIllustration,
+  testingModelIllustration,
+} from "../src/content/media";
 import { NewsCard } from "../src/components/editorial/NewsCard";
 import { applyAnalysisInsights, analysisInsightRecords } from "../src/lib/cms/analysis-overlay";
 import { applyDevNewsFixtures } from "../src/lib/cms/dev-news-overlay";
-import { recordToInsight, seedStore } from "../src/lib/cms/serialize";
-import { mediaPairMatches, resolveNewsMedia } from "../src/lib/news-presentation";
+import { recordToInsight, seedMedia, seedStore } from "../src/lib/cms/serialize";
+import { mediaPairMatches, resolveMediaById, resolveNewsMedia } from "../src/lib/news-presentation";
 import { parseYouTubeBlock } from "../src/lib/youtube";
 
 describe("insights analyses overlay", () => {
@@ -18,6 +24,28 @@ describe("insights analyses overlay", () => {
       "asaesis-from-framework-to-method",
       "testing-instead-of-assuming",
     ]);
+    const social = insights.find((item) => item.slug === "why-social-systems-behave-like-algorithms");
+    expect(social?.heroMediaId).toBe(socialSystemsIllustration.id);
+    const resolved = resolveNewsMedia(social!, seedMedia(), "bg");
+    expect(resolved?.src).toBe(socialSystemsIllustration.src);
+    expect(resolved?.contain).toBeFalsy();
+    expect(resolved?.alt).toContain("Генерирана");
+    expect(resolved?.caption).toBeUndefined();
+    const asaesis = insights.find((item) => item.slug === "asaesis-from-framework-to-method");
+    expect(asaesis?.heroMediaId).toBe(asaesisMethodIllustration.id);
+    expect(resolveNewsMedia(asaesis!, seedMedia(), "bg")?.src).toBe(asaesisMethodIllustration.src);
+    const testing = insights.find((item) => item.slug === "testing-instead-of-assuming");
+    expect(testing?.heroMediaId).toBe(testingInsteadIllustration.id);
+    const testingHero = resolveNewsMedia(testing!, seedMedia(), "bg");
+    expect(testingHero?.src).toBe(testingInsteadIllustration.src);
+    expect(testingHero?.contain).toBeFalsy();
+    expect(testingHero?.alt).toContain("Генерирана");
+    expect(testingHero?.caption).toBeUndefined();
+    expect(testing?.body.bg).toContain(testingModelIllustration.id);
+    expect(testing?.body.en).toContain(testingModelIllustration.id);
+    const model = resolveMediaById(testingModelIllustration.id, seedMedia(), "en");
+    expect(model?.src).toBe(testingModelIllustration.src);
+    expect(model?.contain).toBeFalsy();
     for (const slug of ANALYSIS_INSIGHT_SLUGS) {
       expect(insights.some((item) => item.slug === slug)).toBe(false);
     }
@@ -50,7 +78,12 @@ describe("insights analyses overlay", () => {
     const en = resolveNewsMedia(first, overlaid.media, "en");
     expect(bg?.src).toBe(analysisInsightPhotos.feedbackLoopBg.src);
     expect(en?.src).toBe(analysisInsightPhotos.feedbackLoopEn.src);
-    expect(bg?.contain).toBe(true);
+    expect(bg?.contain).toBe(false);
+    const card = renderToStaticMarkup(
+      createElement(NewsCard, { insight: first, locale: "bg", channel: "insights", variant: "row", media: bg }),
+    );
+    expect(card).toContain("object-cover");
+    expect(card).not.toContain("object-contain");
     expect(mediaPairMatches(first.heroMediaId, analysisInsightPhotos.feedbackLoopEn.id)).toBe(true);
   });
 
@@ -63,17 +96,29 @@ describe("insights analyses overlay", () => {
     expect(matches[0]?.titleEn).toBe("Edited analysis title");
   });
 
-  it("uses the Analysis drafting fallback instead of News when a note has no media", () => {
-    const note = insights.find((item) => item.slug === "why-social-systems-behave-like-algorithms");
+  it("uses the Analysis drafting fallback instead of News when a card has no media prop", () => {
+    const note = insights.find((item) => item.slug === "testing-instead-of-assuming");
     expect(note).toBeDefined();
     const html = renderToStaticMarkup(
       createElement(NewsCard, { insight: note!, locale: "bg", channel: "insights", variant: "row" }),
     );
     expect(html).toContain("Анализ");
     expect(html).toContain("ЦИТ");
-    expect(html).toContain("/bg/insights/why-social-systems-behave-like-algorithms");
+    expect(html).toContain("/bg/insights/testing-instead-of-assuming");
     expect(html).toContain("Прочетете");
     expect(html).not.toContain("Новина");
+    expect(html).not.toContain(testingInsteadIllustration.src);
+  });
+
+  it("covers the testing-instead-of-assuming card photo like News photography", () => {
+    const note = insights.find((item) => item.slug === "testing-instead-of-assuming");
+    const media = resolveNewsMedia(note!, seedMedia(), "bg");
+    const html = renderToStaticMarkup(
+      createElement(NewsCard, { insight: note!, locale: "bg", channel: "insights", variant: "row", media }),
+    );
+    expect(html).toContain("testing-instead-of-assuming.jpg");
+    expect(html).toContain("object-cover");
+    expect(html).not.toContain("object-contain");
   });
 
   it("places two whole-line YouTube URLs at about one-third and two-thirds of each analysis body", () => {

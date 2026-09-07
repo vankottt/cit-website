@@ -50,6 +50,7 @@ export default async function NewsDetailPage({ params }: Params) {
       others={others}
       relatedProjects={related}
       hero={hero}
+      media={media}
     />
   );
 }

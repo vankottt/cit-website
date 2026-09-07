@@ -46,14 +46,16 @@ Why this direction: it satisfies the Build Pack (HAI-level editorial clarity, en
 | ink-3 | #5F6873 | muted text (≥4.5:1 on paper, paper-2 and paper-3 — darkened after axe flagged 4.37:1 on paper-2) |
 | line | #DEDFD8 | hairlines |
 | line-strong | #B9BBB2 | emphasised rules |
-| marine | #102849 | institutional deep tone sampled from the supplied logo: dark band, primary button, footer |
+| marine | #102849 | institutional deep tone sampled from the supplied logo: dark band, primary button, footer, Work-with-us header control |
 | marine-2 | #1A3A66 | hover of marine |
 | marine-tint | #E6EBF3 | light callouts |
+| spruce | #1E6B58 | reserved teal-green sibling of marine; not used on the public header |
+| spruce-2 | #1A5B4B | hover / current of spruce |
 | amber | #D98E2B | the CIT accent: diagram marker, active state, focus ring |
 | amber-ink | #8A5514 | amber as text on paper (AA) |
-| on-dark | #F4F4F0 / #B7C3D0 | text on marine |
+| on-dark | #F4F4F0 / #B7C3D0 | text on marine (and spruce if used) |
 
-Rule: amber is a marker, never a surface. Marine is used for one dark band per page at most, plus footer.
+Rule: amber is a marker, never a surface. Marine is used for one dark band per page at most, plus footer and the compact Work-with-us header control (same fill and hover as the primary button).
 
 ### Layout
 - Container 1280px max, gutters 20px (mobile) / 32px (tablet) / 48px (desktop). 12-column mental grid; editorial splits 5/7 and 4/8.
@@ -61,7 +63,7 @@ Rule: amber is a marker, never a surface. Marine is used for one dark band per p
 - Media and diagrams are square-cornered with a hairline frame; radius is 2px on controls only.
 
 ### Controls
-- Primary button: marine surface, paper text, 2px radius, 48px height. Secondary: hairline ink border. Text links: underline offset 3px, amber underline on hover. Arrow links use an inline SVG arrow, never Unicode arrows.
+- Primary button: marine surface, paper text, 2px radius, 48px height. Secondary: hairline ink border. Work-with-us header control: same marine fill and `marine-2` hover as the primary button, compact (`h-9`) for the nav. Text links: underline offset 3px, amber underline on hover. Arrow links use an inline SVG arrow, never Unicode arrows.
 - Focus: 2px amber outline, 2px offset, everywhere.
 
 ### Systems diagram grammar (signature asset family)
@@ -76,7 +78,7 @@ Rule: amber is a marker, never a surface. Marine is used for one dark band per p
 - **Homepage overlay video (2026-09-06, encoding 2026-09-07):** the muted looping local infrastructure clip with pause control is an explicit exception to the older generic “no autoplay video” rule. Insight YouTube embeds remain without autoplay. See section 6.
 
 ### Imagery and mark
-- Signature visual layer remains diagrams. Temporary UASG campus photography (cropped from official homepage sliders) is used only as institutional atmosphere. Goal 2 (2026-09-07): homepage no longer uses a full-bleed marine hall plate; `campus-hall.jpg` is a contained institutional figure beside the UASG statement. Facade remains on About / mission; hall on About / context and Work with us. Captions state the source and that the images do not depict CIT activity. Tracked in `docs/TEMP_IMAGE_SOURCES.md`; replace before final public launch. No stock photography, no generated "AI" imagery, no campus photos attached to project or insight records. The homepage opening is the infrastructure overlay from §6, not a campus photograph.
+- Signature visual layer remains diagrams. Temporary UASG campus photography (cropped from official homepage sliders) is used only as institutional atmosphere. Goal 2 (2026-09-07): homepage no longer uses a full-bleed marine hall plate; `campus-hall.jpg` is a contained institutional figure beside the UASG statement. Facade remains on About / mission; hall on About / context and Work with us. Public figures have no visible honesty captions; `alt` still names the university setting and does not present the pictures as CIT activity. Tracked in `docs/TEMP_IMAGE_SOURCES.md`; replace before final public launch. No stock photography and no campus photos attached to project or insight records. Generated editorial illustrations are attached to the seed concept notes `why-social-systems-behave-like-algorithms`, `asaesis-from-framework-to-method` and `testing-instead-of-assuming`; they are not captioned as Center staff, laboratory or results. `testing-instead-of-assuming` also places a second library figure on a whole-line media id in the body. The homepage opening is the infrastructure overlay from §6, not a campus photograph.
 - **Team portraits** (2026-09-06, revised): grayscale cutouts over a large circular `marine-tint` plate that turns `marine` on hover. The torso sits inside the circle; only a little of the crown breaks the rim. Never colourised. Hover on the portrait is graphic only (`translateY(-4px) scale(1.018)`, 220ms, gated to `hover: hover` + `pointer: fine`); the portrait is not a link. LinkedIn remains a name+icon control when a URL is confirmed. One quiet “+” slot replaces three equal “Coming Soon” circles. Roles omitted until confirmed.
 - **Logo**: the CIT mark is `Logo/Logo.jpg` (navy structure + grey bars, 1600×1600). It is used as `public/brand/cit-mark.png` (white background removed, greys preserved) on paper, `public/brand/cit-mark-white.png` (navy knocked out to `on-dark`, greys lifted) on the marine footer, and `src/app/icon.png` / `apple-icon.png` on white for favicons. The `marine` token stays `#102849`, sampled from this mark. The drafted three-node SVG mark stays retired.
 
@@ -122,7 +124,7 @@ Homepage visible copy is tightened by moving anatomy, pillar purposes, the six-i
 
 ### Photography
 
-Still only temporary UASG assets, captions refusing CIT attribution, inventory in `docs/TEMP_IMAGE_SOURCES.md`. V2 uses the existing facade as the opening visual and the hall for institutional context. Additional uacg.bg news images inspected in V2 were too small, event-group, or portrait and were not added.
+Still only temporary UASG assets, inventory in `docs/TEMP_IMAGE_SOURCES.md`. V2 uses the existing facade as the opening visual and the hall for institutional context. Additional uacg.bg news images inspected in V2 were too small, event-group, or portrait and were not added.
 
 ### Admin
 
@@ -152,7 +154,7 @@ Visible documentary density is reduced by relocation, not by emptying the idea: 
 
 Still two: Core System Model, then ASAESIS. The homepage no longer stacks a full-bleed marine photo band on top of the methodology band. Hero overlay remains the media exception from §6. Methodology remains the page’s one dark editorial band, plus footer.
 
-Institutional homepage treatment: concise UASG statement beside a contained grayscale hall photograph, captioned as temporary atmosphere. Planned agreement/council status stays on About.
+Institutional homepage treatment: concise UASG statement beside a contained grayscale hall photograph. Planned agreement/council status stays on About.
 
 ASAESIS desktop loop is unchanged in concept. Homepage mobile uses a compact ten-row index (code, short title, Structure/Loop) with one open description. The methodology page keeps the full rail.
 

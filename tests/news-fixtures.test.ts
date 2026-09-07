@@ -43,6 +43,10 @@ describe("demo news fixtures", () => {
       "media-campus-facade",
       "media-campus-hall",
       "media-bulgarian-construction-game",
+      "media-social-systems-as-algorithms",
+      "media-asaesis-from-framework-to-method",
+      "media-testing-instead-of-assuming",
+      "media-testing-instead-of-assuming-model",
     ]);
   });
 

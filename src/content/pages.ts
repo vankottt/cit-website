@@ -94,7 +94,6 @@ export const home = {
   },
   people: {
     label: { bg: "Екип", en: "Team" },
-    heading: { bg: "Интердисциплинарен екип", en: "Interdisciplinary team" },
   },
   work: {
     label: { bg: "Сътрудничество", en: "Work with us" },

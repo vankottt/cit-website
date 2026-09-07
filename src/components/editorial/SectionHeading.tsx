@@ -4,6 +4,8 @@ import { cn } from "@/lib/cn";
 /**
  * Mono label + serif heading (+ optional lead), the standard section opening.
  * `level` controls the heading element for a correct document outline.
+ * Heading may be omitted; then `id` lands on the label so the section
+ * can still be named via `aria-labelledby`.
  */
 export function SectionHeading({
   label,
@@ -17,7 +19,7 @@ export function SectionHeading({
   children,
 }: {
   label?: string;
-  heading: string;
+  heading?: string;
   lead?: ReactNode;
   id?: string;
   level?: 1 | 2 | 3;
@@ -33,10 +35,16 @@ export function SectionHeading({
   return (
     <div className={cn(align === "split" ? "grid gap-6 lg:grid-cols-12 lg:gap-10" : "max-w-3xl", className)}>
       <div className={align === "split" ? "lg:col-span-5" : undefined}>
-        {label ? <p className={cn(dark ? "label-dark" : "label", "mb-4")}>{label}</p> : null}
-        <Heading id={id} className={cn(headingSize, dark && "text-on-dark")}>
-          {heading}
-        </Heading>
+        {label ? (
+          <p id={heading ? undefined : id} className={cn(dark ? "label-dark" : "label", heading && "mb-4")}>
+            {label}
+          </p>
+        ) : null}
+        {heading ? (
+          <Heading id={id} className={cn(headingSize, dark && "text-on-dark")}>
+            {heading}
+          </Heading>
+        ) : null}
       </div>
       {lead || children ? (
         <div className={cn(align === "split" ? "lg:col-span-7 lg:pt-9" : "mt-6", "max-w-2xl")}>

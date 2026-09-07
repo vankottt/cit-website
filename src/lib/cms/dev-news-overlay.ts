@@ -34,8 +34,6 @@ export function devNewsFixtureMediaRecords(): MediaRecord[] {
     title: `Development fixture: ${photo.src.split("/").pop()}`,
     altBg: photo.alt.bg,
     altEn: photo.alt.en,
-    captionBg: photo.caption.bg,
-    captionEn: photo.caption.en,
     source: "Generated development fixture. Not a CIT photograph.",
     usageNote: FIXTURE_USAGE,
     copyrightNote: "Generated demonstration image. Not a CIT photograph.",

@@ -56,6 +56,7 @@ export default async function InsightDetailPage({ params }: Params) {
       others={others}
       relatedProjects={related}
       hero={hero}
+      media={media}
     />
   );
 }

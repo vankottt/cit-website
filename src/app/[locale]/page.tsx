@@ -5,7 +5,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { home } from "@/content/pages";
 import { t } from "@/content/messages";
 import { featuredProject } from "@/content/projects";
-import { publicTeamList, teamUpcomingCount } from "@/content/people";
+import { publicTeamList, teamUpcomingCount, joinSlotCount } from "@/content/people";
 import { loadAllRecords } from "@/lib/cms/repository";
 import { isPublished, personIsPublic } from "@/lib/cms/truth";
 import { recordToInsight, recordToPerson, recordToProject } from "@/lib/cms/serialize";
@@ -145,9 +145,9 @@ export default async function HomePage({ params }: Params) {
       </Section>
 
       <Section id="people" labelledBy="people-heading">
-        <SectionHeading label={c.people.label[locale]} heading={c.people.heading[locale]} id="people-heading" />
+        <SectionHeading label={c.people.label[locale]} id="people-heading" />
         {team.length || teamUpcomingCount ? (
-          <TeamGrid people={team} locale={locale} upcomingCount={teamUpcomingCount} className="mt-12" />
+          <TeamGrid people={team} locale={locale} upcomingCount={joinSlotCount(team)} className="mt-12" />
         ) : null}
         <div className="mt-8">
           <ArrowLink href={href(locale, "people")}>{m.toPeople}</ArrowLink>

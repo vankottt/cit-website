@@ -2,8 +2,8 @@ import Image from "next/image";
 import { cn } from "@/lib/cn";
 
 /**
- * Editorial photograph: hairline frame, square corners, caption as atmosphere —
- * never as proof of a CIT team, lab or result.
+ * Editorial photograph: hairline frame, square corners.
+ * Alt describes the picture; visible captions are not used on public figures.
  */
 export function EditorialFigure({
   src,

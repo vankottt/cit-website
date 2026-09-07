@@ -34,8 +34,6 @@ export function analysisInsightMediaRecords(): MediaRecord[] {
     title: photo.src.split("/").pop(),
     altBg: photo.alt.bg,
     altEn: photo.alt.en,
-    captionBg: photo.caption.bg,
-    captionEn: photo.caption.en,
     source: "Editorial diagram supplied for Insights analyses.",
     usageNote: USAGE,
     copyrightNote: "Editorial diagram. Not a Center photograph or measured result.",

@@ -2,6 +2,8 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { Blocks } from "../src/components/editorial/Blocks";
+import type { MediaRecord } from "../src/lib/cms/types";
+import { parseLibraryMediaBlock } from "../src/lib/news-presentation";
 import { parseYouTubeBlock, youtubeBackgroundEmbedSrc, youtubeEmbedSrc, youtubeWatchUrl } from "../src/lib/youtube";
 
 const ID = "abcdefghijk";
@@ -75,5 +77,46 @@ describe("Blocks YouTube rendering", () => {
     expect(html).toContain('loading="lazy"');
     expect(html).not.toContain("<p>");
     expect(html).not.toContain("autoplay");
+  });
+});
+
+describe("Blocks library media", () => {
+  const sample: MediaRecord = {
+    id: "media-testing-instead-of-assuming-model",
+    publicUrl: "/images/insights/testing-instead-of-assuming-model.jpg",
+    altBg: "Модел",
+    altEn: "Model",
+    captionBg: "Подпис",
+    captionEn: "Caption",
+    temporary: false,
+    replacementRequired: false,
+    createdAt: "2026-09-07T00:00:00.000Z",
+    updatedAt: "2026-09-07T00:00:00.000Z",
+  };
+
+  it("accepts a whole-line media id and ignores sentences", () => {
+    expect(parseLibraryMediaBlock("media-testing-instead-of-assuming-model")).toBe(
+      "media-testing-instead-of-assuming-model",
+    );
+    expect(parseLibraryMediaBlock("See media-testing-instead-of-assuming-model")).toBeNull();
+    expect(parseLibraryMediaBlock("https://www.youtube.com/watch?v=abcdefghijk")).toBeNull();
+  });
+
+  it("renders an editorial figure instead of the id, and skips unknown ids", () => {
+    const html = renderToStaticMarkup(
+      createElement(Blocks, {
+        locale: "en",
+        media: [sample],
+        blocks: ["Before.", sample.id, "After.", "media-does-not-exist"],
+      }),
+    );
+    expect(html).toContain("testing-instead-of-assuming-model.jpg");
+    expect(html).not.toContain("Caption");
+    expect(html).not.toContain("<figcaption");
+    expect(html).toContain("object-cover");
+    expect(html).not.toContain(sample.id);
+    expect(html).not.toContain("media-does-not-exist");
+    expect(html).toContain("Before.");
+    expect(html).toContain("After.");
   });
 });

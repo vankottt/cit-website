@@ -1,12 +1,11 @@
 import type { Locale } from "@/lib/i18n";
 import { site } from "@/content/site";
-import { campusPhotos } from "@/content/media";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
 import { CampusFigure } from "@/components/editorial/CampusFigure";
 
 /**
  * Homepage institutional statement: UASG only, no planned-partner rows.
- * Atmosphere photograph stays captioned as temporary UASG imagery.
+ * Atmosphere photograph is alt-labelled as temporary UASG imagery.
  */
 export function InstitutionalAnchor({
   locale,
@@ -21,8 +20,6 @@ export function InstitutionalAnchor({
   headingId: string;
   lead: string;
 }) {
-  const photo = campusPhotos.hall;
-
   return (
     <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-12">
       <div className="lg:col-span-5">
@@ -35,10 +32,9 @@ export function InstitutionalAnchor({
           photo="hall"
           locale={locale}
           sizes="(min-width: 1024px) 640px, 92vw"
-          ratio="aspect-[16/10]"
+          ratio="aspect-[4/3]"
           imageClassName="img-mono object-[84%_center]"
         />
-        <p className="mt-3 max-w-[62ch] text-meta text-ink-3">{photo.caption[locale]}</p>
       </div>
     </div>
   );

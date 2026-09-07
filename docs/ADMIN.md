@@ -17,7 +17,7 @@ On Vercel, the same accounts work once `CIT_ADMIN_DEV_PASSWORD` is set in the pr
 
 The admin UI is operational: dashboard counts, bilingual fields, draft/review/publish, preview, media metadata including temporary/replacement-required, global settings for designed homepage slots only.
 
-Insight body is one block per line. A YouTube watch / youtu.be / Shorts URL on its own line (BG and EN) renders as an embedded clip on the public site — no autoplay, no pasted HTML.
+Insight body is one block per line. A YouTube watch / youtu.be / Shorts URL on its own line (BG and EN) renders as an embedded clip on the public site — no autoplay, no pasted HTML. A whole-line media-library id (`media-…`) renders as an editorial figure when that record exists; unknown ids are skipped and are not printed as paragraphs.
 
 The three demonstration News articles appear in Insights & news like any other record. Save draft persists text, source, card image and YouTube lines to the connected CMS. They are still fictional unless an editor changes the source metadata.
 

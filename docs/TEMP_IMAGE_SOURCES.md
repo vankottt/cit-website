@@ -40,6 +40,17 @@ Editorial diagrams supplied for three Insights analyses. They overlay until save
 | `public/images/insights/algorithmic-decision-tree-bg.jpg` | `algorithmic-institutional-design` (BG) | Graphic 3. Media id `media-analysis-algorithmic-decision-tree-bg`. |
 | `public/images/insights/algorithmic-decision-tree-en.jpg` | `algorithmic-institutional-design` (EN) | Graphic 3. Media id `media-analysis-algorithmic-decision-tree-en`. |
 
+## Seed concept-note illustration
+
+Generated editorial illustrations supplied for confirmed seed Insights notes. They do **not** depict CIT staff, a Center operations room, or results.
+
+| Filename | Article | Notes |
+|---|---|---|
+| `public/images/insights/social-systems-as-algorithms.jpg` | `why-social-systems-behave-like-algorithms` | Media id `media-social-systems-as-algorithms`. Not Center activity. Cards use `object-cover`. |
+| `public/images/insights/asaesis-from-framework-to-method.jpg` | `asaesis-from-framework-to-method` | Media id `media-asaesis-from-framework-to-method`. Not Center activity. Cards use `object-cover`. |
+| `public/images/insights/testing-instead-of-assuming.jpg` | `testing-instead-of-assuming` (card / hero) | Media id `media-testing-instead-of-assuming`. Not Center laboratory, staff or results. Cards use `object-cover`. |
+| `public/images/insights/testing-instead-of-assuming-model.jpg` | `testing-instead-of-assuming` (in-body figure) | Media id `media-testing-instead-of-assuming-model`. Whole-line body block. Not a Center model, site or result. |
+
 ## Confirmed UASG news infographic
 
 Editorial infographic supplied for the confirmed UASG construction-game article. It is not campus atmosphere photography and does **not** depict CIT activity.
