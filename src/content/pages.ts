@@ -74,11 +74,6 @@ export const home = {
   },
   news: {
     label: { bg: "Новини", en: "News" },
-    heading: { bg: "Публикувани материали", en: "Published materials" },
-    body: {
-      bg: "Потвърдени записи с посочен източник и демонстрационни редакционни примери. Не са научни публикации на Центъра.",
-      en: "Confirmed records with a stated source, and demonstration editorial examples. They are not research publications of the Center.",
-    },
   },
   network: {
     label: { bg: "Институционална основа", en: "Institutional anchor" },

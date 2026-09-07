@@ -47,7 +47,7 @@ export function SectionHeading({
         ) : null}
       </div>
       {lead || children ? (
-        <div className={cn(align === "split" ? "lg:col-span-7 lg:pt-9" : "mt-6", "max-w-2xl")}>
+        <div className={cn(align === "split" ? cn("lg:col-span-7", heading && "lg:pt-9") : "mt-6", "max-w-2xl")}>
           {lead ? <p className={cn("text-lead", dark ? "text-on-dark-muted" : "text-ink-2")}>{lead}</p> : null}
           {children}
         </div>

@@ -137,7 +137,7 @@ export default async function HomePage({ params }: Params) {
       </Section>
 
       <Section id="news" tone="tint" labelledBy="news-heading">
-        <SectionHeading label={c.news.label[locale]} heading={c.news.heading[locale]} id="news-heading" lead={c.news.body[locale]} align="split" />
+        <SectionHeading label={c.news.label[locale]} id="news-heading" />
         {publishedNews.length ? <NewsCarousel insights={publishedNews} locale={locale} media={newsMedia} className="mt-10" /> : null}
         <div className="mt-8">
           <ArrowLink href={href(locale, "news")}>{m.allNews}</ArrowLink>
