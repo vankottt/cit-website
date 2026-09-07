@@ -18,8 +18,8 @@ CIT is an interdisciplinary platform for education, academic research and applie
 Never invent names, formal roles/titles, partners, clients, funding awards, completed projects, measured results, publications, metrics, contact details or institutional approvals. Only confirmed institutional relationship: UASG. The wine × tourism work is a **pilot concept / proposal** — expected outcomes are never presented as results. Team, contact channels and partner universities are *to be confirmed*; omit or label neutrally. Development fixtures live only behind `CIT_DEV_FIXTURES=1` and never render in production builds.
 
 ## Information architecture (V1)
-Nav: About · Methodology · News · Insights · Projects · Team · Work with us · BG/EN.
-Homepage (Goal 2, 2026-09-07; supersedes the V1 Insights-on-homepage scroll): Header → Hero → Why CIT / Core System Model → Education · Research · Applied Science → Institutional anchor → ASAESIS → Featured project → News → Team → Work with us → Footer. Insights remains a primary-nav route, not a homepage preview.
+Nav: About · Methodology · Projects · News · Insights · Team · Work with us · BG/EN.
+Homepage (Goal 2, 2026-09-07; supersedes the V1 Insights-on-homepage scroll): Header → Hero → Why CIT / Core System Model → Education · Research · Applied Science → Institutional anchor → ASAESIS → Featured project → News → Team → Work with us → Footer. Insights remains a primary-nav route, not a homepage preview. Goal 3 (2026-09-07) primary-nav order matches homepage-mapped sections so scroll-spy is monotonic; Insights is route-only and is skipped by homepage scroll-spy.
 Routes live under `src/app/[locale]/…` for `bg` and `en`; `/` redirects to a locale.
 
 ## Engineering rules

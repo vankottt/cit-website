@@ -36,4 +36,11 @@ describe("UASG construction-game news seed", () => {
     expect(article?.author).toBeUndefined();
     expect(article?.heroMediaId).toBeUndefined();
   });
+
+  it("keeps news out of the Insights sitemap fallback set", () => {
+    const notes = insights.filter((item) => item.type !== "news");
+    const news = insights.filter((item) => item.type === "news");
+    expect(notes.map((item) => item.slug)).not.toContain(SLUG);
+    expect(news.map((item) => item.slug)).toEqual([SLUG]);
+  });
 });

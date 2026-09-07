@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { primaryNav } from "../src/content/site";
-import { homeHashHref, homeSpySectionIds, isHomePath, navKeyForHomeSection } from "../src/lib/home-nav";
-import { isActivePath } from "../src/lib/home-nav";
+import { href } from "../src/lib/paths";
+import {
+  homeHashHref,
+  homeNavHash,
+  homeSpyNavProgression,
+  homeSpySectionIds,
+  isActivePath,
+  isHomePath,
+  navKeyForHomeSection,
+} from "../src/lib/home-nav";
 
 describe("home path", () => {
   it("treats locale roots as the landing page", () => {
@@ -18,9 +26,9 @@ describe("homepage section map", () => {
     expect(primaryNav.map((item) => item.key)).toEqual([
       "about",
       "methodology",
+      "projects",
       "news",
       "insights",
-      "projects",
       "people",
       "work-with-us",
     ]);
@@ -47,6 +55,24 @@ describe("homepage section map", () => {
       "people",
       "work-with-us",
     ]);
+  });
+
+  it("aligns homepage-mapped nav order with document-order spy progression", () => {
+    const spyOrder = homeSpyNavProgression();
+    expect(spyOrder).toEqual(["about", "methodology", "projects", "news", "people", "work-with-us"]);
+
+    const navHomeOrder = primaryNav
+      .map((item) => item.key)
+      .filter((key): key is Exclude<typeof key, "home" | "privacy"> => key !== "home" && key !== "privacy" && Boolean(homeNavHash[key]));
+    expect(navHomeOrder).toEqual(spyOrder);
+  });
+
+  it("keeps Insights as a route-only primary item", () => {
+    expect(primaryNav.some((item) => item.key === "insights")).toBe(true);
+    expect(homeNavHash.insights).toBeUndefined();
+    expect(homeHashHref("bg", "insights")).toBe(null);
+    expect(href("bg", "insights")).toBe("/bg/insights");
+    expect(href("en", "insights")).toBe("/en/insights");
   });
 
   it("builds in-page hashes for the landing nav", () => {

@@ -30,6 +30,7 @@ export function MobileMenu({
   const panelId = useId();
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const pendingHashRef = useRef<string | null>(null);
 
   // Escape closes; lock body scroll; inert the rest of the page; move focus into the panel.
   useEffect(() => {
@@ -38,6 +39,13 @@ export function MobileMenu({
     if (!open) {
       main?.removeAttribute("inert");
       footer?.removeAttribute("inert");
+      const pending = pendingHashRef.current;
+      if (pending) {
+        pendingHashRef.current = null;
+        requestAnimationFrame(() => {
+          scrollToHomeHash(pending);
+        });
+      }
       return;
     }
     const onKey = (e: KeyboardEvent) => {
@@ -95,8 +103,11 @@ export function MobileMenu({
                   href={href}
                   aria-current={active ? "page" : undefined}
                   onClick={(e) => {
+                    if (hashHref) {
+                      e.preventDefault();
+                      pendingHashRef.current = hashHref;
+                    }
                     setOpen(false);
-                    if (hashHref && scrollToHomeHash(hashHref)) e.preventDefault();
                   }}
                   className={cn(
                     "flex items-center justify-between py-4 font-serif text-[1.5rem] leading-tight tracking-[-0.01em] text-ink transition-colors duration-150 hover:text-marine",

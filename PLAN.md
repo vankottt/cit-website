@@ -24,6 +24,7 @@ Definition of Done: section 40 of the V2 goal prompt.
 - **F. SEO / robots** — environment-aware `noindex,nofollow` unless `CIT_ALLOW_INDEXING=true`; admin/preview always noindex.
 - **G. QA** — `npm run check`, unit tests, browser viewports 1440/1280/768/390, BG wrapping, a11y of explorer and admin forms, preview deploy if Vercel is available.
 - **H. Production hardening (Goal 1, 2026-09-07)** — hero media weight, fail-closed signing secrets, News/Insight metadata path, non-destructive CMS saves, news publish rules, CMS fallback diagnostics, preview vs production env docs, indexing audit, Ruflo runtime untrack, lint/test/build gate.
+- **I. Release closure (Goal 3, 2026-09-07)** — nav/scroll-spy alignment with homepage document order, deterministic News ordering, deployment provenance, production runtime QA. Not a visual redesign.
 
 ## Architecture (V2)
 

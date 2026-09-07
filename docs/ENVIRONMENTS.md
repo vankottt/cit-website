@@ -14,6 +14,23 @@ Do not invent credentials here. Fill values in the host (Vercel / local `.env.lo
 
 `NODE_ENV=production` is true for every Vercel build, including preview. Use `VERCEL_ENV`.
 
+## Canonical Vercel project
+
+The repository is linked locally to **cit-website** (`prj_wAfaaYeSPdHI7u8dzGIDA0lA0FSx`, team `darinatodorova2025-6319s-projects`). That project is the canonical CURRENT website deployment: it matches `package.json` name `cit-website`, the documented production alias `cit-website-psi.vercel.app`, and `docs/SUPABASE.md`.
+
+Sibling projects in the same team are not canonical and must not be used for launch QA:
+
+- **cit-uasg** (`cit-uasg.vercel.app`) — parallel CLI production deploys of older trees. Do not delete automatically.
+- **cit-original-v1** — preview-only archive. Do not delete automatically.
+
+None of these projects currently has a GitHub integration. GitHub `main` therefore does not deploy on push. Repeatable path until Git is connected:
+
+1. Land the release on GitHub `main` as a clean commit.
+2. From that clean tree, `vercel deploy` for preview QA, or `vercel --prod` only after an explicit launch decision.
+3. Record the deployment `gitCommitSha` and `gitDirty`. Do not QA or launch a dirty deploy from an obsolete branch.
+
+Optional later: in the Vercel project, connect GitHub `vankottt/cit-website`, production branch `main`, and keep `CIT_ALLOW_INDEXING` unset until launch. Do not assign public DNS until the user authorizes it.
+
 ## Required production variables
 
 - `NEXT_PUBLIC_SITE_URL` — public origin (no trailing slash)
@@ -23,7 +40,7 @@ Do not invent credentials here. Fill values in the host (Vercel / local `.env.lo
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `CIT_ALLOW_INDEXING=true` **only** after an explicit public-launch decision on the production host
 
-Do **not** set `CIT_ADMIN_DEV_PASSWORD` or `CIT_DEV_FIXTURES` on production.
+Do **not** set `CIT_ADMIN_DEV_PASSWORD` or `CIT_DEV_FIXTURES` on production. If a hosted demo password remains on the Production environment while Supabase is connected, remove it before public launch — supabase mode currently takes precedence, but the password is a leftover local-admin shortcut.
 
 ## Preview vs production Supabase
 

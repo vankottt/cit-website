@@ -31,9 +31,11 @@ function entry(key: RouteKey, priority: number, slug?: string): MetadataRoute.Si
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const seedNotes = seedInsights.filter((i) => i.type !== "news");
+  const seedNews = seedInsights.filter((i) => i.type === "news");
   const projects = (await listPublishedProjects().catch(() => seedProjects)) ?? seedProjects;
-  const insights = (await listPublishedInsights().catch(() => seedInsights)) ?? seedInsights;
-  const news = (await listPublishedNews().catch(() => [])) ?? [];
+  const insights = (await listPublishedInsights().catch(() => seedNotes)) ?? seedNotes;
+  const news = (await listPublishedNews().catch(() => seedNews)) ?? seedNews;
   return [
     ...staticRoutes.flatMap((r) => entry(r.key, r.priority)),
     ...projects.flatMap((p) => entry("projects", 0.7, p.slug)),

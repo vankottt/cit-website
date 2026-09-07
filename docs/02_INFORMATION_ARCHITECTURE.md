@@ -3,22 +3,22 @@
 ## Primary navigation
 - About
 - Methodology
+- Projects
 - News
 - Insights
-- Projects
 - Team (route remains `/people`)
 - Work with us
 - BG / EN
 
-Confirmed 2026-09-06: this nav order is shared by the header, footer and mobile menu in both locales. Work with us remains the collaboration CTA at the end of the strip.
+Confirmed Goal 3 (2026-09-07; supersedes the 2026-09-06 nav order): this order is shared by the header, footer and mobile menu in both locales. Work with us remains the collaboration CTA at the end of the strip.
 
-Homepage document order is independent of the nav strip (Goal 2, 2026-09-07): Insights stays in navigation and at `/insights`, but is no longer a homepage preview. Featured project precedes News.
+Homepage document order (Goal 2) is unchanged. Primary nav now follows the homepage-mapped sequence so the scroll-spy indicator never moves backwards while scrolling down. Insights remains in navigation and at `/insights`, but has no homepage section and is therefore omitted from homepage scroll-spy (About → Methodology → Projects → News → Team → Work with us). Featured project precedes News.
 
 ## Principle
 Keep V1 navigation compact, research-oriented and understandable to non-academic visitors. Do not create top-level items merely because content may exist later. **News** is a publishing channel for confirmed articles (text and video), including UASG materials republished with source.
 
 ## Homepage sequence
-Goal 2 (2026-09-07) supersedes the V1/V2 homepage that placed Insights and a governance preview on the home scroll. Nav IA is unchanged.
+Goal 2 (2026-09-07) supersedes the V1/V2 homepage that placed Insights and a governance preview on the home scroll. Goal 3 (2026-09-07) supersedes the 2026-09-06 nav order so homepage-mapped items match document order.
 
 1. Header — brand, navigation, language switch, collaboration CTA.
 2. Hero — one clear proposition, short support copy, maximum two actions (infrastructure overlay; pause; reduced motion).

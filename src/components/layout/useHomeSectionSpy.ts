@@ -82,5 +82,6 @@ export function scrollToHomeHash(href: string): boolean {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   history.replaceState(null, "", href);
+  window.dispatchEvent(new Event("scroll"));
   return true;
 }

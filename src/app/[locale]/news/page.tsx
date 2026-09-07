@@ -6,6 +6,7 @@ import { loadAllRecords } from "@/lib/cms/repository";
 import { isPublished } from "@/lib/cms/truth";
 import { recordToInsight } from "@/lib/cms/serialize";
 import { newsMediaMap } from "@/lib/news-presentation";
+import { sortNewsNewestFirst } from "@/lib/news-order";
 import { PageHeader } from "@/components/editorial/PageHeader";
 import { Container } from "@/components/layout/Container";
 import { InsightList } from "@/components/editorial/InsightList";
@@ -22,10 +23,12 @@ export default async function NewsPage({ params }: Params) {
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "bg";
   const { insights: insightRecords, media } = await loadAllRecords();
-  const news = insightRecords
-    .filter((i) => isPublished(i.publicationState))
-    .map(recordToInsight)
-    .filter((i) => i.type === "news");
+  const news = sortNewsNewestFirst(
+    insightRecords
+      .filter((i) => isPublished(i.publicationState))
+      .map(recordToInsight)
+      .filter((i) => i.type === "news"),
+  );
   const mediaMap = newsMediaMap(news, media, locale);
   return (
     <>

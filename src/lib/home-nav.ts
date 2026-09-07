@@ -47,6 +47,20 @@ export function navKeyForHomeSection(sectionId: string): Exclude<RouteKey, "home
   return sectionToNav[sectionId as HomeSpySectionId] ?? null;
 }
 
+/**
+ * Deduplicated homepage scroll-spy progression (document order).
+ * Insights is omitted because it has no homepage section.
+ */
+export function homeSpyNavProgression(): Array<Exclude<RouteKey, "home" | "privacy">> {
+  const keys: Array<Exclude<RouteKey, "home" | "privacy">> = [];
+  for (const id of homeSpySectionIds) {
+    const key = navKeyForHomeSection(id);
+    if (!key || keys[keys.length - 1] === key) continue;
+    keys.push(key);
+  }
+  return keys;
+}
+
 export function homeHashHref(locale: Locale, key: RouteKey): string | null {
   if (key === "home" || key === "privacy") return null;
   const hash = homeNavHash[key];

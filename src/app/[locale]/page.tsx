@@ -10,6 +10,7 @@ import { loadAllRecords } from "@/lib/cms/repository";
 import { isPublished, personIsPublic } from "@/lib/cms/truth";
 import { recordToInsight, recordToPerson, recordToProject } from "@/lib/cms/serialize";
 import { newsMediaMap } from "@/lib/news-presentation";
+import { latestNewsForHomepage } from "@/lib/news-order";
 import { pillars, stages, methodologyName } from "@/content/methodology";
 import { Hero } from "@/components/editorial/Hero";
 import { Section } from "@/components/layout/Section";
@@ -44,10 +45,12 @@ export default async function HomePage({ params }: Params) {
   const c = home;
   const { projects: projectRecords, insights: insightRecords, settings, people: personRecords, media } = await loadAllRecords();
   const publishedProjects = projectRecords.filter((p) => isPublished(p.publicationState)).map(recordToProject);
-  const publishedNews = insightRecords
-    .filter((i) => isPublished(i.publicationState))
-    .map(recordToInsight)
-    .filter((i) => i.type === "news");
+  const publishedNews = latestNewsForHomepage(
+    insightRecords
+      .filter((i) => isPublished(i.publicationState))
+      .map(recordToInsight)
+      .filter((i) => i.type === "news"),
+  );
   const featured = publishedProjects.find((p) => p.slug === settings.data.featuredProjectSlug) ?? publishedProjects.find((p) => p.featured) ?? featuredProject;
   const team = publicTeamList(personRecords.filter(personIsPublic).map(recordToPerson));
   const newsMedia = newsMediaMap(publishedNews, media, locale);

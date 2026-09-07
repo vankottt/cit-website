@@ -20,6 +20,7 @@ import type {
 } from "./types";
 import type { Insight, Person, Project } from "@/content/types";
 import { getPreviewGrant, type PreviewGrant } from "@/lib/preview";
+import { sortNewsNewestFirst } from "@/lib/news-order";
 
 function seedProjectRecords(): ProjectRecord[] {
   return seedProjects.map(projectToRecord);
@@ -82,7 +83,7 @@ export async function listPublishedInsights(): Promise<Insight[]> {
 }
 
 export async function listPublishedNews(): Promise<Insight[]> {
-  return (await listPublishedArticles()).filter((i) => i.type === "news");
+  return sortNewsNewestFirst((await listPublishedArticles()).filter((i) => i.type === "news"));
 }
 
 export async function getProjectForPublic(slug: string, preview?: PreviewGrant | null): Promise<Project | null> {

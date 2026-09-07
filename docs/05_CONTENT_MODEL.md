@@ -59,7 +59,7 @@ Fields
 ## Possible types
 Enabled public types: `concept-note` (Insights) and `news` (News). Other types from the original list (Research Note, Policy Brief, Report, Video-Lecture) stay unused until there is real content.
 
-News is confirmed/stated-source material. Publishing a record with `type: news` requires bilingual title, bilingual summary, a source publication date, and a stated source in both languages. Author and card/hero media are stored when present; they are not required to publish. Concept notes keep the existing title/summary rule and are not given News-only requirements.
+News is confirmed/stated-source material. Publishing a record with `type: news` requires bilingual title, bilingual summary, a source publication date, and a stated source in both languages. Author and card/hero media are stored when present; they are not required to publish. Public News lists are sorted newest source publication date first; equal dates use slug order. The homepage is a five-item latest-news preview, not the archive. Concept notes keep the existing title/summary rule and are not given News-only requirements.
 
 ## 3. Person
 Fields

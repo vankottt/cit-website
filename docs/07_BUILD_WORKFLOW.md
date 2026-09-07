@@ -99,6 +99,8 @@ Original V1 build order: Header/Hero → About (system idea, pillars, network) �
 
 Goal 2 (2026-09-07) production homepage: Hero → Why CIT / Core System Model → pillars → Institutional anchor → ASAESIS → Featured project → News → Team → Work with us → Footer. Insights remains a primary-nav route only.
 
+Goal 3 (2026-09-07) primary navigation: About → Methodology → Projects → News → Insights → Team → Work with us. Homepage scroll-spy skips Insights.
+
 ## Phase 6 — Template implementation
 After homepage design system is stable:
 - About

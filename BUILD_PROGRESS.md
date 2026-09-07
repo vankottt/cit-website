@@ -4,6 +4,22 @@ Durable checkpoint log. Re-read with `AGENTS.md` and `PLAN.md` after any long ga
 
 ## Current checkpoint
 
+**Release audit — Goal 3 (2026-09-07):** final release-readiness pass on the Goal 1+2 baseline (`4759311e` on `main`). Not a visual redesign. `CIT_ALLOW_INDEXING` was not enabled. No inquiry inbox was invented.
+
+Primary navigation (header, mobile menu, footer) is now About → Methodology → Projects → News → Insights → Team → Work with us. This supersedes the 2026-09-06 order (News before Projects). Homepage document order is unchanged. Insights remains a `/insights` route with no homepage section; homepage scroll-spy is About → Methodology → Projects → News → Team → Work with us. Mobile hash clicks wait until body-scroll unlock so spy state is not stale.
+
+Published News is sorted newest source publication date first (slug tie-breaker) via `src/lib/news-order.ts`. Homepage preview limit is **5**. `/news` lists the full published set. Sitemap fallback no longer places News slugs on Insights.
+
+Canonical Vercel project: **cit-website** (`prj_wAfaaYeSPdHI7u8dzGIDA0lA0FSx`). GitHub is not connected; CLI deploys only. Current production alias `cit-website-psi.vercel.app` still serves dirty `720e58cf` from `preview/homepage-uacg-video-hero` (Insights still on the home scroll). `cit-uasg` is a parallel non-canonical production. Do not delete sibling projects.
+
+Goal 3 preview (not promoted, no DNS, no indexing): `dpl_31obAhTuvr4GtAfAGmdjBrs7AgzB` → https://cit-website-nvxh4u55i-darinatodorova2025-6319s-projects.vercel.app — `githubCommitSha=4759311e`, `githubCommitRef=main`, `gitDirty=1`, `source=cli`, `target=preview`, no production alias. Local production `localhost:3011` was used for browser QA of the same tree. Do not treat `cit-website-psi.vercel.app` as Goal 3 evidence. The Goal 3 preview was built from a dirty tree on `4759311e`; after this commit, a new preview or production deploy is required for a clean SHA match.
+
+Hosted Supabase `insights.hero_media_id` is **not** applied (`42703`). Public pages work without it. Apply `supabase/migrations/20260907120000_insight_hero_media.sql` before editors attach insight/news card media.
+
+Quality: `npm run check` pass (typecheck, eslint, 65 tests, production build). Local production runtime: `/` → 307 `/bg`; unknown slugs 404; admin 307 `/admin/login`; `X-Robots-Tag: noindex, nofollow`; robots `Disallow: /`. Browser: BG 1440×1000 hash nav + spy; BG 1280×800 desktop nav; BG/EN 768×1024 and 390×844 — no horizontal overflow; mobile menu News hash lands below the header; reduced motion has no video; Work with us has no form/mailto.
+
+## Previous checkpoint
+
 **Homepage / News / visual refinement — Goal 2 (2026-09-07):** public editorial surface is a finished Drafting Editorial institution page, not a prototype dump. Goal 1 CMS/auth/indexing/platform was not reopened. `CIT_ALLOW_INDEXING` was not enabled. No inquiry inbox was invented.
 
 Homepage document order: Hero → Why CIT / Core System Model → pillars → Institutional anchor → ASAESIS → Featured project → News strip → Team → Work with us → Footer. Insights preview and GovernanceList are off the homepage; `/insights`, nav Insights, About/Team governance remain.
@@ -44,7 +60,7 @@ Quality: `npm run check` pass (typecheck, eslint, 54 tests, production build). B
 
 **Homepage overlay (2026-09-06):** local muted loop from `Video/202609062306.mp4`, served as grayscale `public/videos/hero.mp4`, pause control, poster under reduced motion. Not the previous UASG YouTube mock. Footage is transport infrastructure and is not captioned as CIT activity. Stanford HAI video is not used. Insight YouTube embeds remain without autoplay.
 
-**IA order (2026-09-06):** header, footer and mobile menu share About → Methodology → News → Insights → Projects → Team. Work with us stays last as the collaboration CTA. Homepage *document* order was later changed in Goal 2 (Insights off the home scroll; featured project before News). Build Pack 02 listed Projects → Insights → News; confirmed team decision supersedes it for **nav**; Goal 2 supersedes it for **homepage sections**.
+**IA order (2026-09-06, superseded by Goal 3):** header, footer and mobile menu then shared About → Methodology → News → Insights → Projects → Team. Goal 3 (2026-09-07) reordered homepage-mapped items to About → Methodology → Projects → News → Insights → Team. Work with us stays last as the collaboration CTA. Homepage *document* order was changed in Goal 2 (Insights off the home scroll; featured project before News).
 
 Public labels: People → Team (Екип / Team). News channel (`/news`) now has one confirmed UASG article (`kogato-praktikata-vleze-v-universiteta`, source uacg.bg 02.12.2025) with YouTube `kfV3dGGHO5s` as a mid-body embed. Distinct from Insights concept notes. STRABAG, Stara Zagora, EQE-Control and NSORB are named in the UASG source only — not CIT partners. The source line `съм Строителен факултет` is republished as `към`.
 
@@ -57,7 +73,7 @@ Insight body may include a whole-line YouTube URL (watch / youtu.be / Shorts); i
 ## V1 strengths preserved (verified 2026-09-05)
 
 - Intellectual positioning and ASAESIS structure.
-- IA: About · Methodology · News · Insights · Projects · Team · Work with us · BG/EN (confirmed 2026-09-06; supersedes Build Pack order Projects → Insights → News). Team keeps the `/people` URL. News reuses insight records with `type: news` (text + YouTube); no invented articles.
+- IA: About · Methodology · Projects · News · Insights · Team · Work with us · BG/EN (Goal 3, 2026-09-07; supersedes 2026-09-06 News-before-Projects). Team keeps the `/people` URL. News reuses insight records with `type: news` (text + YouTube); no invented articles.
 - Drafting Editorial system (serif display, Plex body/mono labels, marine + amber).
 - Truthful project status and empty public people list.
 - Temporary UASG photography (`campus-facade`, `campus-hall`) with captions that refuse CIT attribution.
@@ -96,6 +112,7 @@ Rendered `meta robots` and `X-Robots-Tag`: `noindex, nofollow`. Missing project 
 - Methodology 10 vs mandate 12 vs teaser 5 — public method remains the 10 stages.
 - V1 Stanford HAI note said a news carousel was not taken. Goal 2 (2026-09-07) authorizes a CIT-native editorial strip; history is preserved in `DESIGN_DECISIONS.md` §1 and §7.
 - V1/V2 homepage placed Insights and governance on the home scroll. Goal 2 removes those previews without removing the routes.
+- 2026-09-06 nav order (About → Methodology → News → Insights → Projects → Team) is superseded by Goal 3 so homepage-mapped items match document order. Insights stays in the strip but is skipped by scroll-spy.
 
 ## External blockers (not workarounds for incomplete V2)
 
@@ -107,7 +124,7 @@ Rendered `meta robots` and `X-Robots-Tag`: `noindex, nofollow`. Missing project 
 
 ## Quality gates
 
-- Goal 2 (2026-09-07): `npm run check` pass — typecheck, eslint, 57 tests, production build.
+- Goal 3 (2026-09-07): `npm run check` pass — typecheck, eslint, 65 tests, production build.
 - Hydration warnings observed in the Cursor browser were `data-cursor-ref` instrumentation, not production markup.
 
 ## Preview deployment (2026-09-05)

@@ -40,9 +40,9 @@ export interface NavItem {
 export const primaryNav: NavItem[] = [
   { key: "about", label: { bg: "За центъра", en: "About" } },
   { key: "methodology", label: { bg: "Методология", en: "Methodology" } },
+  { key: "projects", label: { bg: "Проекти", en: "Projects" } },
   { key: "news", label: { bg: "Новини", en: "News" } },
   { key: "insights", label: { bg: "Анализи", en: "Insights" } },
-  { key: "projects", label: { bg: "Проекти", en: "Projects" } },
   { key: "people", label: { bg: "Екип", en: "Team" } },
   { key: "work-with-us", label: { bg: "Сътрудничество", en: "Work with us" } },
 ];

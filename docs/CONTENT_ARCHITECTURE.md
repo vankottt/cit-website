@@ -42,7 +42,7 @@ Preview sets an httpOnly HMAC cookie and opens the public URL. Drafts stay out o
 - Concept/proposed cannot publish non-empty measured results
 - Partners: only `confirmed` + `published` appear publicly
 - Team: `planned_role` cannot be published as a named profile
-- Insights vs News: same table; `type` is `concept-note` or `news`. News additionally requires a source publication date and BG/EN source text to publish. Card/hero media is optional presentation metadata, not a publish gate.
+- Insights vs News: same table; `type` is `concept-note` or `news`. News additionally requires a source publication date and BG/EN source text to publish. Card/hero media is optional presentation metadata, not a publish gate. Published News is ordered newest source publication date first, with slug as a stable tie-breaker. The homepage shows at most five latest items (`HOME_NEWS_PREVIEW_LIMIT`); `/news` lists the full published set.
 
 ## Future AI actions
 

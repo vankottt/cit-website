@@ -160,7 +160,7 @@ Featured Wine × Tourism sits before News, with status, methodology link and the
 
 ### News editorial strip
 
-Homepage News is a CSS scroll-snap strip (no carousel library, no autoplay). Target peek of the next card when more than one item exists; previous/next controls only when the strip overflows. One confirmed article uses a CIT-native drafting fallback — no campus photography and no invented images. `/news` listing uses the same card hierarchy (media, type · date, headline, summary, link). Insights stay a ruled concept-note list.
+Homepage News is a CSS scroll-snap strip (no carousel library, no autoplay). Target peek of the next card when more than one item exists; previous/next controls only when the strip overflows. Published items are ordered newest source publication date first (slug tie-breaker); the homepage shows at most five (`HOME_NEWS_PREVIEW_LIMIT`), while `/news` lists the full published set. One confirmed article uses a CIT-native drafting fallback — no campus photography and no invented images. `/news` listing uses the same card hierarchy (media, type · date, headline, summary, link). Insights stay a ruled concept-note list.
 
 ### CIT curve experiment — rejected
 
@@ -169,6 +169,8 @@ A comma/C-hook join (CIT mark + ASAESIS return, not a Turing sine) was prototype
 ### Navigation, type, colour
 
 Header is slightly denser (`4.75–5.25rem`, 48px mark). Font families and colour tokens are unchanged. Amber remains a marker.
+
+Goal 3 (2026-09-07) supersedes the 2026-09-06 primary-nav order. Shared header, mobile menu and footer order is now About → Methodology → Projects → News → Insights → Team → Work with us. Insights stays a top-level `/insights` route with no homepage preview and is skipped by homepage scroll-spy. Homepage-mapped spy progression is About → Methodology → Projects → News → Team → Work with us, matching document order.
 
 Stanford HAI still informs whitespace and hierarchy only. The news strip is a CIT translation of an institutional editorial feed, not a clone of hai.stanford.edu.
 
