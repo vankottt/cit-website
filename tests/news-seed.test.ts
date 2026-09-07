@@ -23,6 +23,7 @@ describe("UASG construction-game news seed", () => {
       expect(index).toBeGreaterThan(0);
       expect(index).toBeLessThan(body.length - 1);
       expect(parseYouTubeBlock(body[index]!)).toEqual({ id: "kfV3dGGHO5s" });
+      expect(body[index - 1]).toBe("media-bulgarian-construction-game");
     }
   });
 
@@ -34,7 +35,7 @@ describe("UASG construction-game news seed", () => {
     expect(article?.source.en).toContain("2 December 2025");
     expect(article?.date).toBe("2025-12-02");
     expect(article?.author).toBeUndefined();
-    expect(article?.heroMediaId).toBe("media-bulgarian-construction-game");
+    expect(article?.heroMediaId).toBe("media-bulgarian-construction-game-editorial");
   });
 
   it("keeps news out of the Insights sitemap fallback set", () => {

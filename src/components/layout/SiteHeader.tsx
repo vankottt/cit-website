@@ -29,7 +29,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-paper [--header-h:4.75rem] md:[--header-h:5.25rem]">
       <Container className="flex h-[var(--header-h)] items-center justify-between gap-6">
-        <Logo locale={locale} layout="lockup" markSize={48} className="min-w-0 shrink xl:flex-none" />
+        <Logo locale={locale} layout="lockup" markSize={58} className="min-w-0 shrink xl:flex-none" />
         <DesktopNav locale={locale} links={links} label={m.primaryNav} pathname={pathname} onHome={onHome} spyKey={spyKey} />
         <div className="flex items-center gap-4">
           <LanguageSwitcher current={locale} label={m.language} className="hidden xl:flex" />

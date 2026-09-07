@@ -7,8 +7,8 @@ import { cn } from "@/lib/cn";
 import markColor from "../../../public/brand/cit-mark.png";
 import markWhite from "../../../public/brand/cit-mark-white.png";
 
-/** Supplied CIT mark from Logo/Logo.jpg — colour on paper, light knockout on marine. */
-export function Mark({ className, size = 40, tone = "ink" }: { className?: string; size?: number; tone?: "ink" | "on-dark" }) {
+/** CIT mark: colour on paper, light knockout on marine. */
+export function Mark({ className, size = 48, tone = "ink" }: { className?: string; size?: number; tone?: "ink" | "on-dark" }) {
   return (
     <Image
       src={tone === "ink" ? markColor : markWhite}
@@ -26,7 +26,7 @@ export function Logo({
   locale,
   tone = "ink",
   className,
-  markSize = 40,
+  markSize = 48,
   layout = "compact",
 }: {
   locale: Locale;

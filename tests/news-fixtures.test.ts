@@ -44,6 +44,7 @@ describe("demo news fixtures", () => {
       "media-campus-facade",
       "media-campus-hall",
       "media-bulgarian-construction-game",
+      "media-bulgarian-construction-game-editorial",
       "media-social-systems-as-algorithms",
       "media-asaesis-from-framework-to-method",
       "media-testing-instead-of-assuming",
@@ -116,14 +117,14 @@ describe("demo news fixtures", () => {
     const uasg = overlaid.insights.find((item) => item.slug === UASG_SLUG);
     const original = seeded.insights.find((item) => item.slug === UASG_SLUG);
     expect(uasg).toEqual(original);
-    expect(uasg?.heroMediaId).toBe("media-bulgarian-construction-game");
+    expect(uasg?.heroMediaId).toBe("media-bulgarian-construction-game-editorial");
 
     const blackSea = news.find((item) => item.slug === "data-for-a-more-resilient-black-sea");
     const resolved = resolveNewsMedia(blackSea!, overlaid.media, "en");
     expect(resolved?.src).toBe(devNewsFixturePhotos.coastalWaterSampling.src);
     expect(resolved?.alt).toContain("Generated fixture");
     expect(resolveNewsMedia(recordToInsight(uasg!), overlaid.media, "bg")?.src).toBe(
-      "/images/news/bulgarian-construction-game.jpg",
+      "/images/news/bulgarian-construction-game-editorial.jpg",
     );
   });
 
@@ -195,6 +196,30 @@ describe("demo news fixtures", () => {
     expect(restored.insights[0]?.heroMediaId).toBe(note.heroMediaId);
     expect(restored.insights[0]?.titleEn).toBe("CMS title");
     expect(restored.media.map((item) => item.id)).toEqual(seeded.media.map((item) => item.id));
+  });
+
+  it("moves a former seed hero into the body when seed now uses a new card image", () => {
+    const seeded = seedStore();
+    const uasg = seeded.insights.find((item) => item.slug === UASG_SLUG)!;
+    const hosted = {
+      insights: [
+        {
+          ...uasg,
+          heroMediaId: "media-bulgarian-construction-game",
+          bodyBg: uasg.bodyBg.filter((block) => block !== "media-bulgarian-construction-game"),
+          bodyEn: uasg.bodyEn.filter((block) => block !== "media-bulgarian-construction-game"),
+          titleEn: "CMS title",
+        },
+      ],
+      media: [] as ReturnType<typeof seedStore>["media"],
+    };
+    const restored = applyMissingSeedContent(hosted);
+    expect(restored.insights[0]?.titleEn).toBe("CMS title");
+    expect(restored.insights[0]?.heroMediaId).toBe("media-bulgarian-construction-game-editorial");
+    expect(restored.insights[0]?.bodyBg).toContain("media-bulgarian-construction-game");
+    expect(restored.insights[0]?.bodyEn).toContain("media-bulgarian-construction-game");
+    const videoAt = restored.insights[0]!.bodyBg.indexOf("https://www.youtube.com/watch?v=kfV3dGGHO5s");
+    expect(restored.insights[0]?.bodyBg[videoAt - 1]).toBe("media-bulgarian-construction-game");
   });
 
   it("does not strip saved fixture records when overlay is disabled", () => {

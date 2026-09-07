@@ -1,5 +1,6 @@
 import { cmsMode, hostedDemoStore } from "@/lib/cms/mode";
 import { loginAction } from "../actions";
+import { Mark } from "@/components/layout/Logo";
 
 export default function AdminLoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   return <LoginForm searchParams={searchParams} />;
@@ -10,7 +11,8 @@ async function LoginForm({ searchParams }: { searchParams: Promise<{ error?: str
   const mode = cmsMode();
   return (
     <main className="admin-main" style={{ maxWidth: 28 * 16, margin: "10vh auto" }}>
-      <h1 style={{ fontFamily: "var(--font-source-serif)", fontSize: "2rem", marginBottom: "0.5rem" }}>CIT administration</h1>
+      <Mark size={58} />
+      <h1 style={{ fontFamily: "var(--font-source-serif)", fontSize: "2rem", margin: "1rem 0 0.5rem" }}>CIT administration</h1>
       <p className="admin-muted">Structured content only. The public design is not edited here.</p>
       {mode === "seed" ? (
         <p className="admin-card" style={{ marginTop: "1.5rem" }}>

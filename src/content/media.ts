@@ -47,6 +47,23 @@ export const constructionGameInfographic = {
 } as const;
 
 /**
+ * Generated editorial photograph for the card/hero of the confirmed UASG
+ * construction-game news article. It does not depict the event, CIT staff or results.
+ */
+export const constructionGameEditorial = {
+  id: "media-bulgarian-construction-game-editorial",
+  src: "/images/news/bulgarian-construction-game-editorial.jpg",
+  width: 1024,
+  height: 576,
+  byteSize: 114901,
+  mimeType: "image/jpeg",
+  alt: {
+    bg: "Генерирана илюстрация: работен плот с каска, чертежи и книги пред изглед към град и планина. Не изобразява събитието „Българска строителна игра“, екип или дейност на Центъра.",
+    en: "Generated illustration: a desk with a hard hat, drawings and books facing a city and mountain view. It does not depict the Bulgarian Construction Game, Center staff or activity.",
+  } satisfies L,
+} as const;
+
+/**
  * Editorial illustration for the confirmed seed concept note
  * `why-social-systems-behave-like-algorithms`.
  * Generated image; it does not depict CIT staff, a Center operations room, or results.

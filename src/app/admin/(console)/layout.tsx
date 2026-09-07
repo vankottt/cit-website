@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { getAdminSession } from "@/lib/auth/session";
 import { cmsMode, hostedDemoStore } from "@/lib/cms/mode";
+import { Mark } from "@/components/layout/Logo";
 
 const nav = [
   { href: "/admin", label: "Dashboard" },
@@ -21,9 +22,12 @@ export default async function ConsoleLayout({ children }: { children: ReactNode 
   return (
     <div className="admin-shell">
       <aside className="admin-nav">
-        <p className="admin-status" style={{ padding: "0 0.5rem 1rem" }}>
-          CIT · {cmsMode()}
-        </p>
+        <div style={{ padding: "0 0.5rem 1rem" }}>
+          <Mark size={43} />
+          <p className="admin-status" style={{ marginTop: "0.75rem" }}>
+            CIT · {cmsMode()}
+          </p>
+        </div>
         <nav aria-label="Admin">
           {nav.map((item) => (
             <Link key={item.href} href={item.href} style={{ display: "block", padding: "0.45rem 0.6rem" }}>

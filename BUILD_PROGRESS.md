@@ -4,11 +4,13 @@ Durable checkpoint log. Re-read with `AGENTS.md` and `PLAN.md` after any long ga
 
 ## Current checkpoint
 
+**UASG news card (2026-09-08):** `kogato-praktikata-vleze-v-universiteta` card/hero is the generated editorial photograph `media-bulgarian-construction-game-editorial`. The Darachev infographic (`media-bulgarian-construction-game`) is a whole-line in-body figure (`object-contain`). The photograph does not depict the event or Center activity.
+
 **Insights analyses (2026-09-07):** three concept notes overlay until saved from `/admin`, with locale-paired diagrams (`-bg` / `-en` media ids). They are not in `seedStore()` / `npm run seed`. They are working concept notes, not research publications or measured results. The supplied copy numbers some ASAESIS stages differently from the public ten-stage names in `src/content/methodology.ts` (e.g. Stage 05 as modelling/simulation vs official “Performance testing”); the copy was kept as supplied and not silently remapped. Confirmed seed Insights remain the original three framework notes. People fixtures stay behind `CIT_DEV_FIXTURES=1`. `/insights` listing uses the News card grammar with type label Анализ / Analysis; notes without library media use the drafting fallback marked Analysis, not News.
 
 **Public media captions (2026-09-07):** added photographs and illustrations no longer show visible honesty captions (campus atmosphere, generated illustrations, analysis diagrams, construction-game infographic, demo News fixtures). `alt` still describes the picture and does not present it as CIT activity. Credit for the construction-game graphic remains in CMS `source` / `copyrightNote`, not under the figure.
 
-**Confirmed News infographic (2026-09-07):** `kogato-praktikata-vleze-v-universiteta` now uses `media-bulgarian-construction-game` (`public/images/news/bulgarian-construction-game.jpg`). Idea and concept: Dr Eng. Stanislav Darachev, © 2025; the graphic does not depict Center activity. Cards and the article hero use `object-contain` so labels are not cropped. Not campus atmosphere photography.
+**Confirmed News infographic (2026-09-07, layout 2026-09-08):** the Darachev infographic remains `media-bulgarian-construction-game` (`public/images/news/bulgarian-construction-game.jpg`) and is now an in-body figure, not the card. Idea and concept: Dr Eng. Stanislav Darachev, © 2025; the graphic does not depict Center activity. In-body render uses `object-contain` so labels are not cropped.
 
 **Work-with-us header control (2026-09-07):** desktop nav CTA uses the same `marine` / `marine-2` fill and hover as the primary `ButtonLink` (`Пътища за сътрудничество`). Compact `h-9` in the header; amber remains the diagram / focus accent.
 
@@ -134,7 +136,7 @@ Rendered `meta robots` and `X-Robots-Tag`: `noindex, nofollow`. Missing project 
 - **Temporary UASG photographs** must be replaced before a final public launch (`docs/TEMP_IMAGE_SOURCES.md`). Homepage hall photo is a contained figure, not a full-bleed marine plate.
 - **`CIT_ALLOW_INDEXING` must stay unset/false** on the current Vercel preview alias. No production DNS was changed.
 - **No confirmed inquiry inbox** — Work with us has no submission form by design.
-- **News media library:** the confirmed UASG article uses the supplied construction-game infographic (`media-bulgarian-construction-game`). Campus atmosphere photos are not used as News filler.
+- **News media library:** the confirmed UASG article card uses the generated editorial photograph (`media-bulgarian-construction-game-editorial`); the construction-game infographic (`media-bulgarian-construction-game`) is in the article body. Campus atmosphere photos are not used as News filler.
 
 ## Quality gates
 

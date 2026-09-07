@@ -10,14 +10,14 @@ describe("news carousel presentation", () => {
     expect(carouselNavVisible(2)).toBe(true);
   });
 
-  it("attaches the supplied construction-game infographic to the confirmed UASG article", () => {
+  it("attaches the generated editorial photograph to the confirmed UASG article card", () => {
     const article = insights.find((i) => i.slug === "kogato-praktikata-vleze-v-universiteta");
     expect(article).toBeDefined();
-    expect(article?.heroMediaId).toBe("media-bulgarian-construction-game");
+    expect(article?.heroMediaId).toBe("media-bulgarian-construction-game-editorial");
     const resolved = resolveNewsMedia(article!, seedMedia(), "bg");
-    expect(resolved?.src).toBe("/images/news/bulgarian-construction-game.jpg");
-    expect(resolved?.contain).toBe(true);
-    expect(resolved?.alt).toContain("Българска строителна игра");
+    expect(resolved?.src).toBe("/images/news/bulgarian-construction-game-editorial.jpg");
+    expect(resolved?.contain).toBeFalsy();
+    expect(resolved?.alt).toContain("Генерирана илюстрация");
   });
 
   it("resolves library media when a heroMediaId is present", () => {

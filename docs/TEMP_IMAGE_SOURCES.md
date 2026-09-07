@@ -51,13 +51,14 @@ Generated editorial illustrations supplied for confirmed seed Insights notes. Th
 | `public/images/insights/testing-instead-of-assuming.jpg` | `testing-instead-of-assuming` (card / hero) | Media id `media-testing-instead-of-assuming`. Not Center laboratory, staff or results. Cards use `object-cover`. |
 | `public/images/insights/testing-instead-of-assuming-model.jpg` | `testing-instead-of-assuming` (in-body figure) | Media id `media-testing-instead-of-assuming-model`. Whole-line body block. Not a Center model, site or result. |
 
-## Confirmed UASG news infographic
+## Confirmed UASG news imagery
 
-Editorial infographic supplied for the confirmed UASG construction-game article. It is not campus atmosphere photography and does **not** depict CIT activity.
+Editorial assets for the confirmed UASG construction-game article. They do **not** depict CIT activity. The infographic is not campus atmosphere photography.
 
 | Filename | Article | Notes |
 |---|---|---|
-| `public/images/news/bulgarian-construction-game.jpg` | `kogato-praktikata-vleze-v-universiteta` | Footer credits idea and concept to Dr Eng. Stanislav Darachev, © 2025. Media id `media-bulgarian-construction-game`. Rendered with `object-contain` so labels are not cropped. |
+| `public/images/news/bulgarian-construction-game-editorial.jpg` | `kogato-praktikata-vleze-v-universiteta` (card / hero) | Generated photograph. Media id `media-bulgarian-construction-game-editorial`. Does not depict the event, CIT staff or results. Cards use `object-cover`. |
+| `public/images/news/bulgarian-construction-game.jpg` | `kogato-praktikata-vleze-v-universiteta` (in-body figure) | Footer credits idea and concept to Dr Eng. Stanislav Darachev, © 2025. Media id `media-bulgarian-construction-game`. Whole-line body block. Rendered with `object-contain` so labels are not cropped. |
 
 ## Development News fixtures (not CIT photography)
 

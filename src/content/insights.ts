@@ -1,5 +1,6 @@
 import {
   asaesisMethodIllustration,
+  constructionGameEditorial,
   constructionGameInfographic,
   socialSystemsIllustration,
   testingInsteadIllustration,
@@ -184,7 +185,7 @@ export const insights: Insight[] = [
   {
     slug: "kogato-praktikata-vleze-v-universiteta",
     type: "news",
-    heroMediaId: constructionGameInfographic.id,
+    heroMediaId: constructionGameEditorial.id,
     title: {
       bg: "Когато практиката влезе в университета: Трето издание на „Българска строителна игра“",
       en: "When practice enters the university: Third edition of the Bulgarian Construction Game",
@@ -199,6 +200,7 @@ export const insights: Insight[] = [
         "## Фокус върху инфраструктурата",
         "Фокусът на тазгодишното издание беше инфраструктурата. Участниците симулираха общинска инвестиционна програма по строителството и контрол при реализирането на най-масовите обществени инвестиции, а именно строителството на нова улична мрежа със съпътстваща водоснабдителна и канализационна инфраструктура, както и реконструкцията на съществуващи улици и водопроводи.",
         "Участниците формираха екипи, в които извършваха типични дейности за възложителите, строителните компании и фирмите, осъществяващи строителен надзор. Поетапно различните екипи трябваше да определят необходимите за договаряне количества СМР, да се формират анализни цени и да се остойности дейността по контрол на строителния процес. Последва договаряне между участниците и сключване на споразумения. По време на процеса не липсваха и изненади, като увеличение на горивата вследствие на международната политика, което се отрази на разходите за механизация и част от строителните продукти. Накрая обектите бяха издадени качествено и в срок с необходимата документация, което позволи те да бъдат официално открити.",
+        constructionGameInfographic.id,
         UASG_CONSTRUCTION_GAME_VIDEO,
         "## Експертна подкрепа от бизнеса и институциите",
         "За да бъде процесът най-реалистичен, екипите имаха своите инструктори.",
@@ -218,6 +220,7 @@ export const insights: Insight[] = [
         "## Focus on infrastructure",
         "This year's edition focused on infrastructure. Participants simulated a municipal investment programme for construction and for control in delivering the most common public investments: the construction of a new street network with accompanying water-supply and sewerage infrastructure, and the reconstruction of existing streets and water mains.",
         "Participants formed teams that carried out typical work of clients, construction companies and construction-supervision firms. In stages, the different teams had to determine the construction and assembly quantities to be contracted, form analytical unit prices, and cost the activity of controlling the construction process. Negotiation between the participants followed, and agreements were signed. The process also included surprises, such as a fuel-price increase driven by international policy, which affected mechanisation costs and some construction products. In the end the works were handed over to quality and on time, with the required documentation, which made it possible to open them officially.",
+        constructionGameInfographic.id,
         UASG_CONSTRUCTION_GAME_VIDEO,
         "## Expert support from business and institutions",
         "To make the process as realistic as possible, the teams had instructors.",

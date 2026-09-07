@@ -61,7 +61,7 @@ Enabled public types: `concept-note` (Insights) and `news` (News). Other types f
 
 News is confirmed/stated-source material. Publishing a record with `type: news` requires bilingual title, bilingual summary, a source publication date, and a stated source in both languages. Author and card/hero media are stored when present; they are not required to publish. Public News lists are sorted newest source publication date first; equal dates use slug order. The homepage is a five-item latest-news preview, not the archive. Concept notes keep the existing title/summary rule and are not given News-only requirements.
 
-Fictional News samples overlay until an editor saves them from `/admin`. They are not confirmed CIT news. Confirmed seed remains the UASG article only; `npm run seed` still does not import the samples. That article’s card/hero is the supplied construction-game infographic (`media-bulgarian-construction-game`), credited to Dr Eng. Stanislav Darachev on the graphic; it is not presented as Center photography.
+Fictional News samples overlay until an editor saves them from `/admin`. They are not confirmed CIT news. Confirmed seed remains the UASG article only; `npm run seed` still does not import the samples. That article’s card/hero is a generated editorial photograph (`media-bulgarian-construction-game-editorial`); it is not the event and is not presented as Center photography. The Darachev infographic (`media-bulgarian-construction-game`) is a whole-line figure in the article body.
 
 Three Insights analyses overlay the same way. They are concept notes with editorial diagrams, not research publications.
 

@@ -42,7 +42,7 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ loc
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <img src={markSrc} width={96} height={96} alt="" />
+          <img src={markSrc} width={115} height={115} alt="" />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ fontFamily: "Serif", fontSize: 40, lineHeight: 1.1 }}>{site.name[locale]}</div>
             <div style={{ fontSize: 20, letterSpacing: 2, color: "#6a737d", marginTop: 10 }}>{site.anchorShort[locale].toUpperCase()}</div>
