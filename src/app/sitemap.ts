@@ -3,6 +3,7 @@ import { locales, localeLabels } from "@/lib/i18n";
 import { href, type RouteKey } from "@/lib/paths";
 import { siteUrl } from "@/lib/site-url";
 import { insights as seedInsights } from "@/content/insights";
+import { devNewsFixtures } from "@/content/dev-news-fixtures";
 import { projects as seedProjects } from "@/content/projects";
 import { listPublishedInsights, listPublishedNews, listPublishedProjects } from "@/lib/cms/repository";
 
@@ -32,7 +33,7 @@ function entry(key: RouteKey, priority: number, slug?: string): MetadataRoute.Si
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const seedNotes = seedInsights.filter((i) => i.type !== "news");
-  const seedNews = seedInsights.filter((i) => i.type === "news");
+  const seedNews = [...seedInsights.filter((i) => i.type === "news"), ...devNewsFixtures];
   const projects = (await listPublishedProjects().catch(() => seedProjects)) ?? seedProjects;
   const insights = (await listPublishedInsights().catch(() => seedNotes)) ?? seedNotes;
   const news = (await listPublishedNews().catch(() => seedNews)) ?? seedNews;

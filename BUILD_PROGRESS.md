@@ -4,6 +4,10 @@ Durable checkpoint log. Re-read with `AGENTS.md` and `PLAN.md` after any long ga
 
 ## Current checkpoint
 
+**Demo News on the public site (2026-09-07):** three fictional News articles overlay in memory on every environment so they are visible on the site. They remain labelled as demonstration examples in source metadata and are not confirmed CIT news, events, partnerships or results. They are still not in `seedStore()` / `npm run seed` and cannot be saved to local or Supabase CMS. People fixtures stay behind `CIT_DEV_FIXTURES=1`.
+
+## Previous checkpoint
+
 **Release audit — Goal 3 (2026-09-07):** final release-readiness pass on the Goal 1+2 baseline (`4759311e` on `main`). Not a visual redesign. `CIT_ALLOW_INDEXING` was not enabled. No inquiry inbox was invented.
 
 Primary navigation (header, mobile menu, footer) is now About → Methodology → Projects → News → Insights → Team → Work with us. This supersedes the 2026-09-06 order (News before Projects). Homepage document order is unchanged. Insights remains a `/insights` route with no homepage section; homepage scroll-spy is About → Methodology → Projects → News → Team → Work with us. Mobile hash clicks wait until body-scroll unlock so spy state is not stale.

@@ -1,8 +1,10 @@
 import type { Insight } from "./types";
 
 /* Concept notes restating the Center's working framework — not research
-   findings. News items are confirmed external or institutional materials,
-   republished with source; they are not CIT project results. */
+   findings. News items in this file are confirmed external or institutional
+   materials, republished with source; they are not CIT project results.
+   Fictional News samples live in `dev-news-fixtures.ts` and overlay in memory
+   on the public site. They are never part of this confirmed seed. */
 
 const UASG_CONSTRUCTION_GAME_VIDEO = "https://www.youtube.com/watch?v=kfV3dGGHO5s";
 const UASG_CONSTRUCTION_GAME_SOURCE =

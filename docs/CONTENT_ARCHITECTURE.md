@@ -43,6 +43,7 @@ Preview sets an httpOnly HMAC cookie and opens the public URL. Drafts stay out o
 - Partners: only `confirmed` + `published` appear publicly
 - Team: `planned_role` cannot be published as a named profile
 - Insights vs News: same table; `type` is `concept-note` or `news`. News additionally requires a source publication date and BG/EN source text to publish. Card/hero media is optional presentation metadata, not a publish gate. Published News is ordered newest source publication date first, with slug as a stable tie-breaker. The homepage shows at most five latest items (`HOME_NEWS_PREVIEW_LIMIT`); `/news` lists the full published set.
+- Three demonstration News articles overlay in memory on the public site (every environment), with media-library ids. They are not in `npm run seed` / CMS import and cannot be saved to local or Supabase stores. They are labelled as fictional in source metadata and are not confirmed CIT news.
 
 ## Future AI actions
 

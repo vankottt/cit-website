@@ -98,6 +98,8 @@ export interface Insight {
   author?: string;
   /** Media-library id when a card/hero image is chosen. Not required to publish. */
   heroMediaId?: string;
+  /** Internal marker for demonstration News samples. Never confirmed Center news. */
+  devFixture?: boolean;
 }
 
 export interface Person {

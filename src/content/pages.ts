@@ -74,10 +74,10 @@ export const home = {
   },
   news: {
     label: { bg: "Новини", en: "News" },
-    heading: { bg: "Потвърдени материали", en: "Confirmed materials" },
+    heading: { bg: "Публикувани материали", en: "Published materials" },
     body: {
-      bg: "Статии и записи с посочен източник. Не са научни публикации на Центъра.",
-      en: "Articles and recordings with a stated source. They are not research publications of the Center.",
+      bg: "Потвърдени записи с посочен източник и демонстрационни редакционни примери. Не са научни публикации на Центъра.",
+      en: "Confirmed records with a stated source, and demonstration editorial examples. They are not research publications of the Center.",
     },
   },
   network: {
@@ -326,14 +326,14 @@ export const newsPage = {
   meta: {
     title: { bg: "Новини", en: "News" },
     description: {
-      bg: "Потвърдени статии и видеозаписи, включително материали от УАСГ с посочен източник. Не са научни публикации.",
-      en: "Confirmed articles and video recordings, including UASG materials with a stated source. They are not research publications.",
+      bg: "Потвърдени статии и видеозаписи с посочен източник, включително материали от УАСГ, и демонстрационни редакционни примери. Не са научни публикации.",
+      en: "Confirmed articles and video recordings with a stated source, including UASG materials, and demonstration editorial examples. They are not research publications.",
     },
   },
   heading: { bg: "Новини", en: "News" },
   lead: {
-    bg: "Тук се публикуват потвърдени статии и видеозаписи – с посочен източник. Те не са научни публикации.",
-    en: "Confirmed articles and video recordings are published here, with a stated source. They are not research publications.",
+    bg: "Тук се публикуват потвърдени статии и видеозаписи с посочен източник, както и демонстрационни редакционни примери. Те не са научни публикации.",
+    en: "Confirmed articles and video recordings with a stated source are published here, together with demonstration editorial examples. They are not research publications.",
   },
   empty: {
     bg: "Няма публикувани новини. Статиите ще се появят на тази страница след редакционно публикуване.",

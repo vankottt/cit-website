@@ -40,7 +40,7 @@ Optional later: in the Vercel project, connect GitHub `vankottt/cit-website`, pr
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `CIT_ALLOW_INDEXING=true` **only** after an explicit public-launch decision on the production host
 
-Do **not** set `CIT_ADMIN_DEV_PASSWORD` or `CIT_DEV_FIXTURES` on production. If a hosted demo password remains on the Production environment while Supabase is connected, remove it before public launch — supabase mode currently takes precedence, but the password is a leftover local-admin shortcut.
+Do **not** set `CIT_ADMIN_DEV_PASSWORD` or `CIT_DEV_FIXTURES` on production. `CIT_DEV_FIXTURES=1` is local `next dev` only for the people fixture. Three demonstration News articles overlay in memory on every environment; they are not stored in local or Supabase CMS. If a hosted demo password remains on the Production environment while Supabase is connected, remove it before public launch — supabase mode currently takes precedence, but the password is a leftover local-admin shortcut.
 
 ## Preview vs production Supabase
 

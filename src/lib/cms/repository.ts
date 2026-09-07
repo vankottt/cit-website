@@ -5,6 +5,7 @@ import { projects as seedProjects } from "@/content/projects";
 import { cmsMode } from "./mode";
 import { getLocalStore, updateLocalStore } from "./local-store";
 import { recordContentSource } from "./content-source";
+import { applyDevNewsFixtures, cmsDevFixtureWriteBlock, isBlockedDevFixtureInsight, isBlockedDevFixtureMedia } from "./dev-news-overlay";
 import { insightToRecord, projectToRecord, recordToInsight, recordToPerson, recordToProject, seedMedia, seedPartners, seedSettings } from "./serialize";
 import { canViewForPublic, isPublished, partnerIsPublic, personIsPublic, seoIncomplete, translationState, validateInsightPublish, validatePersonPublish, validateProjectPublish } from "./truth";
 import type {
@@ -41,15 +42,14 @@ export async function loadAllRecords(): Promise<{
   const mode = cmsMode();
   if (mode === "local") {
     recordContentSource("local");
-    const store = await getLocalStore();
-    return store;
+    return applyDevNewsFixtures(await getLocalStore());
   }
   if (mode === "supabase") {
     try {
       const { loadSupabaseRecords } = await import("./supabase-repo");
       const records = await loadSupabaseRecords();
       recordContentSource("supabase");
-      return records;
+      return applyDevNewsFixtures(records);
     } catch (error) {
       const reason = error instanceof Error ? error.message : "unknown CMS error";
       recordContentSource("seed-fallback", reason);
@@ -57,7 +57,7 @@ export async function loadAllRecords(): Promise<{
   } else {
     recordContentSource("seed");
   }
-  return {
+  return applyDevNewsFixtures({
     projects: seedProjectRecords(),
     insights: seedInsightRecords(),
     people: [],
@@ -65,7 +65,7 @@ export async function loadAllRecords(): Promise<{
     media: seedMedia(),
     settings: seedSettings(),
     staff: [],
-  };
+  });
 }
 
 export async function listPublishedProjects(): Promise<Project[]> {
@@ -174,6 +174,7 @@ export async function saveProject(record: ProjectRecord): Promise<{ ok: true } |
 }
 
 export async function saveInsight(record: InsightRecord): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (isBlockedDevFixtureInsight(record)) return cmsDevFixtureWriteBlock();
   const mode = cmsMode();
   if (mode === "seed") return { ok: false, error: "CMS is read-only until local or Supabase credentials are configured." };
   if (mode === "local") {
@@ -235,6 +236,7 @@ export async function saveSettings(record: SiteSettingsRecord): Promise<{ ok: tr
 }
 
 export async function saveMedia(record: MediaRecord): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (isBlockedDevFixtureMedia(record.id)) return cmsDevFixtureWriteBlock();
   const mode = cmsMode();
   if (mode === "seed") return { ok: false, error: "CMS is read-only until local or Supabase credentials are configured." };
   if (mode === "local") {
@@ -251,6 +253,7 @@ export async function saveMedia(record: MediaRecord): Promise<{ ok: true } | { o
 }
 
 export async function deleteMedia(id: string): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (isBlockedDevFixtureMedia(id)) return cmsDevFixtureWriteBlock();
   const { projects, people, insights, settings, media } = await loadAllRecords();
   const used =
     projects.some((p) => p.heroMediaId === id) ||
@@ -292,9 +295,11 @@ export async function transitionProject(id: string, state: PublicationState, act
 }
 
 export async function transitionInsight(id: string, state: PublicationState, actor?: string): Promise<{ ok: true } | { ok: false; error: string; issues?: string[] }> {
+  if (isBlockedDevFixtureInsight({ id, slug: id })) return cmsDevFixtureWriteBlock();
   const { insights } = await loadAllRecords();
   const record = insights.find((p) => p.id === id || p.slug === id);
   if (!record) return { ok: false as const, error: "Insight not found." };
+  if (isBlockedDevFixtureInsight(record)) return cmsDevFixtureWriteBlock();
   if (state === "published") {
     const issues = validateInsightPublish(record).filter((i) => i.blocking);
     if (issues.length) return { ok: false as const, error: "Publish blocked.", issues: issues.map((i) => i.message) };

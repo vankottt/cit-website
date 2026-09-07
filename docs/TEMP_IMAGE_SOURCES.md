@@ -27,6 +27,16 @@ These files are **temporary development/preview assets**. They provide instituti
 
 Stanford HAI homepage video (`https://hai.stanford.edu/assets/images/hero-video-1.mp4`) was inspected as a composition reference and **not used**.
 
+## Development News fixtures (not CIT photography)
+
+Generated images for public demonstration News samples. They overlay in memory on every environment. They do **not** depict CIT staff, teaching, fieldwork, sites or results.
+
+| Filename | Intended placement | Notes |
+|---|---|---|
+| `public/images/dev-fixtures/coastal_water_sampling_fieldwork.png` | Demo news `data-for-a-more-resilient-black-sea` | Generated image. Media id `media-dev-fixture-coastal-water-sampling`. |
+| `public/images/dev-fixtures/coastal_resilience_classroom_presentation.png` | Demo news `from-classroom-to-real-world-systems` | Generated image. Media id `media-dev-fixture-coastal-resilience-classroom`. |
+| `public/images/dev-fixtures/golden_hour_vineyard_terrace.png` | Demo news `wine-tourism-and-regional-value` | Generated image. Media id `media-dev-fixture-golden-hour-vineyard`. |
+
 ## Inspected and not used
 
 - News portraits, admissions marketing portraits, graduation groups, staff-week group photos, partner-university logos, archival ceremonial group portraits on [История](https://uacg.bg/page/istoriya), and UI/logo assets. They fail the selection rules (event groups, unrelated people, implied partners, low editorial fit).

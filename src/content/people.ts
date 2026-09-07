@@ -1,3 +1,4 @@
+import { isDevFixturesEnabled } from "./dev-fixtures";
 import type { Person } from "./types";
 
 /**
@@ -57,7 +58,7 @@ const devFixtures: Person[] = [
   },
 ];
 
-export const devFixturesEnabled = process.env.CIT_DEV_FIXTURES === "1" && process.env.NODE_ENV !== "production";
+export const devFixturesEnabled = isDevFixturesEnabled();
 
 export const people: Person[] = devFixturesEnabled ? [...confirmedPeople, ...devFixtures] : confirmedPeople;
 
