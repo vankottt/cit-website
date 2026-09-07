@@ -4,6 +4,8 @@ Durable checkpoint log. Re-read with `AGENTS.md` and `PLAN.md` after any long ga
 
 ## Current checkpoint
 
+**Hero loop trim (2026-09-08):** `Video/202609062306.mp4` was replaced in place at ~2:05. Public grayscale encodes `hero.mp4` (~46 MiB) and `hero-mobile.mp4` (~15 MiB) were regenerated at the source frame rate, plus a new poster. URLs use `?v=20260908` so caches miss the previous 3:00 files.
+
 **UASG news card (2026-09-08):** `kogato-praktikata-vleze-v-universiteta` card/hero is the generated editorial photograph `media-bulgarian-construction-game-editorial`. The Darachev infographic (`media-bulgarian-construction-game`) is a whole-line in-body figure (`object-contain`). The photograph does not depict the event or Center activity.
 
 **Insights analyses (2026-09-07):** three concept notes overlay until saved from `/admin`, with locale-paired diagrams (`-bg` / `-en` media ids). They are not in `seedStore()` / `npm run seed`. They are working concept notes, not research publications or measured results. The supplied copy numbers some ASAESIS stages differently from the public ten-stage names in `src/content/methodology.ts` (e.g. Stage 05 as modelling/simulation vs official “Performance testing”); the copy was kept as supplied and not silently remapped. Confirmed seed Insights remain the original three framework notes. People fixtures stay behind `CIT_DEV_FIXTURES=1`. `/insights` listing uses the News card grammar with type label Анализ / Analysis; notes without library media use the drafting fallback marked Analysis, not News.
@@ -16,7 +18,7 @@ Durable checkpoint log. Re-read with `AGENTS.md` and `PLAN.md` after any long ga
 
 **Seed concept-note illustration (2026-09-07):** `why-social-systems-behave-like-algorithms` uses `media-social-systems-as-algorithms`; `asaesis-from-framework-to-method` uses `media-asaesis-from-framework-to-method`; `testing-instead-of-assuming` uses `media-testing-instead-of-assuming` on the card/hero and `media-testing-instead-of-assuming-model` as a whole-line body figure. Listing cards use `object-cover` like News photography.
 
-Hero loop stutter: the 15s clip had been forced to 24 fps from a 30 fps source; it is re-encoded at the source rate, Main profile, with `preload="auto"`. The public loop is the full 3:00 source duration, not a 15s excerpt.
+Hero loop stutter: the 15s clip had been forced to 24 fps from a 30 fps source; it is re-encoded at the source rate, Main profile, with `preload="auto"`. The public loop matches the current source duration (~2:05 as of 2026-09-08), not a 15s excerpt.
 
 ## Previous checkpoint
 

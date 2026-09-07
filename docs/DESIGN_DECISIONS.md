@@ -132,7 +132,7 @@ Operational, not editorial: system UI, no marine hero bands, no diagrams. Public
 
 ## 6. Homepage overlay — local video (2026-09-06)
 
-The opening uses a muted looping `<video>` from the project `Video/` folder (`202609062306.mp4`), served as a full-length grayscale H.264 loop at the source frame rate (~30 fps, 3:00): `public/videos/hero.mp4` (1920×1080, ~57 MiB) and `public/videos/hero-mobile.mp4` (960×540, ~19 MiB) for viewports ≤767px. The video element uses `preload="auto"`; the poster (`public/images/hero/poster.jpg`) is the first paint. Pause control remains. Reduced motion never mounts the video. The original file in `Video/` stays in colour; the web files are the same duration, not a 15-second excerpt. Insight YouTube embeds stay without autoplay.
+The opening uses a muted looping `<video>` from the project `Video/` folder (`202609062306.mp4`), served as a full-length grayscale H.264 loop at the source frame rate (~30 fps, ~2:05 as of 2026-09-08): `public/videos/hero.mp4` (1920×1080, ~46 MiB) and `public/videos/hero-mobile.mp4` (960×540, ~15 MiB) for viewports ≤767px. The video element uses `preload="auto"`; the poster (`public/images/hero/poster.jpg`) is the first paint. Pause control remains. Reduced motion never mounts the video. The original file in `Video/` stays in colour; the web files match that duration. Public URLs carry `?v=20260908` so in-place replacements are not served from an old cache. Insight YouTube embeds stay without autoplay.
 
 The clip shows transport infrastructure (aerial). It is not captioned as CIT laboratory, team or project activity. The previous UASG YouTube mock is retired. The older generic “no autoplay video” motion rule in section 2 is superseded by this homepage overlay decision.
 

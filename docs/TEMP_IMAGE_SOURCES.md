@@ -22,7 +22,7 @@ These files are **temporary development/preview assets**. They provide instituti
 
 | Asset | Source | Intended placement | Notes |
 |---|---|---|---|
-| `public/videos/hero.mp4` | Project folder `Video/202609062306.mp4` | Homepage overlay hero | Native muted loop. Grayscale H.264 web encode (no audio) of the supplied clip, kept at the source ~30 fps. Poster: `public/images/hero/poster.jpg` (frame from the same encode). Original in `Video/` stays in colour. Footage shows transport infrastructure; not presented as CIT activity. |
+| `public/videos/hero.mp4` | Project folder `Video/202609062306.mp4` | Homepage overlay hero | Native muted loop. Grayscale H.264 web encode (no audio) of the supplied clip, kept at the source ~30 fps. Duration follows the current source (~2:05 as of 2026-09-08). Poster: `public/images/hero/poster.jpg` (frame from the same encode). Original in `Video/` stays in colour. Footage shows transport infrastructure; not presented as CIT activity. |
 | YouTube `vlxegHXk2hU` | Retired | — | Previous UASG YouTube mock; no longer used on the homepage. |
 
 Stanford HAI homepage video (`https://hai.stanford.edu/assets/images/hero-video-1.mp4`) was inspected as a composition reference and **not used**.

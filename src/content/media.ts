@@ -269,17 +269,18 @@ export const analysisInsightPhotos = {
 export type AnalysisInsightPhotoId = keyof typeof analysisInsightPhotos;
 
 /**
- * Homepage overlay clip. Source file: `Video/202609062306.mp4` (colour, 3 min).
+ * Homepage overlay clip. Source file: `Video/202609062306.mp4` (colour, ~2:05).
  * Production web loop is the full grayscale H.264 encode at the source frame rate:
- * - `/videos/hero.mp4` — 1920×1080, ~57 MiB, ~30 fps, 3:00
- * - `/videos/hero-mobile.mp4` — 960×540, ~19 MiB, ~30 fps, 3:00
+ * - `/videos/hero.mp4` — 1920×1080, ~46 MiB, ~30 fps, ~2:05
+ * - `/videos/hero-mobile.mp4` — 960×540, ~15 MiB, ~30 fps, ~2:05
  * Poster is a frame from that encode. The footage shows transport
  * infrastructure; it is not presented as CIT laboratory, team or project activity.
  * The clip is preloaded (`preload="auto"`); the poster is still the first paint.
+ * `?v=` is bumped when the public files are replaced in place so caches miss.
  */
 export const heroVideo = {
-  src: "/videos/hero.mp4",
-  mobileSrc: "/videos/hero-mobile.mp4",
+  src: "/videos/hero.mp4?v=20260908",
+  mobileSrc: "/videos/hero-mobile.mp4?v=20260908",
   poster: {
     src: "/images/hero/poster.jpg",
     width: 1920,
