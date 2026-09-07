@@ -6,6 +6,8 @@ import { site } from "@/content/site";
 import { t } from "@/content/messages";
 import { collaborationRoutes, transformationPath } from "@/content/collaboration";
 import { PageHeader } from "@/components/editorial/PageHeader";
+import { CampusFigure } from "@/components/editorial/CampusFigure";
+import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
 import { RuledList } from "@/components/editorial/Blocks";
@@ -29,8 +31,28 @@ export default async function WorkWithUsPage({ params }: Params) {
     <>
       <PageHeader label={c.meta.title[locale]} heading={c.heading[locale]} lead={c.lead[locale]} />
 
+      <div className="bg-paper pb-section-sm">
+        <Container>
+          <CampusFigure
+            photo="hall"
+            locale={locale}
+            sizes="(min-width: 1280px) 1120px, 92vw"
+            className="w-full"
+            ratio="aspect-[16/9]"
+            imageClassName="object-center"
+          />
+        </Container>
+      </div>
+
       <Section id="routes" labelledBy="routes-heading" size="sm">
         <SectionHeading label={c.routes.label[locale]} heading={c.routes.heading[locale]} id="routes-heading" />
+        <nav aria-label={c.routes.heading[locale]} className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-small">
+          {collaborationRoutes.map((r) => (
+            <a key={r.slug} href={`#${r.slug}`} className="link-quiet">
+              {r.audience[locale]}
+            </a>
+          ))}
+        </nav>
         <ol className="mt-12">
           {collaborationRoutes.map((r) => (
             <li key={r.slug} id={r.slug} className="grid gap-6 border-t border-line py-10 lg:grid-cols-12 lg:gap-10">

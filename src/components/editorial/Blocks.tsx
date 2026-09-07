@@ -1,12 +1,24 @@
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
+import type { Locale } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
+import { parseYouTubeBlock } from "@/lib/youtube";
+import { YoutubeEmbed } from "@/components/editorial/YoutubeEmbed";
 
 /**
  * Renders lightweight content blocks: lines starting with "## " become h2,
- * consecutive "- " lines become a list, anything else is a paragraph.
+ * consecutive "- " lines become a list, a whole-line YouTube URL becomes an
+ * embed, anything else is a paragraph. Not HTML — URLs are parsed, not iframes.
  */
-export function Blocks({ blocks, className }: { blocks: readonly string[]; className?: string }) {
-  const out: React.ReactNode[] = [];
+export function Blocks({
+  blocks,
+  className,
+  locale,
+}: {
+  blocks: readonly string[];
+  className?: string;
+  locale: Locale;
+}) {
+  const out: ReactNode[] = [];
   let list: string[] = [];
   const flush = () => {
     if (list.length) {
@@ -26,7 +38,9 @@ export function Blocks({ blocks, className }: { blocks: readonly string[]; class
       return;
     }
     flush();
-    if (b.startsWith("## ")) out.push(<h2 key={`h-${i}`}>{b.slice(3)}</h2>);
+    const clip = parseYouTubeBlock(b);
+    if (clip) out.push(<YoutubeEmbed key={`yt-${i}`} clip={clip} locale={locale} />);
+    else if (b.startsWith("## ")) out.push(<h2 key={`h-${i}`}>{b.slice(3)}</h2>);
     else out.push(<p key={`p-${i}`}>{b}</p>);
   });
   flush();

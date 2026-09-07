@@ -26,13 +26,18 @@ export function Edge({
   dashed = false,
   amber = false,
   draw = false,
+  fade = false,
+  delay = 0,
 }: {
   d: string;
   id: string;
   tone: Tone;
   dashed?: boolean;
   amber?: boolean;
+  /** Solid stroke draw-in. Do not combine with `dashed` (dasharray conflict). */
   draw?: boolean;
+  fade?: boolean;
+  delay?: number;
 }) {
   const stroke = amber ? "var(--color-amber)" : tone === "ink" ? "var(--color-ink-2)" : "var(--color-on-dark-muted)";
   return (
@@ -43,8 +48,9 @@ export function Edge({
       strokeWidth="1.1"
       strokeDasharray={dashed ? "4 4" : undefined}
       markerEnd={`url(#${id}-arrow${amber ? "-amber" : ""})`}
-      className={draw ? "draw-path" : undefined}
+      className={cn(draw && "draw-path", fade && "draw-fade")}
       pathLength={draw ? 1 : undefined}
+      style={{ ["--draw-delay" as string]: `${delay}s` }}
     />
   );
 }

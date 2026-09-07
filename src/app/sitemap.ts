@@ -2,8 +2,9 @@ import type { MetadataRoute } from "next";
 import { locales, localeLabels } from "@/lib/i18n";
 import { href, type RouteKey } from "@/lib/paths";
 import { siteUrl } from "@/lib/site-url";
-import { projects } from "@/content/projects";
-import { insights } from "@/content/insights";
+import { insights as seedInsights } from "@/content/insights";
+import { projects as seedProjects } from "@/content/projects";
+import { listPublishedInsights, listPublishedNews, listPublishedProjects } from "@/lib/cms/repository";
 
 const staticRoutes: Array<{ key: RouteKey; priority: number }> = [
   { key: "home", priority: 1 },
@@ -11,8 +12,10 @@ const staticRoutes: Array<{ key: RouteKey; priority: number }> = [
   { key: "methodology", priority: 0.9 },
   { key: "projects", priority: 0.8 },
   { key: "insights", priority: 0.6 },
+  { key: "news", priority: 0.6 },
   { key: "people", priority: 0.5 },
   { key: "work-with-us", priority: 0.8 },
+  { key: "privacy", priority: 0.3 },
 ];
 
 function entry(key: RouteKey, priority: number, slug?: string): MetadataRoute.Sitemap {
@@ -28,10 +31,14 @@ function entry(key: RouteKey, priority: number, slug?: string): MetadataRoute.Si
   }));
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const projects = (await listPublishedProjects().catch(() => seedProjects)) ?? seedProjects;
+  const insights = (await listPublishedInsights().catch(() => seedInsights)) ?? seedInsights;
+  const news = (await listPublishedNews().catch(() => [])) ?? [];
   return [
     ...staticRoutes.flatMap((r) => entry(r.key, r.priority)),
     ...projects.flatMap((p) => entry("projects", 0.7, p.slug)),
     ...insights.flatMap((i) => entry("insights", 0.5, i.slug)),
+    ...news.flatMap((i) => entry("news", 0.5, i.slug)),
   ];
 }

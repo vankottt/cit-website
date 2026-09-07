@@ -79,14 +79,15 @@ export interface Project {
   relatedInsights?: string[];
 }
 
-export type InsightType = "concept-note";
+/** `concept-note` appears under Insights; `news` under News. Same body model (text + YouTube). */
+export type InsightType = "concept-note" | "news";
 
 export interface Insight {
   slug: string;
   type: InsightType;
   title: L;
   summary: L;
-  /** Lightweight blocks: "## " heading, "- " list item, otherwise paragraph. */
+  /** Lightweight blocks: "## " heading, "- " list, whole-line YouTube URL, otherwise paragraph. */
   body: L<string[]>;
   topics: L<string[]>;
   relatedProjects?: string[];
@@ -102,7 +103,16 @@ export interface Person {
   expertise: L<string[]>;
   bio: L<string[]>;
   projects?: string[];
+  /** Verified external profile URLs only. LinkedIn is rendered as an icon in the team grid. */
   links?: Array<{ label: string; url: string }>;
+  /** Grayscale cutout PNG; circular plate colour is CSS. */
+  portrait?: {
+    src: string;
+    width: number;
+    height: number;
+    /** CSS object-position — unused for composed cutouts. */
+    objectPosition?: string;
+  };
 }
 
 export interface GovernanceFunction {

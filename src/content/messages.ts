@@ -11,15 +11,21 @@ export interface Messages {
   primaryNav: string;
   footerNav: string;
   language: string;
+  languageFooter: string;
+  languageMenu: string;
+  stageReference: string;
   switchTo: string;
   home: string;
   readMore: string;
   viewAll: string;
   allProjects: string;
   allInsights: string;
+  allNews: string;
   toProject: string;
   toMethodology: string;
   toPeople: string;
+  teamUpcoming: string;
+  linkedInProfile: string;
   toWorkWithUs: string;
   toAbout: string;
   status: string;
@@ -34,6 +40,8 @@ export interface Messages {
   relatedInsights: string;
   conceptNote: string;
   workingConcept: string;
+  newsItem: string;
+  newsUpdate: string;
   diagramFallback: string;
   onThisPage: string;
   institutionalAnchor: string;
@@ -46,6 +54,16 @@ export interface Messages {
   adaptNote: string;
   theoreticalFramework: string;
   operationalMethodology: string;
+  explorer: string;
+  executive: string;
+  atAGlance: string;
+  detailedFramework: string;
+  intendedOutputs: string;
+  expectedOutcomes: string;
+  youtubeTitle: string;
+  youtubeWatch: string;
+  heroVideoPause: string;
+  heroVideoPlay: string;
   statuses: Record<ProjectStatus, string>;
 }
 
@@ -58,15 +76,21 @@ const messages: Record<Locale, Messages> = {
     primaryNav: "Основна навигация",
     footerNav: "Навигация в долния колонтитул",
     language: "Език",
+    languageFooter: "Език – долен колонтитул",
+    languageMenu: "Език – меню",
+    stageReference: "Справочник на етапите",
     switchTo: "Switch to English",
     home: "Начало",
     readMore: "Прочетете",
     viewAll: "Всички",
     allProjects: "Всички проекти",
     allInsights: "Всички анализи",
+    allNews: "Всички новини",
     toProject: "Към проекта",
     toMethodology: "Пълната методология",
-    toPeople: "Структура и екип",
+    toPeople: "Към екипа",
+    teamUpcoming: "Още профили ще бъдат обявени",
+    linkedInProfile: "LinkedIn профил",
     toWorkWithUs: "Пътища за сътрудничество",
     toAbout: "За центъра",
     status: "Статус",
@@ -81,6 +105,8 @@ const messages: Record<Locale, Messages> = {
     relatedInsights: "Свързани анализи",
     conceptNote: "Концептуална бележка",
     workingConcept: "Работна концепция",
+    newsItem: "Новина",
+    newsUpdate: "Актуално",
     diagramFallback: "Текстово описание на диаграмата",
     onThisPage: "На тази страница",
     institutionalAnchor: "Институционална основа",
@@ -93,6 +119,16 @@ const messages: Record<Locale, Messages> = {
     adaptNote: "Адаптиране → ново проектиране",
     theoreticalFramework: "Теоретична рамка",
     operationalMethodology: "Оперативна методология",
+    explorer: "Изследовател на методологията",
+    executive: "Резюме",
+    atAGlance: "Накратко",
+    detailedFramework: "Подробна проектна рамка",
+    intendedOutputs: "Предвидени продукти",
+    expectedOutcomes: "Очаквани резултати",
+    youtubeTitle: "Видео от YouTube",
+    youtubeWatch: "Гледайте в YouTube",
+    heroVideoPause: "Пауза",
+    heroVideoPlay: "Пусни",
     statuses: {
       "pilot-concept": "Пилотна концепция",
       "proposed-mandate": "Предложен изследователски мандат",
@@ -109,15 +145,21 @@ const messages: Record<Locale, Messages> = {
     primaryNav: "Primary navigation",
     footerNav: "Footer navigation",
     language: "Language",
+    languageFooter: "Language — footer",
+    languageMenu: "Language — menu",
+    stageReference: "Stage reference",
     switchTo: "Превключи на български",
     home: "Home",
     readMore: "Read",
     viewAll: "View all",
     allProjects: "All projects",
     allInsights: "All insights",
+    allNews: "All news",
     toProject: "View the project",
     toMethodology: "The full methodology",
-    toPeople: "Structure and team",
+    toPeople: "The team",
+    teamUpcoming: "Additional profiles to be announced",
+    linkedInProfile: "LinkedIn profile",
     toWorkWithUs: "Routes for collaboration",
     toAbout: "About the Center",
     status: "Status",
@@ -132,6 +174,8 @@ const messages: Record<Locale, Messages> = {
     relatedInsights: "Related insights",
     conceptNote: "Concept note",
     workingConcept: "Working concept",
+    newsItem: "News",
+    newsUpdate: "Update",
     diagramFallback: "Text description of the diagram",
     onThisPage: "On this page",
     institutionalAnchor: "Institutional anchor",
@@ -144,6 +188,16 @@ const messages: Record<Locale, Messages> = {
     adaptNote: "Adapt → redesign",
     theoreticalFramework: "Theoretical framework",
     operationalMethodology: "Operational methodology",
+    explorer: "Methodology explorer",
+    executive: "Executive summary",
+    atAGlance: "At a glance",
+    detailedFramework: "Detailed project framework",
+    intendedOutputs: "Intended outputs",
+    expectedOutcomes: "Expected outcomes",
+    youtubeTitle: "YouTube video",
+    youtubeWatch: "Watch on YouTube",
+    heroVideoPause: "Pause",
+    heroVideoPlay: "Play",
     statuses: {
       "pilot-concept": "Pilot concept",
       "proposed-mandate": "Proposed research mandate",

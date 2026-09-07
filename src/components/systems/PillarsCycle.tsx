@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n";
 import { pillars } from "@/content/methodology";
 import { ArrowDefs, Edge, Figure } from "./diagram-primitives";
+import { InView } from "./InView";
 
 /**
  * The three pillars as one feedback cycle: Education → Research → Applied
@@ -34,16 +35,13 @@ export function PillarsCycle({ locale, title, desc, compact = false }: { locale:
 
   return (
     <Figure title={title} desc={desc} className={compact ? "max-w-md" : undefined}>
-      <svg viewBox="0 0 560 420" className="h-auto w-full" aria-hidden="true">
-        <ArrowDefs id={id} tone="ink" />
-        {/* E → R : capacity feeds research */}
-        <Edge id={id} tone="ink" d={`M${E.x - 28},${E.y + 20} L${R.x + 22},${R.y - 28}`} />
-        {/* R → A : methods are tested on real systems */}
-        <Edge id={id} tone="ink" d={`M${R.x + r + 4},${R.y} H${A.x - r - 6}`} />
-        {/* A → E : data, cases and questions return to teaching (amber feedback) */}
-        <Edge id={id} tone="ink" amber dashed d={`M${A.x - 22},${A.y - 28} L${E.x + 28},${E.y + 20}`} />
-        {/* A → R : evidence integrates into research (amber feedback) */}
-        <Edge id={id} tone="ink" amber dashed d={`M${A.x - r - 4},${A.y + 16} Q280,392 ${R.x + r + 6},${R.y + 16}`} />
+      <InView>
+        <svg viewBox="0 0 560 420" className="h-auto w-full" aria-hidden="true">
+          <ArrowDefs id={id} tone="ink" />
+          <Edge id={id} tone="ink" draw delay={0} d={`M${E.x - 28},${E.y + 20} L${R.x + 22},${R.y - 28}`} />
+          <Edge id={id} tone="ink" draw delay={0.18} d={`M${R.x + r + 4},${R.y} H${A.x - r - 6}`} />
+          <Edge id={id} tone="ink" amber dashed fade delay={0.42} d={`M${A.x - 22},${A.y - 28} L${E.x + 28},${E.y + 20}`} />
+          <Edge id={id} tone="ink" amber dashed fade delay={0.55} d={`M${A.x - r - 4},${A.y + 16} Q280,392 ${R.x + r + 6},${R.y + 16}`} />
         {node(E, edu.code)}
         {node(R, res.code)}
         {node(A, app.code, true)}
@@ -52,6 +50,7 @@ export function PillarsCycle({ locale, title, desc, compact = false }: { locale:
         {label(A.x + r, A.y + r + 26, app.title[locale], "end")}
         <circle cx={A.x + r - 6} cy={A.y - r + 6} r="3.5" fill="var(--color-amber)" />
       </svg>
+      </InView>
     </Figure>
   );
 }

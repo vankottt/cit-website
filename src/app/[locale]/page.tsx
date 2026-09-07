@@ -6,21 +6,28 @@ import { home } from "@/content/pages";
 import { t } from "@/content/messages";
 import { featuredProject } from "@/content/projects";
 import { insights } from "@/content/insights";
-import { pillars, integratedModel, stages, methodologyName } from "@/content/methodology";
+import { publicTeamList, teamUpcomingCount } from "@/content/people";
+import { loadAllRecords } from "@/lib/cms/repository";
+import { isPublished, personIsPublic } from "@/lib/cms/truth";
+import { recordToInsight, recordToPerson, recordToProject } from "@/lib/cms/serialize";
+import { pillars, stages, methodologyName } from "@/content/methodology";
 import { Hero } from "@/components/editorial/Hero";
 import { Section } from "@/components/layout/Section";
+import { Container } from "@/components/layout/Container";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
 import { SystemLoop } from "@/components/systems/SystemLoop";
-import { SystemAnatomy } from "@/components/systems/SystemAnatomy";
-import { PillarsCycle } from "@/components/systems/PillarsCycle";
 import { MethodologyLoop } from "@/components/systems/MethodologyLoop";
 import { ProjectFeature } from "@/components/projects/ProjectFeature";
 import { InsightList } from "@/components/editorial/InsightList";
 import { InstitutionalNetwork } from "@/components/partners/InstitutionalNetwork";
+import { NetworkAnchorPlate } from "@/components/partners/NetworkAnchorPlate";
+import { HeroMedia } from "@/components/editorial/HeroMedia";
 import { GovernanceList } from "@/components/people/GovernanceList";
+import { TeamGrid } from "@/components/people/TeamGrid";
 import { CollaborationRoutesPreview } from "@/components/partners/CollaborationRoutes";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { heroVideo } from "@/content/media";
 
 type Params = { params: Promise<{ locale: string }> };
 
@@ -38,79 +45,81 @@ export default async function HomePage({ params }: Params) {
   const locale: Locale = isLocale(raw) ? raw : "bg";
   const m = t(locale);
   const c = home;
+  const { projects: projectRecords, insights: insightRecords, settings, people: personRecords } = await loadAllRecords();
+  const publishedProjects = projectRecords.filter((p) => isPublished(p.publicationState)).map(recordToProject);
+  const publishedInsights = insightRecords.filter((i) => isPublished(i.publicationState)).map(recordToInsight);
+  const publishedConceptNotes = publishedInsights.filter((i) => i.type !== "news");
+  const publishedNews = publishedInsights.filter((i) => i.type === "news");
+  const featured = publishedProjects.find((p) => p.slug === settings.data.featuredProjectSlug) ?? publishedProjects.find((p) => p.featured) ?? featuredProject;
+  const insightList = settings.data.featuredInsightSlugs?.length
+    ? settings.data.featuredInsightSlugs
+        .map((slug) => publishedConceptNotes.find((i) => i.slug === slug) ?? insights.find((i) => i.slug === slug))
+        .filter((i): i is NonNullable<typeof i> => Boolean(i && i.type !== "news"))
+    : publishedConceptNotes.length
+      ? publishedConceptNotes
+      : insights;
+  const team = publicTeamList(personRecords.filter(personIsPublic).map(recordToPerson));
 
   return (
     <>
       <Hero
-        layout="stacked"
+        layout="overlay"
         headline={c.hero.headline[locale]}
         lead={c.hero.lead[locale]}
         primary={{ href: href(locale, "methodology"), label: c.hero.primary[locale] }}
         secondary={{ href: href(locale, "work-with-us"), label: c.hero.secondary[locale] }}
         visual={
-          <SystemLoop
-            locale={locale}
-            title={c.hero.diagramTitle[locale]}
-            desc={c.hero.diagramCaption[locale]}
-            caption={c.hero.diagramCaption[locale]}
+          <HeroMedia
+            src={heroVideo.src}
+            posterSrc={heroVideo.poster.src}
+            posterAlt={heroVideo.poster.alt[locale]}
+            pauseLabel={m.heroVideoPause}
+            playLabel={m.heroVideoPlay}
           />
         }
       />
 
-      {/* System idea / Why CIT */}
-      <Section id="system-idea" labelledBy="system-idea-heading">
-        <SectionHeading label={c.systemIdea.label[locale]} heading={c.systemIdea.heading[locale]} id="system-idea-heading" align="split">
-          <div className="space-y-5 text-body text-ink-2">
-            {c.systemIdea.body[locale].map((p) => (
-              <p key={p.slice(0, 24)}>{p}</p>
-            ))}
-          </div>
-        </SectionHeading>
-        <SystemAnatomy
-          locale={locale}
-          heading={c.systemIdea.tableHeading[locale]}
-          componentsCol={c.systemIdea.componentsCol[locale]}
-          failuresCol={c.systemIdea.failuresCol[locale]}
-          className="mt-14"
-        />
-      </Section>
-
-      {/* Integrated pillars */}
-      <Section id="pillars" tone="tint" labelledBy="pillars-heading">
-        <SectionHeading label={c.pillars.label[locale]} heading={c.pillars.heading[locale]} id="pillars-heading" lead={c.pillars.body[locale]} align="split" />
-        <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-5">
-            <PillarsCycle locale={locale} title={c.pillars.diagramTitle[locale]} desc={integratedModel[locale].join(" ")} />
-          </div>
-          <div className="lg:col-span-7">
-            <ol className="divide-y divide-line border-y border-line">
-              {pillars.map((p) => (
-                <li key={p.slug} className="grid gap-3 py-6 md:grid-cols-12 md:gap-6">
-                  <div className="md:col-span-4">
-                    <p className="label">{p.code}</p>
-                    <h3 className="mt-2 text-h3 text-ink">{p.title[locale]}</h3>
-                    <p className="mt-2 text-small text-amber-ink">{p.short[locale]}</p>
-                  </div>
-                  <p className="text-body text-ink-2 md:col-span-8">{p.purpose[locale]}</p>
-                </li>
-              ))}
-            </ol>
-            <ol className="mt-8 grid gap-2.5 text-small text-ink-2 sm:grid-cols-2">
-              {integratedModel[locale].map((s, i) => (
-                <li key={s} className="flex gap-3">
-                  <span className="label mt-1 shrink-0">{String(i + 1).padStart(2, "0")}</span>
-                  <span>{s}</span>
-                </li>
-              ))}
-            </ol>
-            <div className="mt-8">
-              <ArrowLink href={href(locale, "about")}>{m.toAbout}</ArrowLink>
-            </div>
-          </div>
+      <Section id="about" labelledBy="system-model-heading">
+        <SectionHeading label={c.systemIdea.label[locale]} heading={c.systemIdea.heading[locale]} id="system-model-heading" lead={c.systemIdea.body[locale][0]} align="split" />
+        <div className="mt-12">
+          <SystemLoop locale={locale} title={c.hero.diagramTitle[locale]} desc={c.hero.diagramCaption[locale]} />
+        </div>
+        <div className="mt-8">
+          <ArrowLink href={href(locale, "methodology")}>{m.toMethodology}</ArrowLink>
         </div>
       </Section>
 
-      {/* Methodology — the single dark band */}
+      <Section id="pillars" tone="tint" labelledBy="pillars-heading">
+        <SectionHeading label={c.pillars.label[locale]} heading={c.pillars.heading[locale]} id="pillars-heading" lead={c.pillars.body[locale]} align="split" />
+        <ol className="mt-12 grid gap-8 border-t border-line md:grid-cols-3">
+          {pillars.map((p) => (
+            <li key={p.slug} className="border-b border-line py-8 md:border-b-0">
+              <p className="label">{p.code}</p>
+              <h3 className="mt-3 text-h3 text-ink">{p.title[locale]}</h3>
+              <p className="mt-3 text-small text-ink-2">{p.short[locale]}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-8">
+          <ArrowLink href={href(locale, "about")}>{m.toAbout}</ArrowLink>
+        </div>
+      </Section>
+
+      <section id="network" aria-labelledby="network-heading">
+        <NetworkAnchorPlate
+          locale={locale}
+          label={c.network.label[locale]}
+          heading={c.network.heading[locale]}
+          headingId="network-heading"
+          lead={c.network.body[locale][0]}
+        />
+        <div className="bg-paper">
+          <Container className="py-8 md:py-10">
+            <InstitutionalNetwork locale={locale} variant="status" />
+          </Container>
+        </div>
+      </section>
+
       <Section id="methodology" tone="dark" labelledBy="methodology-heading">
         <SectionHeading
           tone="on-dark"
@@ -134,37 +143,31 @@ export default async function HomePage({ params }: Params) {
         </div>
       </Section>
 
-      {/* Featured project */}
-      <Section id="featured-project" labelledBy="featured-heading">
-        <ProjectFeature project={featuredProject} locale={locale} label={c.featured.label[locale]} chainTitle={c.featured.chainTitle[locale]} />
+      <Section id="news" labelledBy="news-heading">
+        <SectionHeading label={c.news.label[locale]} heading={c.news.heading[locale]} id="news-heading" lead={c.news.body[locale]} align="split" />
+        {publishedNews.length ? <InsightList insights={publishedNews} locale={locale} className="mt-12" channel="news" /> : null}
+        <div className="mt-8">
+          <ArrowLink href={href(locale, "news")}>{m.allNews}</ArrowLink>
+        </div>
       </Section>
 
-      {/* Insights */}
       <Section id="insights" tone="tint" labelledBy="insights-heading">
         <SectionHeading label={c.insights.label[locale]} heading={c.insights.heading[locale]} id="insights-heading" lead={c.insights.body[locale]} align="split" />
-        <InsightList insights={insights} locale={locale} className="mt-12" />
+        <InsightList insights={insightList} locale={locale} className="mt-12" />
         <div className="mt-8">
           <ArrowLink href={href(locale, "insights")}>{m.allInsights}</ArrowLink>
         </div>
       </Section>
 
-      {/* Institutional network */}
-      <Section id="network" labelledBy="network-heading">
-        <SectionHeading label={c.network.label[locale]} heading={c.network.heading[locale]} id="network-heading" align="split">
-          <div className="space-y-5 text-body text-ink-2">
-            {c.network.body[locale].map((p) => (
-              <p key={p.slice(0, 24)}>{p}</p>
-            ))}
-          </div>
-        </SectionHeading>
-        <div className="mt-12">
-          <InstitutionalNetwork locale={locale} />
-        </div>
+      <Section id="featured-project" labelledBy="featured-heading">
+        <ProjectFeature project={featured} locale={locale} label={c.featured.label[locale]} chainTitle={c.featured.chainTitle[locale]} />
       </Section>
 
-      {/* People preview */}
       <Section id="people" tone="tint" labelledBy="people-heading">
-        <SectionHeading label={c.people.label[locale]} heading={c.people.heading[locale]} id="people-heading" lead={c.people.body[locale]} align="split" />
+        <SectionHeading label={c.people.label[locale]} heading={c.people.heading[locale]} id="people-heading" />
+        {team.length || teamUpcomingCount ? (
+          <TeamGrid people={team} locale={locale} upcomingCount={teamUpcomingCount} className="mt-12" />
+        ) : null}
         <div className="mt-12">
           <p className="label mb-3">{c.people.structureTitle[locale]}</p>
           <GovernanceList locale={locale} compact />
@@ -174,7 +177,6 @@ export default async function HomePage({ params }: Params) {
         </div>
       </Section>
 
-      {/* Work with us */}
       <Section id="work-with-us" labelledBy="work-heading">
         <SectionHeading label={c.work.label[locale]} heading={c.work.heading[locale]} id="work-heading" lead={c.work.body[locale]} align="split" />
         <div className="mt-12">

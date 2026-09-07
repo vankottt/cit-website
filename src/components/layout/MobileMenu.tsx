@@ -1,32 +1,45 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import type { Locale } from "@/lib/i18n";
+import type { RouteKey } from "@/lib/paths";
 import { cn } from "@/lib/cn";
 import { CloseIcon, MenuIcon } from "@/components/ui/Icons";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { isActivePath, type NavLink } from "./DesktopNav";
+import { type NavLink } from "./DesktopNav";
+import { homeHashHref, isActivePath } from "@/lib/home-nav";
+import { scrollToHomeHash } from "./useHomeSectionSpy";
 
 export function MobileMenu({
   locale,
   links,
   labels,
+  pathname,
+  onHome,
+  spyKey,
 }: {
   locale: Locale;
   links: NavLink[];
-  labels: { open: string; close: string; menu: string; language: string };
+  labels: { open: string; close: string; menu: string; language: string; languageNav: string };
+  pathname: string;
+  onHome: boolean;
+  spyKey: RouteKey | null;
 }) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
-  const pathname = usePathname();
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  // Escape closes; lock body scroll while open; move focus into the panel.
+  // Escape closes; lock body scroll; inert the rest of the page; move focus into the panel.
   useEffect(() => {
-    if (!open) return;
+    const main = document.getElementById("main");
+    const footer = document.querySelector("footer");
+    if (!open) {
+      main?.removeAttribute("inert");
+      footer?.removeAttribute("inert");
+      return;
+    }
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false);
@@ -36,15 +49,19 @@ export function MobileMenu({
     document.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    main?.setAttribute("inert", "");
+    footer?.setAttribute("inert", "");
     firstLinkRef.current?.focus();
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
+      main?.removeAttribute("inert");
+      footer?.removeAttribute("inert");
     };
   }, [open]);
 
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         ref={buttonRef}
         type="button"
@@ -68,14 +85,19 @@ export function MobileMenu({
         <nav aria-label={labels.menu} className="container-site pt-4 pb-10">
           <ul className="divide-y divide-line border-b border-line">
             {links.map((l, i) => {
-              const active = isActivePath(pathname ?? "", l.href);
+              const hashHref = onHome ? homeHashHref(locale, l.navKey) : null;
+              const href = hashHref ?? l.href;
+              const active = onHome ? spyKey === l.navKey : isActivePath(pathname, l.href);
               return (
-              <li key={l.href}>
+              <li key={l.navKey}>
                 <Link
                   ref={i === 0 ? firstLinkRef : undefined}
-                  href={l.href}
+                  href={href}
                   aria-current={active ? "page" : undefined}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => {
+                    setOpen(false);
+                    if (hashHref && scrollToHomeHash(hashHref)) e.preventDefault();
+                  }}
                   className={cn(
                     "flex items-center justify-between py-4 font-serif text-[1.5rem] leading-tight tracking-[-0.01em] text-ink transition-colors duration-150 hover:text-marine",
                     l.emphasis && "font-medium",
@@ -95,7 +117,7 @@ export function MobileMenu({
             }}
           >
             <span className="label">{labels.language}</span>
-            <LanguageSwitcher current={locale} label={labels.language} />
+            <LanguageSwitcher current={locale} label={labels.languageNav} />
           </div>
         </nav>
       </div>

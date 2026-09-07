@@ -4,7 +4,3 @@ import { notFound } from "next/navigation";
 export default function CatchAll() {
   notFound();
 }
-
-export function generateStaticParams() {
-  return [] as Array<{ rest: string[] }>;
-}

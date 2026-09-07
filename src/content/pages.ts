@@ -12,34 +12,30 @@ export const home = {
   },
   hero: {
     headline: {
-      bg: "Институциите са проектирани системи. Те могат да бъдат картографирани, изпитвани и препроектирани.",
-      en: "Institutions are designed systems. They can be mapped, tested and redesigned.",
+      bg: "Институциите са проектирани системи.\nТе\u00A0могат да бъдат картографирани,\nизпитвани и препроектирани.",
+      en: "Institutions are designed systems.\nThey\u00A0can be mapped, tested\nand redesigned.",
     },
     lead: {
-      bg: "Центърът за интелигентни технологии е интердисциплинарна платформа за образование, академични изследвания и приложна наука в областта на архитектурата, инженеринга и непрекъснатото адаптиране на социално-институционалните системи – публични политики, институции, предприятия и пазари.",
-      en: "The Center for Intelligent Technologies is an interdisciplinary platform for education, academic research and applied science on the architecture, engineering and continuous adaptation of social-institutional systems — public policies, institutions, enterprises and markets.",
+      bg: "Центърът работи върху архитектурата, инженеринга и непрекъснатото адаптиране на социално-институционалните системи: публични политики, институции, предприятия и пазари.",
+      en: "The Center works on the architecture, engineering and continuous adaptation of social-institutional systems: public policies, institutions, enterprises and markets.",
     },
     primary: { bg: "Методологията", en: "Explore the methodology" },
     secondary: { bg: "Сътрудничество", en: "Work with us" },
-    diagramTitle: { bg: "Анатомия на проектирана система", en: "Anatomy of a designed system" },
+    diagramTitle: { bg: "Модел на проектирана система", en: "Core system model" },
     diagramCaption: {
-      bg: "Цели → архитектура и роли → правила и решения → информация → действия → резултати → обратна връзка → цели. Стимулите и ограниченията действат върху всяка стъпка; средата се променя около системата.",
-      en: "Goals → architecture and roles → rules and decisions → information → actions → outcomes → feedback → goals. Incentives and constraints act on every step; the environment changes around the system.",
+      bg: "Цели → архитектура и роли → правила и точки за решения → информация → действия → резултати → обратна връзка → цели. Стимулите и ограниченията действат върху всяка стъпка; средата се променя около системата.",
+      en: "Goals → architecture and roles → rules and decision points → information → actions → outcomes → feedback → goals. Incentives and constraints act on every step; the environment changes around the system.",
     },
   },
   systemIdea: {
     label: { bg: "Защо ЦИТ", en: "Why CIT" },
-    heading: { bg: "Обществените системи функционират като алгоритми", en: "Social systems run like algorithms" },
+    heading: { bg: "Създадените от човека системи имат алгоритмична структура", en: "Human-designed systems have algorithmic structures" },
     body: {
       bg: [
-        "Публичните институции, регулаторните режими, предприятията, пазарите и административните процеси не са естествено възникнали механизми. Те са създадени от човека, за да постигат определени цели.",
-        "Подобно на техническите и изчислителните системи, те са изградени от участници, роли, правила, точки за вземане на решения, информационни потоци, стимули, механизми за обратна връзка и очаквани резултати – и преобразуват входни данни, ресурси и сигнали в решения, действия и резултати чрез повтаряеми последователности.",
-        "Затова проявяват същите категории дефекти като инженерните системи. И затова могат да бъдат диагностицирани, изпитвани и препроектирани със същата строгост – чрез системна архитектура, системно инженерство, статистика, икономика, изкуствен интелект, поведенчески анализ и изследвания на публичните политики.",
+        "Публичните институции, регулаторните режими, предприятията и пазарите са създадени, за да постигат определени цели. Те работят чрез повтаряеми формални и неформални процеси на решение – участници, правила, информация, стимули и обратна връзка – и затова могат да бъдат картографирани, изпитвани и препроектирани със системни методи.",
       ],
       en: [
-        "Public institutions, regulatory regimes, enterprises, markets and administrative processes are not naturally occurring mechanisms. They were created by people to achieve particular goals.",
-        "Like technical and computational systems, they are built from actors, roles, rules, decision points, information flows, incentives, feedback mechanisms and expected outcomes — and they transform inputs, resources and signals into decisions, actions and results through repeatable sequences.",
-        "They therefore exhibit the same categories of defect as engineered systems. And they can be diagnosed, tested and redesigned with the same rigour — through systems architecture, systems engineering, statistics, economics, artificial intelligence, behavioural analysis and public-policy research.",
+        "Public institutions, regulatory regimes, enterprises and markets are created to achieve particular goals. They operate through repeatable formal and informal decision processes — actors, rules, information, incentives and feedback — and can therefore be mapped, tested and redesigned using systems methods.",
       ],
     },
     tableHeading: { bg: "Компоненти на системата и типични дефекти", en: "System components and typical failure modes" },
@@ -50,8 +46,8 @@ export const home = {
     label: { bg: "Три интегрирани стълба", en: "Three integrated pillars" },
     heading: { bg: "Образование, изследвания и приложение – една система с обратна връзка", en: "Education, research and application as one feedback system" },
     body: {
-      bg: "Центърът не функционира като традиционно академично звено, а като лаборатория за системна архитектура и инженеринг на обществото и институциите. Трите стълба работят като единна, непрекъснато развиваща се система.",
-      en: "The Center is designed to operate not as a traditional academic unit but as a laboratory for the systems architecture and engineering of society and its institutions. The three pillars work as one continuously evolving system.",
+      bg: "Образование, изследвания и приложна наука работят като една система с обратна връзка – лаборатория за архитектура и инженеринг на институциите, а не традиционно академично звено.",
+      en: "Education, research and applied science operate as one feedback system — a laboratory for the architecture and engineering of institutions, not a conventional academic unit.",
     },
     diagramTitle: { bg: "Цикълът на трите стълба", en: "The three-pillar cycle" },
   },
@@ -59,8 +55,8 @@ export const home = {
     label: { bg: "Методология", en: "Methodology" },
     heading: { bg: "ASAESIS: от целите на системата до нейното непрекъснато адаптиране", en: "ASAESIS: from a system's goals to its continuous adaptation" },
     body: {
-      bg: "Алгоритмичният системен анализ и инженеринг на социално-институционални системи превръща теоретичната рамка на алгоритмизацията на социалните процеси във възпроизводим приложен метод. Стандартната методология на Центъра преминава през десет етапа, които се затварят в цикъл на наблюдение и адаптация.",
-      en: "Algorithmic Systems Analysis and Engineering of Social-Institutional Systems turns the theoretical framework of the algorithmization of social processes into a reproducible applied method. The Center's standard methodology moves through ten stages that close into a loop of monitoring and adaptation.",
+      bg: "ASAESIS превръща алгоритмизацията на социалните процеси в десет етапа, които се затварят в наблюдение и адаптация.",
+      en: "ASAESIS turns the algorithmization of social processes into ten stages that close in monitoring and adaptation.",
     },
     diagramTitle: { bg: "Десетте етапа на методологията", en: "The ten stages of the methodology" },
   },
@@ -72,22 +68,24 @@ export const home = {
     label: { bg: "Анализи", en: "Insights" },
     heading: { bg: "Концептуални бележки", en: "Concept notes" },
     body: {
-      bg: "Кратки бележки, които представят работната рамка на Центъра. Те не са научни публикации; първите академични и методологични резултати са предвидени за втората година от плана.",
-      en: "Short notes presenting the Center's working framework. They are not research publications; the first academic and methodological results are planned for the second year of the plan.",
+      bg: "Кратки бележки по работната рамка. Не са научни публикации.",
+      en: "Short notes on the working framework. They are not research publications.",
+    },
+  },
+  news: {
+    label: { bg: "Новини", en: "News" },
+    heading: { bg: "Актуални материали", en: "Current materials" },
+    body: {
+      bg: "Потвърдени статии и видеозаписи, включително материали от УАСГ с посочен източник. Не са научни публикации.",
+      en: "Confirmed articles and video recordings, including UASG materials with a stated source. They are not research publications.",
     },
   },
   network: {
     label: { bg: "Институционална мрежа", en: "Institutional network" },
     heading: { bg: "Институционална основа в УАСГ", en: "Institutionally anchored at UASG" },
     body: {
-      bg: [
-        "Центърът се създава с институционална основа в Университета по архитектура, строителство и геодезия. Стратегическият план предвижда междууниверситетско споразумение и Научен и програмен съвет с представители на инженерните науки, статистиката, икономиката, изкуствения интелект, публичните политики и социалните науки.",
-        "Партньорските институции ще бъдат обявени след формално потвърждение.",
-      ],
-      en: [
-        "The Center is being established with its institutional base at the University of Architecture, Civil Engineering and Geodesy. The strategic plan provides for an inter-university agreement and a Scientific and Programme Council with representatives of engineering, statistics, economics, artificial intelligence, public policy and the social sciences.",
-        "Partner institutions will be announced once formally confirmed.",
-      ],
+      bg: ["Центърът се създава с институционална основа в УАСГ."],
+      en: ["The Center is being established with its institutional base at UASG."],
     },
     agreementLabel: { bg: "Междууниверситетско споразумение", en: "Inter-university agreement" },
     agreementStatus: { bg: "В процес на финализиране", en: "Being finalized" },
@@ -95,20 +93,16 @@ export const home = {
     councilStatus: { bg: "Предвиден", en: "Planned" },
   },
   people: {
-    label: { bg: "Хора", en: "People" },
-    heading: { bg: "Интердисциплинарен екип в процес на формиране", en: "An interdisciplinary team taking shape" },
-    body: {
-      bg: "Центърът обединява експертиза от системната архитектура, системното инженерство, статистиката, икономиката, изкуствения интелект, поведенческия анализ и публичните политики. Ръководните органи и екипът се формират в момента; профилите ще бъдат публикувани след потвърждаване на ролите.",
-      en: "The Center brings together expertise in systems architecture, systems engineering, statistics, economics, artificial intelligence, behavioural analysis and public policy. Its governing bodies and team are being formed; profiles will be published once roles are confirmed.",
-    },
+    label: { bg: "Екип", en: "Team" },
+    heading: { bg: "Интердисциплинарен екип", en: "Interdisciplinary team" },
     structureTitle: { bg: "Предвидена структура", en: "Planned structure" },
   },
   work: {
     label: { bg: "Сътрудничество", en: "Work with us" },
     heading: { bg: "Четири пътя за сътрудничество", en: "Four routes for collaboration" },
     body: {
-      bg: "Центърът е проектиран да работи с публични институции, университети, бизнеса и финансиращи партньори върху конкретни системни проблеми. Портфолиото от услуги е в разработка; направленията следват стратегическия план.",
-      en: "The Center is designed to work with public institutions, universities, business and funding partners on specific system problems. The service portfolio is in development; the routes follow the strategic plan.",
+      bg: "Четири входа – публични институции, университети, бизнес и финансиращи организации. Портфолиото е в разработка; направленията следват плана.",
+      en: "Four entry points — public institutions, universities, business and funding organizations. The portfolio is in development; the routes follow the plan.",
     },
   },
 } as const;
@@ -233,6 +227,14 @@ export const methodologyPage = {
       en: "An expert recommendation is not in itself accepted as proof that the system will work better. The proposed model must be tested in a real setting: a baseline before implementation, the same indicators after. The result is an adaptive model, not a static strategy.",
     },
     related: { label: { bg: "Приложение", en: "Application" }, heading: { bg: "Методологията в действие", en: "The methodology in use" } },
+    explorer: {
+      label: { bg: "Изследовател", en: "Explorer" },
+      heading: { bg: "Десет етапа, които могат да се разгледат", en: "Ten stages to explore" },
+      lead: {
+        bg: "Всеки етап е формулиран по стратегическия план. Полета без опора в източника са пропуснати.",
+        en: "Each stage is formulated from the strategic plan. Fields without source support are omitted.",
+      },
+    },
   },
 } as const;
 
@@ -294,6 +296,15 @@ export const projectsPage = {
     statusNote: { bg: "Бележка за статуса", en: "Status note" },
     source: { bg: "Източник", en: "Source" },
     meta: { bg: "Данни за проекта", en: "Project data" },
+    glance: { bg: "Накратко", en: "At a glance" },
+    executive: { bg: "Резюме", en: "Executive layer" },
+    detailed: { bg: "Подробна проектна рамка", en: "Detailed project framework" },
+    proposition: { bg: "Предложение в едно изречение", en: "One-sentence proposition" },
+    method: { bg: "Метод", en: "Method" },
+    actors: { bg: "Ключови участници в анализа", en: "Key actors under analysis" },
+    intended: { bg: "Предвидени продукти", en: "Intended outputs" },
+    expected: { bg: "Очаквани резултати", en: "Expected outcomes" },
+    contents: { bg: "Съдържание", en: "Contents" },
   },
 } as const;
 
@@ -312,9 +323,28 @@ export const insightsPage = {
   },
 } as const;
 
+export const newsPage = {
+  meta: {
+    title: { bg: "Новини", en: "News" },
+    description: {
+      bg: "Потвърдени статии и видеозаписи, включително материали от УАСГ с посочен източник. Не са научни публикации.",
+      en: "Confirmed articles and video recordings, including UASG materials with a stated source. They are not research publications.",
+    },
+  },
+  heading: { bg: "Новини", en: "News" },
+  lead: {
+    bg: "Тук се публикуват потвърдени статии и видеозаписи – с посочен източник. Те не са научни публикации.",
+    en: "Confirmed articles and video recordings are published here, with a stated source. They are not research publications.",
+  },
+  empty: {
+    bg: "Няма публикувани новини. Статиите ще се появят на тази страница след редакционно публикуване.",
+    en: "No news items have been published. Articles will appear on this page after editorial publication.",
+  },
+} as const;
+
 export const peoplePage = {
   meta: {
-    title: { bg: "Хора", en: "People" },
+    title: { bg: "Екип", en: "Team" },
     description: {
       bg: "Предвидената структура на Центъра и експертизата, която обединява. Екипът се формира; профилите ще бъдат публикувани след потвърждаване на ролите.",
       en: "The Center's planned structure and the expertise it brings together. The team is being formed; profiles will be published once roles are confirmed.",
@@ -337,8 +367,8 @@ export const peoplePage = {
     en: "Team profiles will be published once roles are confirmed. The Center does not publish unconfirmed names or titles.",
   },
   teamsNote: {
-    bg: "За всяка образователна, научноизследователска или приложна задача се формират гъвкави интердисциплинарни екипи – преподаватели, изследователи, докторанти, магистри, външни експерти и представители на партньорски институции.",
-    en: "Flexible interdisciplinary teams are formed for each educational, research or applied task — faculty, researchers, doctoral and master's students, external experts and representatives of partner institutions.",
+    bg: "Стратегическият план предвижда за всяка образователна, научноизследователска или приложна задача да се формират гъвкави интердисциплинарни екипи – преподаватели, изследователи, докторанти, магистри и външни експерти, а при потвърдени споразумения и представители на институции партньори.",
+    en: "The strategic plan provides for flexible interdisciplinary teams on each educational, research or applied task — faculty, researchers, doctoral and master's students and external experts, and, once agreements are confirmed, representatives of partner institutions.",
   },
   expertiseLabel: { bg: "Експертиза", en: "Expertise" },
 } as const;
@@ -359,15 +389,15 @@ export const workPage = {
   routes: { label: { bg: "Пътища", en: "Routes" }, heading: { bg: "Четири входа", en: "Four entry points" } },
   routeFields: {
     audience: { bg: "За кого", en: "Who" },
-    problems: { bg: "Проблеми, с които работим", en: "Problems we work on" },
+    problems: { bg: "Типични проблеми", en: "Typical problems" },
     modes: { bg: "Форми на сътрудничество", en: "Forms of collaboration" },
     partnerBrings: { bg: "Какво носи партньорът", en: "What the partner brings" },
     citBrings: { bg: "Какво носи Центърът", en: "What the Center brings" },
   },
   path: { label: { bg: "Как протича", en: "How it unfolds" }, heading: { bg: "От идея до приложение", en: "From idea to application" } },
   pathBody: {
-    bg: "Всяко сътрудничество следва една и съща логика: идеята се превръща в прототип, прототипът се демонстрира, демонстрацията обосновава проект, проектът привлича финансиране, а приложението връща данни и нови въпроси към изследванията и обучението.",
-    en: "Every collaboration follows the same logic: an idea becomes a prototype, the prototype is demonstrated, the demonstration justifies a project, the project attracts funding, and the application returns data and new questions to research and teaching.",
+    bg: "Предвидената логика на сътрудничество е една и съща: идеята се превръща в прототип, прототипът се демонстрира, демонстрацията обосновава проект, проектът търси финансиране, а приложението връща данни и нови въпроси към изследванията и обучението.",
+    en: "The intended collaboration sequence is the same throughout: an idea becomes a prototype, the prototype is demonstrated, the demonstration justifies a project, the project seeks funding, and the application returns data and new questions to research and teaching.",
   },
   independence: { label: { bg: "Принципи", en: "Principles" }, heading: { bg: "Научна независимост", en: "Scientific independence" } },
   independenceBody: {
@@ -386,13 +416,13 @@ export const privacyPage = {
   body: {
     bg: [
       "Този уебсайт представя Центъра за интелигентни технологии и не изисква регистрация или въвеждане на лични данни.",
-      "Сайтът не използва бисквитки за проследяване, рекламни идентификатори или инструменти за анализ на поведението. Не се събират лични данни чрез формуляри.",
+      "Сайтът може да използва Vercel Analytics – измерване без рекламни бисквитки и без идентификация на отделни посетители. Не се използват рекламни идентификатори.",
       "Хостинг доставчикът може да обработва технически данни (например IP адрес и данни за заявката) в сървърни журнали за целите на сигурността и стабилността на услугата, съгласно собствените си правила.",
       "При промяна в начина на обработване на данни тази страница ще бъде актуализирана.",
     ],
     en: [
       "This website presents the Center for Intelligent Technologies and does not require registration or the entry of personal data.",
-      "The site does not use tracking cookies, advertising identifiers or behavioural analytics tools. No personal data is collected through forms.",
+      "The site may use Vercel Analytics — measurement without advertising cookies and without identifying individual visitors. Advertising identifiers are not used.",
       "The hosting provider may process technical data (such as IP address and request data) in server logs for the security and stability of the service, under its own policies.",
       "If the way data is processed changes, this page will be updated.",
     ],

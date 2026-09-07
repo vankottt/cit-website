@@ -1,0 +1,22 @@
+# Admin
+
+Route: `/admin` (always noindex).
+
+Local development:
+
+```sh
+cp .env.example .env.local
+# set CIT_ADMIN_DEV_PASSWORD
+npm run seed   # optional; store auto-seeds on first read
+npm run dev
+```
+
+Sign in as `admin@cit.local` or `editor@cit.local` with that password.
+
+On Vercel, the same accounts work once `CIT_ADMIN_DEV_PASSWORD` is set in the project env. The store is `/tmp` and **not durable**. For a lasting CMS, configure Supabase (see `docs/SUPABASE.md`) and add the user to `staff`.
+
+The admin UI is operational: dashboard counts, bilingual fields, draft/review/publish, preview, media metadata including temporary/replacement-required, global settings for designed homepage slots only.
+
+Insight body is one block per line. A YouTube watch / youtu.be / Shorts URL on its own line (BG and EN) renders as an embedded clip on the public site — no autoplay, no pasted HTML.
+
+Set **Type** to `Concept note (Insights)` or `News article`. News items appear on `/news`, not on Insights.

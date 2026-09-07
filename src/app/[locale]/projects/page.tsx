@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/metadata";
 import { projectsPage as c } from "@/content/pages";
-import { projects } from "@/content/projects";
+import { listPublishedProjects } from "@/lib/cms/repository";
 import { PageHeader } from "@/components/editorial/PageHeader";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function ProjectsPage({ params }: Params) {
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "bg";
+  const projects = await listPublishedProjects();
 
   return (
     <>

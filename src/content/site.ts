@@ -6,6 +6,11 @@ export const site = {
     bg: "Център за интелигентни технологии",
     en: "Center for Intelligent Technologies",
   } satisfies L,
+  /** Two-line header lockup; `name` stays the single-line form for metadata. */
+  nameLines: {
+    bg: ["Център за", "интелигентни технологии"],
+    en: ["Center for", "Intelligent Technologies"],
+  } satisfies { bg: readonly [string, string]; en: readonly [string, string] },
   short: { bg: "ЦИТ", en: "CIT" } satisfies L,
   descriptor: {
     bg: "Лаборатория за архитектура и инженеринг на социално-институционални системи",
@@ -35,9 +40,10 @@ export interface NavItem {
 export const primaryNav: NavItem[] = [
   { key: "about", label: { bg: "За центъра", en: "About" } },
   { key: "methodology", label: { bg: "Методология", en: "Methodology" } },
-  { key: "projects", label: { bg: "Проекти", en: "Projects" } },
+  { key: "news", label: { bg: "Новини", en: "News" } },
   { key: "insights", label: { bg: "Анализи", en: "Insights" } },
-  { key: "people", label: { bg: "Хора", en: "People" } },
+  { key: "projects", label: { bg: "Проекти", en: "Projects" } },
+  { key: "people", label: { bg: "Екип", en: "Team" } },
   { key: "work-with-us", label: { bg: "Сътрудничество", en: "Work with us" } },
 ];
 

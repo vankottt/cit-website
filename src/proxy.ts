@@ -1,5 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { refreshSupabaseSession } from "@/lib/cms/supabase-middleware";
 import { defaultLocale, isLocale, locales, type Locale } from "@/lib/i18n";
+import { allowPublicIndexing, isAlwaysNoIndexPath } from "@/lib/indexing";
 
 /**
  * Locale routing:
@@ -26,15 +28,24 @@ function negotiate(request: NextRequest): Locale {
   return defaultLocale;
 }
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const first = pathname.split("/")[1] ?? "";
-  if (locales.includes(first as Locale)) return NextResponse.next();
+
+  const pass = NextResponse.next({ request });
+  if (!allowPublicIndexing() || isAlwaysNoIndexPath(pathname)) {
+    pass.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+  if (locales.includes(first as Locale) || pathname.startsWith("/admin") || pathname.startsWith("/preview")) {
+    return refreshSupabaseSession(request, pass);
+  }
 
   const locale = negotiate(request);
   const url = request.nextUrl.clone();
   url.pathname = pathname === "/" ? `/${locale}` : `/${locale}${pathname}`;
-  return NextResponse.redirect(url, 307);
+  const redirect = NextResponse.redirect(url, 307);
+  if (!allowPublicIndexing()) redirect.headers.set("X-Robots-Tag", "noindex, nofollow");
+  return redirect;
 }
 
 export const config = {

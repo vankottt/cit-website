@@ -3,6 +3,7 @@ import { locales, localeLabels, type Locale } from "./i18n";
 import { href, type RouteKey } from "./paths";
 import { siteUrl } from "./site-url";
 import { site } from "@/content/site";
+import { allowPublicIndexing, robotsDirective } from "@/lib/indexing";
 
 export function pageMetadata({
   locale,
@@ -48,5 +49,6 @@ export function pageMetadata({
       title,
       description,
     },
+    robots: robotsDirective(allowPublicIndexing()),
   };
 }

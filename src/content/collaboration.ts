@@ -91,8 +91,8 @@ export const collaborationRoutes: CollaborationRoute[] = [
       en: ["National research and innovation programmes", "European Union programmes", "Foundations and private sponsors", "Public-administration reform and digital-transformation programmes"],
     },
     problems: {
-      bg: ["Нужда от доказана методология за системна трансформация", "Проекти, които изискват интердисциплинарен консорциум", "Измерими резултати вместо разпокъсани мерки"],
-      en: ["The need for a proven methodology for systemic transformation", "Projects that require an interdisciplinary consortium", "Measurable results rather than fragmented measures"],
+      bg: ["Нужда от възпроизводима методология за системна трансформация", "Проекти, които изискват интердисциплинарен консорциум", "Измерими резултати вместо разпокъсани мерки"],
+      en: ["The need for a reproducible methodology for systemic transformation", "Projects that require an interdisciplinary consortium", "Measurable results rather than fragmented measures"],
     },
     modes: {
       bg: ["Участие в консорциуми по национални и европейски програми", "Възложени научни изследвания", "Спонсорство при гаранции за академична независимост, прозрачност и предотвратяване на конфликти на интереси", "Дългосрочни програми за трансформация"],

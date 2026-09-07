@@ -50,15 +50,14 @@ Fields
 - publication date
 - author(s)
 - summary
-- body
+- body (line blocks: `## ` heading, `- ` list, whole-line YouTube URL, otherwise paragraph)
 - topics
 - related projects
 - hero/media
 - source/references when relevant
 
 ## Possible types
-Article / Research Note / Policy Brief / Report / Video-Lecture.
-Only enable a type in the UI if there is real content for it.
+Enabled public types: `concept-note` (Insights) and `news` (News). Other types from the original list (Research Note, Policy Brief, Report, Video-Lecture) stay unused until there is real content.
 
 ## 3. Person
 Fields

@@ -356,8 +356,8 @@ export const governance: GovernanceFunction[] = [
     code: "G4",
     title: { bg: "Проектни екипи", en: "Project teams" },
     body: {
-      bg: "Гъвкави интердисциплинарни екипи за всяка образователна, научноизследователска или консултантска задача – преподаватели, изследователи, докторанти, магистри, външни експерти и представители на партньорски институции.",
-      en: "Flexible interdisciplinary teams formed for each educational, research or advisory task — faculty, researchers, doctoral and master's students, external experts and representatives of partner institutions.",
+      bg: "Гъвкави интердисциплинарни екипи за всяка образователна, научноизследователска или консултантска задача – преподаватели, изследователи, докторанти, магистри и външни експерти, а след потвърдени споразумения и представители на институции партньори.",
+      en: "Flexible interdisciplinary teams for each educational, research or advisory task — faculty, researchers, doctoral and master's students and external experts, and, once agreements are confirmed, representatives of partner institutions.",
     },
   },
   {

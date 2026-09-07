@@ -12,7 +12,7 @@
   /* Text */
   --color-ink: #12161c;
   --color-ink-2: #3d4650;
-  --color-ink-3: #6a737d;
+  --color-ink-3: #5f6873;
 
   /* Rules */
   --color-line: #dedfd8;
@@ -40,7 +40,7 @@
   --text-hero: clamp(2.25rem, 1.35rem + 2.2vw, 3.375rem);
   --text-hero--line-height: 1.06;
   --text-hero--letter-spacing: -0.02em;
-  --text-h1: clamp(2.25rem, 1.7rem + 1.8vw, 3.25rem);
+  --text-h1: clamp(2rem, 1.5rem + 1.9vw, 3.25rem);
   --text-h1--line-height: 1.08;
   --text-h1--letter-spacing: -0.02em;
   --text-h2: clamp(1.875rem, 1.5rem + 1.2vw, 2.5rem);
@@ -59,8 +59,8 @@
   --text-small--line-height: 1.55;
   --text-meta: 0.8125rem;
   --text-meta--line-height: 1.4;
-  --text-label: 0.75rem;
-  --text-label--line-height: 1.3;
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.35;
   --text-label--letter-spacing: 0.06em;
 
   /* Layout */
@@ -79,6 +79,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }
@@ -114,11 +115,19 @@
   :focus-visible {
     outline: 2px solid var(--color-amber);
     outline-offset: 2px;
+    /* Focus rings appear instantly even on elements that transition colours. */
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   }
 
   h1, h2, h3, h4 {
     @apply font-serif font-medium text-ink;
-    text-wrap: balance;
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+  }
+  :lang(bg) h1,
+  :lang(bg) h2,
+  :lang(bg) h3 {
+    hyphens: auto;
   }
   .text-pretty {
     text-wrap: pretty;
@@ -208,6 +217,9 @@
   .prose-cit a {
     @apply text-ink underline decoration-line-strong hover:decoration-amber;
   }
+  .prose-cit iframe {
+    display: block;
+  }
   .prose-cit strong {
     @apply text-ink;
   }
@@ -226,6 +238,134 @@
   /* Text links */
   .link-quiet {
     @apply text-ink underline decoration-line-strong transition-colors duration-150 hover:decoration-amber;
+  }
+
+  .link-on-dark {
+    @apply text-on-dark underline decoration-on-dark/40 transition-colors duration-150 hover:decoration-amber;
+  }
+
+  /* Cutout portraits over a circular plate. Colour is the plate, never the person. */
+  .person-portrait {
+    --portrait-ratio: 1.12;
+    --portrait-lift: 4px;
+    position: relative;
+    aspect-ratio: 1 / var(--portrait-ratio);
+    overflow: visible;
+    cursor: default;
+  }
+  .person-portrait-plate {
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--color-marine-tint);
+    transition: background-color 180ms var(--ease-out-soft);
+  }
+  /* One circular crop for the matched square source portraits. */
+  .person-portrait-clip {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  .person-portrait-photo-wrap {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    /* Keep the full lift plus 2% of the disk below its clipped bottom edge. */
+    top: calc(12% + var(--portrait-lift));
+    aspect-ratio: 1;
+    pointer-events: none;
+    transition: transform 220ms var(--ease-out-soft);
+  }
+  .person-portrait-photo {
+    object-fit: contain;
+    object-position: center bottom;
+    max-width: none;
+  }
+  .person-portrait-vacant .person-portrait-plate {
+    background: color-mix(in srgb, var(--color-marine-tint) 42%, var(--color-paper));
+  }
+  .person-portrait-plus {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    aspect-ratio: 1;
+    pointer-events: none;
+  }
+  .person-portrait-plus::before,
+  .person-portrait-plus::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background: var(--color-line-strong);
+  }
+  .person-portrait-plus::before {
+    width: 1.15rem;
+    height: 1px;
+    transform: translate(-50%, -50%);
+  }
+  .person-portrait-plus::after {
+    width: 1px;
+    height: 1.15rem;
+    transform: translate(-50%, -50%);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .person-portrait:not(.person-portrait-vacant):hover .person-portrait-plate,
+    .person-tile:has(a:hover) .person-portrait-plate {
+      background: var(--color-marine);
+    }
+  }
+  .person-tile:focus-within .person-portrait-plate {
+    background: var(--color-marine);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    @media (hover: hover) and (pointer: fine) {
+      .person-portrait:not(.person-portrait-vacant):hover .person-portrait-photo-wrap,
+      .person-tile:has(a:hover) .person-portrait-photo-wrap {
+        transform: translateY(calc(-1 * var(--portrait-lift)));
+      }
+    }
+    .person-tile:focus-within .person-portrait-photo-wrap {
+      transform: translateY(calc(-1 * var(--portrait-lift)));
+    }
+  }
+  /* Homepage network plate: colour file, grayscale under the marine scrim. */
+  .network-anchor-photo {
+    filter: grayscale(1) contrast(1.12) brightness(1.05);
+  }
+  .network-anchor-grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+  }
+
+  /* Poster fallback stays grayscale if the JPEG is still in colour. The
+     looping clip is a grayscale encode — do not filter <video> (compositor /
+     background-media pause). */
+  .hero-media-tone {
+    filter: grayscale(1);
+  }
+  .hero-video-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
@@ -252,16 +392,77 @@
   }
 }
 
-/* Loop path draw-in (only when motion is allowed) */
 @media (prefers-reduced-motion: no-preference) {
-  .draw-path {
+  .hero-copy-in {
+    animation: hero-copy-in 0.7s var(--ease-out-soft) both;
+  }
+  @keyframes hero-copy-in {
+    from {
+      transform: translateY(0.5rem);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  /* Hidden until InView adds .js-ready + .is-in-view. No-JS: no .js-ready, paths stay drawn. */
+  .js-ready .draw-path {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    animation: draw-path 1.6s var(--ease-out-soft) 0.2s forwards;
+  }
+  .js-ready.is-in-view .draw-path,
+  .js-ready .is-in-view .draw-path {
+    animation: draw-path 0.85s var(--ease-out-soft) var(--draw-delay, 0.15s) forwards;
   }
   @keyframes draw-path {
     to {
       stroke-dashoffset: 0;
+    }
+  }
+
+  .js-ready .draw-fade {
+    opacity: 0;
+  }
+  .js-ready.is-in-view .draw-fade,
+  .js-ready .is-in-view .draw-fade {
+    animation: draw-fade 0.6s var(--ease-out-soft) var(--draw-delay, 0.4s) forwards;
+  }
+  @keyframes draw-fade {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .js-ready .loop-segment {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  .js-ready .loop-segment-rtl {
+    transform-origin: right center;
+  }
+  .js-ready .loop-segment-y {
+    transform: translateX(-50%) scaleY(0);
+    transform-origin: top center;
+  }
+  .js-ready .loop-segment-y-up {
+    transform-origin: bottom center;
+  }
+  .js-ready.is-in-view .loop-segment,
+  .js-ready .is-in-view .loop-segment {
+    animation: loop-segment-x 0.4s var(--ease-out-soft) var(--seg-delay, 0s) forwards;
+  }
+  .js-ready.is-in-view .loop-segment-y,
+  .js-ready .is-in-view .loop-segment-y {
+    animation: loop-segment-y 0.4s var(--ease-out-soft) var(--seg-delay, 0s) forwards;
+  }
+  @keyframes loop-segment-x {
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes loop-segment-y {
+    to {
+      transform: translateX(-50%) scaleY(1);
     }
   }
 }

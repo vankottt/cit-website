@@ -46,11 +46,12 @@ Create original high-fidelity concepts for major homepage sections:
 4. Methodology
 5. Featured project
 6. Insights
-7. Institutional network
-8. People preview
-9. Work with us
-10. Footer
-11. representative mobile views
+7. News
+8. Institutional network
+9. Team preview
+10. Work with us
+11. Footer
+12. representative mobile views
 
 Prefer separate readable section concepts over one compressed giant full-page mockup.
 In autonomous Goal mode, do not wait for routine human approval: evaluate the original CIT design alternatives against the Build Pack, select the strongest coherent direction, record it in DESIGN_DECISIONS.md, and treat it as the production design spec. In interactive review mode, explicit human approval may replace this internal selection step.
@@ -94,7 +95,7 @@ For each slice:
 8. commit
 
 ## Suggested order
-Header/Hero → System idea → Pillars → Methodology → Featured project → Insights → Network → People → Work with us → Footer.
+Header/Hero → About (system idea, pillars, network) → Methodology → News → Insights → Featured project → Team → Work with us → Footer.
 
 ## Phase 6 — Template implementation
 After homepage design system is stable:
@@ -103,6 +104,7 @@ After homepage design system is stable:
 - Projects listing
 - Project detail
 - Insights listing/detail
+- News listing/detail
 - People listing/detail
 - Work with us
 

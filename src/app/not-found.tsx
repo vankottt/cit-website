@@ -16,6 +16,7 @@ export default function RootNotFound() {
   return (
     <html lang="bg" className={fontClassName}>
       <body className="min-h-svh bg-paper text-ink">
+        <title>{`${bg.notFoundTitle} · ${en.notFoundTitle} – ${site.short.bg}`}</title>
         <main id="main" className="container-site flex min-h-svh flex-col justify-center py-16">
           <Mark size={48} />
           <p className="label mt-10">404</p>

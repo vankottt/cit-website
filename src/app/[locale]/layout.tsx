@@ -10,8 +10,8 @@ import { t } from "@/content/messages";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { OrganizationJsonLd } from "@/components/layout/OrganizationJsonLd";
-
-export const dynamicParams = false;
+import { allowPublicIndexing, robotsDirective } from "@/lib/indexing";
+import { Analytics } from "@vercel/analytics/next";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     description: site.description[locale],
     applicationName: site.name[locale],
-    robots: { index: true, follow: true },
+    robots: robotsDirective(allowPublicIndexing()),
   };
 }
 
@@ -58,6 +58,7 @@ export default async function LocaleLayout({
         </main>
         <SiteFooter locale={locale} />
         <OrganizationJsonLd locale={locale} />
+        <Analytics />
       </body>
     </html>
   );

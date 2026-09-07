@@ -16,7 +16,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
       <Container className="py-14 md:py-16">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
-            <Logo locale={locale} tone="on-dark" />
+            <Logo locale={locale} tone="on-dark" markSize={56} />
             <p className="mt-6 max-w-sm text-small text-on-dark-muted">{site.descriptor[locale]}</p>
             <dl className="mt-6 text-small">
               <dt className="label-dark">{m.institutionalAnchor}</dt>
@@ -41,7 +41,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
           <div className="md:col-span-4">
             <p className="label-dark">{m.language}</p>
-            <LanguageSwitcher current={locale} tone="on-dark" label={m.language} className="mt-2" />
+            <LanguageSwitcher current={locale} tone="on-dark" label={m.languageFooter} className="mt-2" />
             <p className="mt-8 max-w-sm text-small text-on-dark-muted">{site.contactNote[locale]}</p>
           </div>
         </div>

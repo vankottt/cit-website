@@ -7,6 +7,7 @@ export type RouteKey =
   | "methodology"
   | "projects"
   | "insights"
+  | "news"
   | "people"
   | "work-with-us"
   | "privacy";
@@ -17,6 +18,7 @@ const segments: Record<RouteKey, string> = {
   methodology: "methodology",
   projects: "projects",
   insights: "insights",
+  news: "news",
   people: "people",
   "work-with-us": "work-with-us",
   privacy: "privacy",

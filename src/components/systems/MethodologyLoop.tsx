@@ -1,7 +1,8 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { cn } from "@/lib/cn";
+import { useInView } from "./InView";
 
 export interface LoopStage {
   code: string;
@@ -31,21 +32,70 @@ export function MethodologyLoop({
   mobile?: "rail" | "none";
 }) {
   const [active, setActive] = useState(defaultActive);
+  const [pinned, setPinned] = useState(false);
+  const [playhead, setPlayhead] = useState<number | null>(null);
   const panelId = useId();
   const dark = tone === "on-dark";
   const top = stages.slice(0, 5);
   const bottom = stages.slice(5, 10);
+  const highlighted = playhead ?? active;
   const current = stages[active] ?? stages[0]!;
+  const { ref, ready, visible } = useInView();
+
+  useEffect(() => {
+    if (!visible || !ready || pinned) return;
+    let i = 0;
+    setPlayhead(0);
+    const id = window.setInterval(() => {
+      i += 1;
+      if (i >= stages.length) {
+        window.clearInterval(id);
+        setPlayhead(null);
+        return;
+      }
+      setPlayhead(i);
+    }, 320);
+    return () => window.clearInterval(id);
+  }, [visible, ready, pinned, stages.length]);
+
+  const select = (index: number) => {
+    setPinned(true);
+    setPlayhead(null);
+    setActive(index);
+  };
 
   const lineColor = dark ? "bg-on-dark/35" : "bg-line-strong";
   const arrowColor = dark ? "text-on-dark/60" : "text-ink-3";
 
-  const centers = [10, 30, 50, 70, 90]; // % positions of the five circles
+  /**
+   * Adjacent-column segment: from this circle's far rim, across `gap-x-4`,
+   * to the next circle's near rim. Circles are `h-10` (2.5rem) in a 5-col grid.
+   */
+  const segmentFromRim = {
+    inset: "calc(50% + 1.25rem)",
+    length: "calc(100% + 1rem - 2.5rem)",
+  };
+
+  const arrowHead = (direction: "right" | "left") => (
+    <svg
+      width="8"
+      height="8"
+      viewBox="0 0 8 8"
+      aria-hidden="true"
+      className={cn(
+        "pointer-events-none absolute top-1/2 z-[1] -translate-y-1/2",
+        arrowColor,
+        direction === "right" ? "right-[calc(100%-1px)]" : "left-[calc(100%-1px)] rotate-180",
+      )}
+    >
+      <path d="M0 0.5 7.5 4 0 7.5Z" fill="currentColor" />
+    </svg>
+  );
 
   const circleClass = (i: number) =>
     cn(
       "flex h-10 w-10 items-center justify-center rounded-full border font-mono text-[0.75rem] tracking-[0.04em] transition-colors duration-150",
-      i === active
+      i === highlighted
         ? "border-amber bg-amber text-marine"
         : dark
           ? "border-on-dark/50 bg-marine text-on-dark group-hover:border-on-dark"
@@ -55,78 +105,116 @@ export function MethodologyLoop({
   const labelClass = (i: number) =>
     cn(
       "text-[0.8125rem] leading-[1.3] font-medium transition-colors duration-150",
-      i === active ? (dark ? "text-on-dark" : "text-ink") : dark ? "text-on-dark-muted group-hover:text-on-dark" : "text-ink-2 group-hover:text-ink",
+      i === highlighted ? (dark ? "text-on-dark" : "text-ink") : dark ? "text-on-dark-muted group-hover:text-on-dark" : "text-ink-2 group-hover:text-ink",
     );
 
   return (
-    <div>
+    <div ref={ref} className={cn(ready && "js-ready", visible && "is-in-view")}>
       {/* Desktop loop */}
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         {/* Row 1: labels above, circles at the bottom edge */}
         <div className="relative">
-          <div className={cn("absolute bottom-5 h-px", lineColor)} style={{ left: "10%", right: "10%" }} aria-hidden="true" />
-          <div className="grid grid-cols-5 gap-x-4" role="group" aria-label={labels.stage}>
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-0 grid h-10 grid-cols-5 items-center gap-x-4"
+            aria-hidden="true"
+          >
+            {top.map((s, i) => (
+              <div key={s.code} className="relative h-px">
+                {i < 4 ? (
+                  <div
+                    className={cn("loop-segment absolute top-0 h-px", lineColor)}
+                    style={{ left: segmentFromRim.inset, width: segmentFromRim.length, ["--seg-delay" as string]: `${i * 0.12}s` }}
+                  />
+                ) : null}
+              </div>
+            ))}
+          </div>
+          <div className="relative z-[1] grid grid-cols-5 gap-x-4" role="group" aria-label={labels.stage}>
             {top.map((s, i) => (
               <button
                 key={s.code}
                 type="button"
                 aria-pressed={i === active}
                 aria-controls={panelId}
-                onClick={() => setActive(i)}
+                onClick={() => select(i)}
                 className="group relative flex flex-col items-center justify-end text-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber"
               >
                 <span className={cn("mb-3 max-w-[11rem]", labelClass(i))}>{s.short}</span>
-                <span className={circleClass(i)}>{s.code}</span>
+                <span className="relative inline-flex">
+                  {i > 0 ? arrowHead("right") : null}
+                  <span className={cn("relative z-[1]", circleClass(i))}>{s.code}</span>
+                </span>
               </button>
             ))}
           </div>
-          {/* arrowheads positioned before circles 02–05 */}
-          {centers.slice(1).map((c) => (
-            <svg
-              key={`a-${c}`}
-              width="8"
-              height="8"
-              viewBox="0 0 8 8"
-              aria-hidden="true"
-              className={cn("absolute bottom-[16px]", arrowColor)}
-              style={{ left: `calc(${c}% - 20px - 9px)` }}
-            >
-              <path d="M0 0.5 7.5 4 0 7.5Z" fill="currentColor" />
-            </svg>
-          ))}
         </div>
 
-        {/* Connectors between rows */}
+        {/* Verticals: same 5-col grid so they hit circle centres, not 10%/90% */}
         <div className="relative h-14" aria-hidden="true">
-          {/* right: down */}
-          <div className={cn("absolute -top-5 -bottom-5 w-px", lineColor)} style={{ left: "90%" }} />
-          <svg width="8" height="8" viewBox="0 0 8 8" className={cn("absolute -bottom-[12px]", arrowColor)} style={{ left: "calc(90% - 3.5px)", transform: "rotate(90deg)" }}>
-            <path d="M0 0.5 7.5 4 0 7.5Z" fill="currentColor" />
-          </svg>
-          {/* left: return, dashed amber */}
-          <div
-            className="absolute -top-5 -bottom-5 w-px"
-            style={{
-              left: "10%",
-              backgroundImage: "linear-gradient(to bottom, var(--color-amber) 55%, transparent 55%)",
-              backgroundSize: "1px 7px",
-            }}
-          />
-          <svg width="8" height="8" viewBox="0 0 8 8" className="absolute -top-[12px] text-amber" style={{ left: "calc(10% - 3.5px)", transform: "rotate(-90deg)" }}>
-            <path d="M0 0.5 7.5 4 0 7.5Z" fill="currentColor" />
-          </svg>
-          <span
-            className={cn("absolute top-1/2 -translate-y-1/2 font-mono text-[0.6875rem] uppercase tracking-[0.06em]", dark ? "text-on-dark-muted" : "text-ink-3")}
-            style={{ left: "calc(10% + 14px)" }}
-          >
-            {labels.loopNote}
-          </span>
+          <div className="grid h-full grid-cols-5 gap-x-4">
+            <div className="relative">
+              <div
+                className="loop-segment-y loop-segment-y-up absolute inset-y-0 left-1/2 w-px -translate-x-1/2"
+                style={{
+                  ["--seg-delay" as string]: "1.08s",
+                  backgroundImage: "linear-gradient(to bottom, var(--color-amber) 55%, transparent 55%)",
+                  backgroundSize: "1px 7px",
+                }}
+              />
+              <svg
+                width="8"
+                height="8"
+                viewBox="0 0 8 8"
+                className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-90 text-amber"
+              >
+                <path d="M0 0.5 7.5 4 0 7.5Z" fill="currentColor" />
+              </svg>
+              <span
+                className={cn(
+                  "absolute top-1/2 left-1/2 -translate-y-1/2 pl-3.5 font-mono text-[0.6875rem] tracking-[0.06em] whitespace-nowrap uppercase",
+                  dark ? "text-on-dark-muted" : "text-ink-3",
+                )}
+              >
+                {labels.loopNote}
+              </span>
+            </div>
+            <div className="col-span-3" />
+            <div className="relative">
+              <div
+                className={cn("loop-segment-y absolute inset-y-0 left-1/2 w-px -translate-x-1/2", lineColor)}
+                style={{ ["--seg-delay" as string]: "0.48s" }}
+              />
+              <svg
+                width="8"
+                height="8"
+                viewBox="0 0 8 8"
+                className={cn("absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-90", arrowColor)}
+              >
+                <path d="M0 0.5 7.5 4 0 7.5Z" fill="currentColor" />
+              </svg>
+            </div>
+          </div>
         </div>
 
         {/* Row 2: circles at the top edge, labels below; visual order right→left */}
         <div className="relative">
-          <div className={cn("absolute top-5 h-px", lineColor)} style={{ left: "10%", right: "10%" }} aria-hidden="true" />
-          <div className="grid grid-cols-5 gap-x-4" dir="rtl" role="group" aria-label={labels.stage}>
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 z-0 grid h-10 grid-cols-5 items-center gap-x-4"
+            dir="rtl"
+            aria-hidden="true"
+          >
+            {bottom.map((s, j) => (
+              <div key={s.code} className="relative h-px">
+                {j < 4 ? (
+                  <div
+                    className={cn("loop-segment loop-segment-rtl absolute top-0 h-px", lineColor)}
+                    style={{ right: segmentFromRim.inset, width: segmentFromRim.length, ["--seg-delay" as string]: `${0.6 + j * 0.12}s` }}
+                  />
+                ) : null}
+              </div>
+            ))}
+          </div>
+          <div className="relative z-[1] grid grid-cols-5 gap-x-4" dir="rtl" role="group" aria-label={labels.stage}>
             {bottom.map((s, j) => {
               const i = j + 5;
               return (
@@ -136,36 +224,25 @@ export function MethodologyLoop({
                   dir="ltr"
                   aria-pressed={i === active}
                   aria-controls={panelId}
-                  onClick={() => setActive(i)}
+                  onClick={() => select(i)}
                   className="group relative flex flex-col items-center text-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber"
                 >
-                  <span className={circleClass(i)}>{s.code}</span>
+                  <span className="relative inline-flex">
+                    {j > 0 ? arrowHead("left") : null}
+                    <span className={cn("relative z-[1]", circleClass(i))}>{s.code}</span>
+                  </span>
                   <span className={cn("mt-3 max-w-[11rem]", labelClass(i))}>{s.short}</span>
                 </button>
               );
             })}
           </div>
-          {/* arrowheads pointing left, before circles 07–10 (at 70%, 50%, 30%, 10%) */}
-          {centers.slice(0, 4).map((c) => (
-            <svg
-              key={`b-${c}`}
-              width="8"
-              height="8"
-              viewBox="0 0 8 8"
-              aria-hidden="true"
-              className={cn("absolute top-[16px]", arrowColor)}
-              style={{ left: `calc(${c}% + 20px + 1px)`, transform: "rotate(180deg)" }}
-            >
-              <path d="M0 0.5 7.5 4 0 7.5Z" fill="currentColor" />
-            </svg>
-          ))}
         </div>
 
         {/* Detail panel */}
         <div
           id={panelId}
           role="region"
-          aria-live="polite"
+          aria-live={pinned ? "polite" : "off"}
           className={cn("mt-10 grid gap-4 border-t pt-6 md:grid-cols-12", dark ? "border-on-dark/20" : "border-line")}
         >
           <p className={cn("md:col-span-3", dark ? "label-dark" : "label")}>
@@ -180,7 +257,7 @@ export function MethodologyLoop({
 
       {/* Mobile rail */}
       {mobile === "rail" ? (
-      <ol className={cn("md:hidden ml-3.5 border-l", dark ? "border-on-dark/30" : "border-line-strong")}>
+      <ol className={cn("lg:hidden ml-3.5 border-l", dark ? "border-on-dark/30" : "border-line-strong")}>
         {stages.map((s, i) => (
           <li key={s.code} className="relative pb-6 pl-8 last:pb-0">
             <span
@@ -198,7 +275,7 @@ export function MethodologyLoop({
         <li className={cn("pl-8 pt-2 font-mono text-[0.6875rem] uppercase tracking-[0.06em]", dark ? "text-on-dark-muted" : "text-ink-3")}>↺ {labels.loopNote}</li>
       </ol>
       ) : (
-        <p className={cn("md:hidden font-mono text-[0.6875rem] uppercase tracking-[0.06em]", dark ? "text-on-dark-muted" : "text-ink-3")}>
+        <p className={cn("lg:hidden font-mono text-[0.6875rem] uppercase tracking-[0.06em]", dark ? "text-on-dark-muted" : "text-ink-3")}>
           {stages.map((s) => s.code).join(" → ")} ↺
         </p>
       )}

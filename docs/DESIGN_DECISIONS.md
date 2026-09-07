@@ -1,4 +1,7 @@
-# DESIGN_DECISIONS — CIT Website V1
+# DESIGN_DECISIONS — CIT Website
+
+V1 direction remains the production spec. V2 refines pacing, photography and diagram hierarchy; it does not replace Drafting Editorial.
+
 
 This file records the selected original CIT design direction and every material benchmark influence. Once selected, the direction is the internal production design spec (see `docs/03_DESIGN_SYSTEM.md`, "Design approval rule").
 
@@ -40,7 +43,7 @@ Why this direction: it satisfies the Build Pack (HAI-level editorial clarity, en
 | paper-3 | #EAEBE5 | deeper tint, table stripes |
 | ink | #12161C | headings, body |
 | ink-2 | #3D4650 | secondary text |
-| ink-3 | #6A737D | muted text (≥4.5:1 on paper) |
+| ink-3 | #5F6873 | muted text (≥4.5:1 on paper, paper-2 and paper-3 — darkened after axe flagged 4.37:1 on paper-2) |
 | line | #DEDFD8 | hairlines |
 | line-strong | #B9BBB2 | emphasised rules |
 | marine | #102849 | institutional deep tone sampled from the supplied logo: dark band, primary button, footer |
@@ -72,8 +75,9 @@ Rule: amber is a marker, never a surface. Marine is used for one dark band per p
 - Only: hover/focus transitions (150–200ms), methodology stage highlight on hover/focus, a single dash-offset draw of the loop path on first view. All disabled under `prefers-reduced-motion`. No scroll-jacking, parallax, autoplay video or ambient animation.
 
 ### Imagery and mark
-- V1 has no confirmed photography. The visual layer is diagrams. No stock photography, no generated "AI" imagery.
-- **Logo**: a mark was supplied during the run (`Logo/Logo.jpg`, 1600×1600 JPEG, navy #102849 + greys). It is adopted as the CIT mark: `public/brand/cit-mark.png` (background removed, original colours) for light surfaces, `public/brand/cit-mark-white.png` (white knockout) for the marine footer, and `src/app/icon.png` / `apple-icon.png` on white for favicons. The institutional `marine` token was re-sampled from the mark so the palette is coherent with it. The earlier drafted three-node SVG mark was retired.
+- Signature visual layer remains diagrams. Temporary UASG campus photography (cropped from official homepage sliders) is used only as institutional atmosphere: large facade after the homepage diagram hero; hall on the network band; facade on About / mission; hall on About / context and Work with us. Captions state the source and that the images do not depict CIT activity. Tracked in `docs/TEMP_IMAGE_SOURCES.md`; replace before final public launch. No stock photography, no generated "AI" imagery, no campus photos attached to project or insight records.
+- **Team portraits** (2026-09-06, revised): grayscale cutouts over a large circular `marine-tint` plate that turns `marine` on hover. The torso sits inside the circle; only a little of the crown breaks the rim. Never colourised. Hover on the portrait is graphic only (`translateY(-4px) scale(1.018)`, 220ms, gated to `hover: hover` + `pointer: fine`); the portrait is not a link. LinkedIn remains a name+icon control when a URL is confirmed. One quiet “+” slot replaces three equal “Coming Soon” circles. Roles omitted until confirmed.
+- **Logo**: the CIT mark is `Logo/Logo.jpg` (navy structure + grey bars, 1600×1600). It is used as `public/brand/cit-mark.png` (white background removed, greys preserved) on paper, `public/brand/cit-mark-white.png` (navy knocked out to `on-dark`, greys lifted) on the marine footer, and `src/app/icon.png` / `apple-icon.png` on white for favicons. The `marine` token stays `#102849`, sampled from this mark. The drafted three-node SVG mark stays retired.
 
 ## 3. Opening composition — alternatives evaluated
 
@@ -88,6 +92,45 @@ Type decision made during the comparison: `text-wrap: pretty` (not `balance`) on
 
 ## 4. Content-presentation decisions with design impact
 - Status is always visible on projects as a mono label with a neutral vocabulary: *Pilot concept*, *Proposed research mandate*, *In development*, *Active pilot*, *Completed* (Build Pack provisional vocabulary, extended by one value required by the mandate letter). Only the first two are used in V1.
-- People page shows the planned governance functions as a structured list, not portraits, until people are confirmed.
+- People page shows supplied grayscale cutouts over a circular plate, plus the planned governance functions. Names without confirmed titles; no invented roles.
 - Institutional network shows UASG as text lockup, not a logo wall.
 - Work with us uses four collaboration routes as a ruled list, not pricing cards.
+
+## 5. V2 refinements (2026-09-05)
+
+V1 already had the right identity. Browser evidence on the deployed site showed documentary overload: three homepage diagrams plus an anatomy table, a diagram-led hero, and a categorical “run like algorithms” heading.
+
+### Visual grammar (unchanged tokens, changed rhythm)
+
+Stanford HAI still informs only whitespace, hierarchy and the alternation of statement / large media / short explanation. CIT remains serif + drafting diagrams + marine/amber. No Stanford red, no numbered “01 Research” kickers, no photo carousels.
+
+Homepage signature visuals are limited to two:
+
+1. **Core System Model** (`SystemLoop`) — goals → architecture and roles → rules and decision points → information → actions/outputs → outcomes/performance → feedback → goals, with incentives/constraints as a concurrent input and environment as the dashed boundary. Moved out of the hero so the opening can be photographic.
+2. **ASAESIS** (`MethodologyLoop` on the homepage; `MethodologyExplorer` on `/methodology`).
+
+`SystemAnatomy` and `PillarsCycle` stay on internal pages. The featured-project value chain remains a secondary, smaller diagram.
+
+Hero composition **C (“editorial photo”)** replaces stacked diagram-hero B: full-width statement, then lead + ≤2 actions beside a large UASG campus photograph. The Core System Model follows as the first signature visual. Bulgarian wrapping rules from V1 (`text-wrap: pretty`, no `locl` mixing) still apply.
+
+### Copy
+
+“Social systems run like algorithms” is replaced by source-faithful wording: human-designed social-institutional systems *have algorithmic structures* and *operate through repeatable formal and informal decision processes*. The insight slug `why-social-systems-behave-like-algorithms` is kept (stable URL); its body already uses “algorithmic structure”.
+
+Homepage visible copy is tightened by moving anatomy, pillar purposes, the six-item integrated model and the long featured summary to About / Methodology / project pages.
+
+### Photography
+
+Still only temporary UASG assets, captions refusing CIT attribution, inventory in `docs/TEMP_IMAGE_SOURCES.md`. V2 uses the existing facade as the opening visual and the hall for institutional context. Additional uacg.bg news images inspected in V2 were too small, event-group, or portrait and were not added.
+
+### Admin
+
+Operational, not editorial: system UI, no marine hero bands, no diagrams. Public design remains code-controlled; admin edits structured fields only.
+
+## 6. Homepage overlay — local video (2026-09-06)
+
+The opening uses a muted looping `<video>` from the project `Video/` folder (`202609062306.mp4`), served as `public/videos/hero.mp4` (grayscale H.264 encode). Poster / reduced-motion fallback is a frame from that encode (`public/images/hero/poster.jpg`). Pause control remains. The original file in `Video/` stays in colour. Insight YouTube embeds stay without autoplay.
+
+The clip shows transport infrastructure (aerial). It is not captioned as CIT laboratory, team or project activity. The previous UASG YouTube mock is retired.
+
+

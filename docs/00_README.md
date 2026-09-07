@@ -38,8 +38,8 @@ AUTONOMOUS GOAL MODE: DESIGN → EVALUATE/SELECT → IMPLEMENT → SCREENSHOT �
 Do not allow the coding agent to continuously redesign the site while implementing it.
 
 ## V1 scope
-Primary navigation: About / Methodology / Projects / Insights / People / Work with us, plus BG/EN.
-Homepage: Header → Hero → Positioning/System idea → Three integrated pillars → Methodology → Featured applied project → Insights → Institutional network → People preview → Work with us → Footer
+Primary navigation: About / Methodology / News / Insights / Projects / Team / Work with us, plus BG/EN.
+Homepage: Header → Hero → About (system idea, pillars, institutional network) → Methodology → News → Insights → Featured project → Team preview → Work with us → Footer
 
 ## Live benchmark usage
 04_BENCHMARK_REFERENCE_MAP contains the curated current representative-page URLs. They are navigation aids, not a crawl requirement. Stanford HAI is the primary visual north star; other benchmarks are task-specific functional/content references. The active coding agent should open the smallest relevant set of live pages only when resolving a concrete question, translate the useful principle into the single CIT design system, and record material reference influence in DESIGN_DECISIONS.md.

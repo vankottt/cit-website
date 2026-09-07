@@ -3,12 +3,13 @@ import { isLocale, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/metadata";
 import { peoplePage as c } from "@/content/pages";
 import { disciplines } from "@/content/methodology";
-import { people, devFixturesEnabled } from "@/content/people";
+import { publicTeamList, teamUpcomingCount } from "@/content/people";
+import { listPublicPeople } from "@/lib/cms/repository";
 import { PageHeader } from "@/components/editorial/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
 import { GovernanceList } from "@/components/people/GovernanceList";
-import { PersonCard } from "@/components/people/PersonCard";
+import { TeamGrid } from "@/components/people/TeamGrid";
 
 type Params = { params: Promise<{ locale: string }> };
 
@@ -21,10 +22,21 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function PeoplePage({ params }: Params) {
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "bg";
+  const publishedPeople = await listPublicPeople();
+  const list = publicTeamList(publishedPeople);
 
   return (
     <>
       <PageHeader label={c.meta.title[locale]} heading={c.heading[locale]} lead={c.lead[locale]} />
+
+      <Section id="team" labelledBy="team-heading" size="sm">
+        <SectionHeading label={c.team.label[locale]} heading={c.team.heading[locale]} id="team-heading" align="split">
+          {list.length === 0 ? <p className="border-l-2 border-amber pl-4 text-body text-ink-2">{c.teamEmpty[locale]}</p> : null}
+        </SectionHeading>
+        {list.length > 0 || teamUpcomingCount ? (
+          <TeamGrid people={list} locale={locale} upcomingCount={teamUpcomingCount} className="mt-12" />
+        ) : null}
+      </Section>
 
       <Section id="structure" labelledBy="structure-heading" size="sm">
         <SectionHeading label={c.structure.label[locale]} heading={c.structure.heading[locale]} id="structure-heading" lead={c.structureNote[locale]} align="split" />
@@ -43,24 +55,6 @@ export default async function PeoplePage({ params }: Params) {
             ))}
           </ol>
         </SectionHeading>
-      </Section>
-
-      <Section id="team" labelledBy="team-heading" size="sm">
-        <SectionHeading label={c.team.label[locale]} heading={c.team.heading[locale]} id="team-heading" align="split">
-          {people.length === 0 ? <p className="border-l-2 border-amber pl-4 text-body text-ink-2">{c.teamEmpty[locale]}</p> : null}
-        </SectionHeading>
-        {people.length > 0 ? (
-          <>
-            {devFixturesEnabled ? (
-              <p className="label mt-10 text-amber-ink">Development fixtures — not public content</p>
-            ) : null}
-            <ol className="mt-6 border-t border-line">
-              {people.map((p) => (
-                <PersonCard key={p.slug} person={p} locale={locale} expertiseLabel={c.expertiseLabel[locale]} />
-              ))}
-            </ol>
-          </>
-        ) : null}
       </Section>
     </>
   );

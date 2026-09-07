@@ -26,3 +26,14 @@ yarn-error.log*
 
 # local QA artifacts
 /qa/
+
+# local CMS store and uploads
+/.data/
+/public/uploads/cms/
+
+# Source-resolution media and local agent caches; the site uses public/
+/Video/
+/Team Photos/
+/Logo/
+/.ruflo/
+supabase/.temp/

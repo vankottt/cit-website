@@ -18,13 +18,15 @@ CIT is an interdisciplinary platform for education, academic research and applie
 Never invent names, formal roles/titles, partners, clients, funding awards, completed projects, measured results, publications, metrics, contact details or institutional approvals. Only confirmed institutional relationship: UASG. The wine × tourism work is a **pilot concept / proposal** — expected outcomes are never presented as results. Team, contact channels and partner universities are *to be confirmed*; omit or label neutrally. Development fixtures live only behind `CIT_DEV_FIXTURES=1` and never render in production builds.
 
 ## Information architecture (V1)
-Nav: About · Methodology · Projects · Insights · People · Work with us · BG/EN.
-Homepage: Header → Hero → System idea → Integrated pillars → Methodology → Featured project → Insights → Institutional network → People preview → Work with us → Footer.
+Nav: About · Methodology · News · Insights · Projects · Team · Work with us · BG/EN.
+Homepage: Header → Hero → About (system idea, pillars, institutional network) → Methodology → News → Insights → Featured project → Team preview → Work with us → Footer.
 Routes live under `src/app/[locale]/…` for `bg` and `en`; `/` redirects to a locale.
 
 ## Engineering rules
 - Page files are composition only; reusable components live in `src/components/{layout,editorial,systems,projects,people,partners,ui}`.
-- Content is typed and lives in `src/content/`; UI strings in `src/content/messages.ts`. No copy hard-coded in reusable components; no layout coupled to English text length.
+- Content is typed and lives in `src/content/`; UI strings in `src/content/messages.ts`. Runtime CMS (local or Supabase) may override published records; seed remains the fallback. No copy hard-coded in reusable public components; no layout coupled to English text length.
+- `/admin` is a structured editorial console (not a page builder). It is always noindex. See `docs/ADMIN.md` and `docs/CONTENT_ARCHITECTURE.md`.
+- Preview/staging must not be indexed unless `CIT_ALLOW_INDEXING=true` on an explicit production deployment.
 - Server components by default; `"use client"` only where interaction needs it (mobile menu, language switcher, motion opt-ins).
 - Diagrams are code-native SVG/HTML with textual meaning; they must reflow on mobile and honour `prefers-reduced-motion`.
 - No CMS, database, auth or global state framework in V1.

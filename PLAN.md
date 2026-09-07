@@ -1,25 +1,37 @@
-# PLAN — CIT Website V1 (Cursor /goal run)
+# PLAN — CIT Website V2
 
-Objective: a polished, production-ready bilingual BG/EN V1 website for the Center for Intelligent Technologies, truthful to the approved sources, visually verified at the four reference viewports, technically healthy and ready for stakeholder review / preview deployment. Definition of Done: see `docs/08_ACCEPTANCE_CRITERIA.md` and section 16 of the Cursor goal prompt.
+Objective: refine the accepted V1 into a production-hardened V2 — less documentary density, more institutional presence, an interactive ASAESIS explorer, a scannable project executive layer, and a secure structured admin/content platform — without rebuilding the site.
+
+Definition of Done: section 40 of the V2 goal prompt.
+
+## Preserve (non-negotiable)
+
+- Information architecture and `/[locale]` routes.
+- Drafting Editorial identity: Source Serif 4, IBM Plex Sans/Mono, paper/ink/marine/amber, hairline diagrams.
+- ASAESIS ten-stage methodology and leading programme name.
+- Bilingual BG/EN as equal surfaces.
+- Content truth: UASG only confirmed institution; no invented people, partners, funding, results, or contact channels.
+- Wine × Tourism as *Pilot concept*; sector mandate as *Proposed research mandate*.
+- Typed seed content in `src/content/` as the versioned fallback and import source.
 
 ## Milestones
 
-- **A. Foundation** — sources read; Build Pack normalized to `/docs`; `AGENTS.md`; Next.js 16 + TS + Tailwind 4 scaffold; git.
-- **B. Reference inspection** — Stanford HAI (home/about) for editorial grammar; minimal targeted looks at IDSS (framework compression), Dark Matter Labs (system maps), Turing (project template) only if a concrete question arises. Notes → `docs/DESIGN_DECISIONS.md`.
-- **C. Original design system** — tokens (paper/ink/marine/amber), type (Source Serif 4 display · IBM Plex Sans body · IBM Plex Mono labels), spacing/container, diagram grammar, motion rules. Opening composition explored as two coded alternatives, screenshot-compared, one selected.
-- **D. Homepage** — all eleven sections in BG and EN, composed from shared components.
-- **E. System visuals** — `SystemAnatomy` (components → failure modes), `PillarsCycle`, `MethodologyLoop` (10 ASAESIS-aligned stages), `ValueChain` (wine × tourism). Mobile reflow + textual fallback.
-- **F. Internal pages** — About, Methodology, Projects (list + 2 truthful details), Insights (list + concept notes), People (planned structure, no invented people), Work with us (collaboration routes), Privacy, bilingual 404.
-- **G. Bilingual + truth audit** — every route in both locales; no mixed-language UI; BG wrapping checked; no unsupported facts.
-- **H. QA** — 1440/1280/768/390 screenshots; axe on all routes; Lighthouse; SEO (titles, descriptions, canonical/hreflang, sitemap, robots, OG, Organization JSON-LD with confirmed fields only); `npm run check`.
-- **I. Release readiness** — final fidelity pass; preview deploy if Vercel auth exists (no domain changes); final report.
+- **A. Audit** — repo, docs, sources, deployed V1, local run. Strengths recorded.
+- **B. Visual/editorial refinement** — homepage copy −35–45% visible; photo-led hero; two signature visuals only (Core System Model + ASAESIS); source-faithful heading on algorithmic structure.
+- **C. Methodology Explorer** — source-backed stage fields; desktop journey + mobile sequence; reduced motion; textual equivalent.
+- **D. Project experience** — executive layer + retained detailed framework; desktop contents; truthful status.
+- **E. Content platform** — schema, RLS, storage, roles ADMIN/EDITOR, draft/review/published/archived, preview, media, SEO, truth controls, BG/EN completeness. Seed → CMS migration path. Local adapter when Supabase credentials are absent.
+- **F. SEO / robots** — environment-aware `noindex,nofollow` unless `CIT_ALLOW_INDEXING=true`; admin/preview always noindex.
+- **G. QA** — `npm run check`, unit tests, browser viewports 1440/1280/768/390, BG wrapping, a11y of explorer and admin forms, preview deploy if Vercel is available.
 
-## Key decisions (summary — details in docs/DESIGN_DECISIONS.md and BUILD_PROGRESS.md)
+## Architecture (V2)
 
-- Public name: Център за интелигентни технологии / Center for Intelligent Technologies (confirmed decision; sources use „Център за смарт технологии“ — conflict logged).
-- Methodology naming: ASAESIS is the approved operational methodology; the 10 stages of the Action Plan are the canonical public methodology; the homepage loop is a compressed view labelled as such.
-- Featured project: „Българско вино × Български туризъм“ — status *Pilot concept*. Second entry: the broader sector mandate — status *Proposed research mandate*.
-- People: no names; planned governance functions from the Action Plan only.
-- Network: UASG only; partner universities "to be confirmed".
-- Contact: no invented channels; neutral "to be published" treatment.
-- i18n: `/[locale]` segment (bg, en), shared typed content with per-locale text fields, `/` → locale redirect.
+- Public site remains Next.js App Router, server-first, static-capable.
+- Runtime content: CMS when configured; otherwise versioned seed. Public pages must not fail closed if CMS is down.
+- `/admin` is outside the locale tree, never indexed, server-authorized.
+- Adapters: `supabase` | `local` (dev only) | `seed` (read-only fallback).
+- Never two permanent competing editorial sources: seed is the import/fallback; CMS is runtime truth when connected.
+
+## Explicit non-goals
+
+Page builder, public accounts, chatbot, fake metrics, Stanford clone, WebGL, newsletter, CRM.

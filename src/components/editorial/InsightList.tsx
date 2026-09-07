@@ -1,33 +1,37 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
-import { href } from "@/lib/paths";
+import { href, type RouteKey } from "@/lib/paths";
 import type { Insight } from "@/content/types";
 import { t } from "@/content/messages";
 import { cn } from "@/lib/cn";
 import { ArrowRight } from "@/components/ui/Icons";
 
-/** Ruled list of insights (concept notes). `headingLevel` keeps the outline correct where used. */
+/** Ruled list of articles. `channel` chooses Insights vs News labels and URLs. */
 export function InsightList({
   insights,
   locale,
   headingLevel = 3,
   className,
+  channel = "insights",
 }: {
   insights: Insight[];
   locale: Locale;
   headingLevel?: 2 | 3;
   className?: string;
+  channel?: Extract<RouteKey, "insights" | "news">;
 }) {
   const m = t(locale);
   const H = headingLevel === 2 ? "h2" : "h3";
+  const kicker = channel === "news" ? m.newsItem : m.conceptNote;
+  const status = channel === "news" ? m.newsUpdate : m.workingConcept;
   return (
     <ol className={cn("divide-y divide-line border-y border-line", className)}>
       {insights.map((n) => (
         <li key={n.slug} className="group">
-          <Link href={href(locale, "insights", n.slug)} className="grid gap-3 py-7 md:grid-cols-12 md:gap-8">
+          <Link href={href(locale, channel, n.slug)} className="grid gap-3 py-7 md:grid-cols-12 md:gap-8">
             <div className="md:col-span-3">
-              <p className="label">{m.conceptNote}</p>
-              <p className="mt-2 text-meta text-ink-3">{m.workingConcept}</p>
+              <p className="label">{kicker}</p>
+              <p className="mt-2 text-meta text-ink-3">{status}</p>
             </div>
             <div className="md:col-span-8">
               <H className="text-h3 text-ink transition-colors duration-150 group-hover:text-marine">{n.title[locale]}</H>

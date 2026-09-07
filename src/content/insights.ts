@@ -1,8 +1,12 @@
 import type { Insight } from "./types";
 
-/* Concept notes derived from the Center's founding documents. They restate
-   the Center's own working framework; they are not research findings,
-   publications or peer-reviewed outputs. */
+/* Concept notes restating the Center's working framework — not research
+   findings. News items are confirmed external or institutional materials,
+   republished with source; they are not CIT project results. */
+
+const UASG_CONSTRUCTION_GAME_VIDEO = "https://www.youtube.com/watch?v=kfV3dGGHO5s";
+const UASG_CONSTRUCTION_GAME_SOURCE =
+  "https://www.uacg.bg/public/news/kogato-praktikata-vleze-v-universiteta-treto-izdanie-na-blgarska-stroitelna-igra";
 
 export const insights: Insight[] = [
   {
@@ -160,6 +164,66 @@ export const insights: Insight[] = [
     source: {
       bg: "По концепцията за пилотен проект „Българско вино × Български туризъм“, раздел „Проверка вместо предположение“.",
       en: "Based on the pilot project concept \"Bulgarian Wine × Bulgarian Tourism\", section \"Testing instead of assuming\".",
+    },
+  },
+  {
+    slug: "kogato-praktikata-vleze-v-universiteta",
+    type: "news",
+    title: {
+      bg: "Когато практиката влезе в университета: Трето издание на „Българска строителна игра“",
+      en: "When practice enters the university: Third edition of the Bulgarian Construction Game",
+    },
+    summary: {
+      bg: "На 28 ноември 2025 г. УАСГ отново събра образованието и бизнеса. Студенти от Хидротехническия факултет и Факултета по транспортно строителство преминаха през цялостен инвестиционен процес – от първия подпис до финалния отчет – в третото издание на „Българска строителна игра“.",
+      en: "On 28 November 2025 UASG again brought education and business together. Students from the Faculty of Hydraulic Engineering and the Faculty of Transportation Engineering went through a complete investment process — from the first signature to the final report — in the third edition of the Bulgarian Construction Game.",
+    },
+    body: {
+      bg: [
+        "На 28.11.2025 г. УАСГ отново събра образованието и бизнеса на едно място. Студентите от Хидротехнически факултет и Факултета по транспортно строителство преживяха цялостен инвестиционен процес от първия подпис до финалния отчет.",
+        "## Фокус върху инфраструктурата",
+        "Фокусът на тазгодишното издание беше инфраструктурата. Участниците симулираха общинска инвестиционна програма по строителството и контрол при реализирането на най-масовите обществени инвестиции, а именно строителството на нова улична мрежа със съпътстваща водоснабдителна и канализационна инфраструктура, както и реконструкцията на съществуващи улици и водопроводи.",
+        "Участниците формираха екипи, в които извършваха типични дейности за възложителите, строителните компании и фирмите, осъществяващи строителен надзор. Поетапно различните екипи трябваше да определят необходимите за договаряне количества СМР, да се формират анализни цени и да се остойности дейността по контрол на строителния процес. Последва договаряне между участниците и сключване на споразумения. По време на процеса не липсваха и изненади, като увеличение на горивата вследствие на международната политика, което се отрази на разходите за механизация и част от строителните продукти. Накрая обектите бяха издадени качествено и в срок с необходимата документация, което позволи те да бъдат официално открити.",
+        UASG_CONSTRUCTION_GAME_VIDEO,
+        "## Експертна подкрепа от бизнеса и институциите",
+        "За да бъде процесът най-реалистичен, екипите имаха своите инструктори.",
+        "За напътствия на екипите-възложители ценни насоки даваха експертите инж. Деница Дечева, инж. Йовка Минкова и инж. Гергана Михайлова от община Стара Загора, които са и възпитаници на двата факултета.",
+        "Строителните екипи почерпиха от опита на втората по големина строителна компания в Европа – ЩРАБАГ, които бяха и спонсор на събитието. За да дадат ценни насоки в инструкторския екип се включиха инж. Пламен Антонов - групов технически ръководител, г-н Божидар Костадинов - групов икономически ръководител, инж. Иван Петров - ръководител отдел „Калкулации“, инж. Виктория Дамянова - технически контрол и инж. Лидия Ковачка - управление на договори.",
+        "За да бъде процесът реален, качествен и ясно протоколиран, екипите, осъществяващи строителен надзор разчитаха на опита на инж. Евгени Цветанов от фирма “EQE-Control”.",
+        "Всички участници имаха възможност да участват в инструктаж по контролирано използване на съвременни технологии в помощ на участниците в строителството. Инж. Иван Тодоров демонстрира подход за работа с AI асистенти, базиран на ясно дефинирани роли, инструкции и контекст. Фокусът не бе върху „готов AI“, който върши задачите вместо студентите, а върху изграждането на контролиран и предвидим процес. Това е инструмент за по-ясно мислене, анализ и работа по инженерни задачи в среда на бързо развиващи се технологии.",
+        "И тази година консултанти в играта бяха преподавателите от катедра „Управление“ в УНСС, гл. ас. Васил Марчев и Светла Ценова.",
+        "Ценна помощ в реализацията на събитието оказа и инж. Симеон Бояджиев от \"Университетски център за комуникации и студентски политики\".",
+        "Създател и организатор на събитието за трета поредна година беше д-р инж. Станислав Дарачев.",
+        "Благодарим на „Национално сдружение на общините в Република България-НСОРБ“ за оказаното съдействие при популяризиране на събитието.",
+        "Началото беше дадено от проф. Жулиета Манчева, заместник-ректор на УАСГ по учебни дейности и докторантури. А след успешното реализиране на общинската инвестиционна програма, протоколът беше спазен и обектът бе символично открит с тържествено прерязване на лентата.",
+        "Игровизацията на процеса е пряко свързана с дисциплините, водени в катедра „Организация и управление на строителството“ към Строителен факултет на УАСГ.",
+      ],
+      en: [
+        "On 28 November 2025, UASG again brought education and business together in one place. Students from the Faculty of Hydraulic Engineering and the Faculty of Transportation Engineering went through a complete investment process from the first signature to the final report.",
+        "## Focus on infrastructure",
+        "This year's edition focused on infrastructure. Participants simulated a municipal investment programme for construction and for control in delivering the most common public investments: the construction of a new street network with accompanying water-supply and sewerage infrastructure, and the reconstruction of existing streets and water mains.",
+        "Participants formed teams that carried out typical work of clients, construction companies and construction-supervision firms. In stages, the different teams had to determine the construction and assembly quantities to be contracted, form analytical unit prices, and cost the activity of controlling the construction process. Negotiation between the participants followed, and agreements were signed. The process also included surprises, such as a fuel-price increase driven by international policy, which affected mechanisation costs and some construction products. In the end the works were handed over to quality and on time, with the required documentation, which made it possible to open them officially.",
+        UASG_CONSTRUCTION_GAME_VIDEO,
+        "## Expert support from business and institutions",
+        "To make the process as realistic as possible, the teams had instructors.",
+        "Guidance for the client teams came from Eng. Denitsa Decheva, Eng. Yovka Minkova and Eng. Gergana Mihaylova of Stara Zagora Municipality, who are also alumni of the two faculties.",
+        "The construction teams drew on the experience of the second-largest construction company in Europe — STRABAG — who were also a sponsor of the event. The instructor team included Eng. Plamen Antonov, group technical manager; Mr Bozhidar Kostadinov, group economic manager; Eng. Ivan Petrov, head of the Calculations department; Eng. Viktoria Damyanova, technical control; and Eng. Lidiya Kovachka, contract management.",
+        "To keep the process real, of high quality and clearly recorded, the construction-supervision teams relied on the experience of Eng. Evgeni Tsvetanov of EQE-Control.",
+        "All participants had the opportunity to take part in a briefing on the controlled use of contemporary technologies in support of construction participants. Eng. Ivan Todorov demonstrated an approach to working with AI assistants based on clearly defined roles, instructions and context. The focus was not on a “ready-made AI” that does the students' tasks for them, but on building a controlled and predictable process. This is a tool for clearer thinking, analysis and work on engineering tasks in an environment of rapidly developing technologies.",
+        "This year the game's consultants were again teaching staff from the Department of Management at UNWE: Chief Assist. Prof. Vasil Marchev and Svetla Tsenova.",
+        "Valuable help in delivering the event also came from Eng. Simeon Boyadzhiev of the University Centre for Communications and Student Policies.",
+        "The creator and organiser of the event for the third consecutive year was Dr Eng. Stanislav Darachev.",
+        "We thank the National Association of Municipalities in the Republic of Bulgaria (NAMRB) for assistance in promoting the event.",
+        "The opening was given by Prof. Zhulieta Mancheva, Vice-Rector of UASG for academic affairs and doctoral studies. After the municipal investment programme had been successfully carried out, protocol was observed and the site was symbolically opened with a ribbon-cutting.",
+        "The gamification of the process is directly linked to the courses taught in the Department of Construction Organization and Management at the Faculty of Structural Engineering of UASG.",
+      ],
+    },
+    topics: {
+      bg: ["УАСГ", "Образование", "Инфраструктура"],
+      en: ["UASG", "Education", "Infrastructure"],
+    },
+    source: {
+      bg: `Университетска новина на uacg.bg, 2 декември 2025. ${UASG_CONSTRUCTION_GAME_SOURCE}`,
+      en: `University news on uacg.bg, 2 December 2025. ${UASG_CONSTRUCTION_GAME_SOURCE}`,
     },
   },
 ];

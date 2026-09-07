@@ -6,18 +6,19 @@ import { href } from "@/lib/paths";
 import { pageMetadata } from "@/lib/metadata";
 import { projectsPage as c } from "@/content/pages";
 import { t } from "@/content/messages";
-import { getProject, projects } from "@/content/projects";
-import { getInsight } from "@/content/insights";
+import { projects } from "@/content/projects";
+import { getProjectForPublic, listPublishedArticles, listPublishedProjects } from "@/lib/cms/repository";
+import { insightRouteKey } from "@/lib/insight-channel";
 import { Container } from "@/components/layout/Container";
 import { Paragraphs, RuledList } from "@/components/editorial/Blocks";
 import { ProjectMeta, StatusLabel } from "@/components/projects/ProjectMeta";
 import { ProjectSection } from "@/components/projects/ProjectSection";
+import { ProjectExecutive } from "@/components/projects/ProjectExecutive";
+import { ProjectToc } from "@/components/projects/ProjectToc";
 import { Chain } from "@/components/systems/Chain";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
-
-export const dynamicParams = false;
 
 export function generateStaticParams() {
   return locales.flatMap((locale) => projects.map((p) => ({ locale, slug: p.slug })));
@@ -26,7 +27,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { locale: raw, slug } = await params;
   const locale: Locale = isLocale(raw) ? raw : "bg";
-  const project = getProject(slug);
+  const project = await getProjectForPublic(slug);
   if (!project) return {};
   return pageMetadata({ locale, key: "projects", slug, title: project.title[locale], description: project.standfirst[locale], type: "article" });
 }
@@ -34,12 +35,27 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function ProjectDetailPage({ params }: Params) {
   const { locale: raw, slug } = await params;
   const locale: Locale = isLocale(raw) ? raw : "bg";
-  const project = getProject(slug);
+  const project = await getProjectForPublic(slug);
   if (!project) notFound();
   const m = t(locale);
   const d = c.detail;
-  const related = (project.related ?? []).map(getProject).filter((p): p is NonNullable<typeof p> => Boolean(p));
-  const relatedInsights = (project.relatedInsights ?? []).map(getInsight).filter((i): i is NonNullable<typeof i> => Boolean(i));
+  const [publishedProjects, publishedArticles] = await Promise.all([listPublishedProjects(), listPublishedArticles()]);
+  const related = (project.related ?? []).map((relatedSlug) => publishedProjects.find((p) => p.slug === relatedSlug)).filter((p): p is NonNullable<typeof p> => Boolean(p));
+  const relatedInsights = (project.relatedInsights ?? []).map((relatedSlug) => publishedArticles.find((i) => i.slug === relatedSlug)).filter((i): i is NonNullable<typeof i> => Boolean(i));
+  const toc = [
+    { id: "executive", label: d.glance[locale] },
+    { id: "problem", label: d.problem[locale] },
+    { id: "objective", label: d.objective[locale] },
+    ...(project.scope ? [{ id: "scope", label: d.scope[locale] }] : []),
+    { id: "methodology", label: d.methodology[locale] },
+    ...(project.dataEvidence ? [{ id: "data", label: d.data[locale] }] : []),
+    ...(project.stakeholders ? [{ id: "stakeholders", label: d.stakeholders[locale] }] : []),
+    ...(project.targetArchitecture ? [{ id: "architecture", label: d.architecture[locale] }] : []),
+    ...(project.outputs ? [{ id: "outputs", label: d.outputs[locale] }] : []),
+    { id: "results", label: d.measured[locale] },
+    ...(project.validation ? [{ id: "validation", label: d.validation[locale] }] : []),
+    { id: "status", label: d.statusNote[locale] },
+  ];
 
   return (
     <article>
@@ -69,6 +85,16 @@ export default async function ProjectDetailPage({ params }: Params) {
       </header>
 
       <Container className="pb-section">
+        <div className="grid gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-3">
+            <ProjectToc heading={d.contents[locale]} items={toc} />
+          </div>
+          <div className="lg:col-span-9">
+            <div id="executive" className="scroll-mt-28">
+              <ProjectExecutive project={project} locale={locale} />
+            </div>
+            <h2 className="mt-16 font-serif text-h2 text-ink">{d.detailed[locale]}</h2>
+
         <ProjectSection id="problem" heading={d.problem[locale]}>
           <Paragraphs items={project.systemProblem[locale]} />
           {project.symptoms ? (
@@ -236,7 +262,7 @@ export default async function ProjectDetailPage({ params }: Params) {
                 <ul className="space-y-3">
                   {relatedInsights.map((i) => (
                     <li key={i.slug}>
-                      <ArrowLink href={href(locale, "insights", i.slug)}>{i.title[locale]}</ArrowLink>
+                      <ArrowLink href={href(locale, insightRouteKey(i.type), i.slug)}>{i.title[locale]}</ArrowLink>
                     </li>
                   ))}
                 </ul>
@@ -244,6 +270,8 @@ export default async function ProjectDetailPage({ params }: Params) {
             ) : null}
           </section>
         ) : null}
+          </div>
+        </div>
       </Container>
     </article>
   );

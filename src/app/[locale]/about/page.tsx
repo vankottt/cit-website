@@ -12,6 +12,7 @@ import { Paragraphs, RuledList } from "@/components/editorial/Blocks";
 import { PillarsCycle } from "@/components/systems/PillarsCycle";
 import { GovernanceList } from "@/components/people/GovernanceList";
 import { InstitutionalNetwork } from "@/components/partners/InstitutionalNetwork";
+import { CampusFigure } from "@/components/editorial/CampusFigure";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 
 type Params = { params: Promise<{ locale: string }> };
@@ -36,6 +37,13 @@ export default async function AboutPage({ params }: Params) {
         <SectionHeading label={s.mission.label[locale]} heading={s.mission.heading[locale]} id="mission-heading" align="split">
           <Paragraphs items={s.missionBody[locale]} />
         </SectionHeading>
+        <CampusFigure
+          photo="facade"
+          locale={locale}
+          sizes="(min-width: 1280px) 1120px, 92vw"
+          className="mt-12 w-full"
+          ratio="aspect-[16/9]"
+        />
       </Section>
 
       <Section id="pillars" tone="tint" labelledBy="about-pillars-heading">
@@ -90,6 +98,14 @@ export default async function AboutPage({ params }: Params) {
         <SectionHeading label={s.context.label[locale]} heading={s.context.heading[locale]} id="context-heading" align="split">
           <Paragraphs items={s.contextBody[locale]} />
         </SectionHeading>
+        <CampusFigure
+          photo="hall"
+          locale={locale}
+          sizes="(min-width: 1280px) 1120px, 92vw"
+          className="mt-12 w-full"
+          ratio="aspect-[16/9]"
+          imageClassName="object-center"
+        />
         <div className="mt-12">
           <InstitutionalNetwork locale={locale} />
         </div>

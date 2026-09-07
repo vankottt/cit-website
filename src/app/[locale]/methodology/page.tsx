@@ -6,14 +6,15 @@ import { pageMetadata } from "@/lib/metadata";
 import { methodologyPage as c, home } from "@/content/pages";
 import { t } from "@/content/messages";
 import { methodologyName, stages, validationLoop } from "@/content/methodology";
-import { projects } from "@/content/projects";
+import { listPublishedProjects } from "@/lib/cms/repository";
 import { PageHeader } from "@/components/editorial/PageHeader";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/editorial/SectionHeading";
-import { Paragraphs, RuledList } from "@/components/editorial/Blocks";
+import { Paragraphs } from "@/components/editorial/Blocks";
 import { SystemLoop } from "@/components/systems/SystemLoop";
 import { SystemAnatomy } from "@/components/systems/SystemAnatomy";
 import { MethodologyLoop } from "@/components/systems/MethodologyLoop";
+import { MethodologyExplorer } from "@/components/systems/MethodologyExplorer";
 import { Chain } from "@/components/systems/Chain";
 import { StatusLabel } from "@/components/projects/ProjectMeta";
 import { ArrowRight } from "@/components/ui/Icons";
@@ -31,6 +32,7 @@ export default async function MethodologyPage({ params }: Params) {
   const locale: Locale = isLocale(raw) ? raw : "bg";
   const m = t(locale);
   const s = c.sections;
+  const projects = await listPublishedProjects();
 
   return (
     <>
@@ -64,7 +66,7 @@ export default async function MethodologyPage({ params }: Params) {
         </SectionHeading>
         <div className="mt-12 grid gap-8 lg:grid-cols-12">
           <div className="lg:col-span-7 lg:col-start-6">
-            <SystemLoop locale={locale} title={home.hero.diagramTitle[locale]} desc={home.hero.diagramCaption[locale]} caption={home.hero.diagramCaption[locale]} />
+            <SystemLoop locale={locale} title={home.hero.diagramTitle[locale]} desc={home.hero.diagramCaption[locale]} />
           </div>
         </div>
       </Section>
@@ -92,27 +94,11 @@ export default async function MethodologyPage({ params }: Params) {
         </div>
       </Section>
 
-      {/* Full stage reference */}
-      <Section id="stage-reference" labelledBy="stage-reference-heading" size="sm">
-        <h2 id="stage-reference-heading" className="sr-only">
-          {s.stages.heading[locale]}
-        </h2>
-        <ol className="divide-y divide-line border-b border-line">
-          {stages.map((st) => (
-            <li key={st.code} id={`stage-${st.code}`} className="grid gap-4 py-8 md:grid-cols-12 md:gap-8">
-              <div className="md:col-span-3">
-                <p className="label">
-                  {m.stage} {st.code}
-                </p>
-                <h3 className="mt-2 text-h3 text-ink">{st.title[locale]}</h3>
-              </div>
-              <div className="md:col-span-8 md:col-start-5">
-                <p className="text-body text-ink-2">{st.body[locale]}</p>
-                {st.items ? <RuledList items={st.items[locale]} className="mt-5" columns={2} /> : null}
-              </div>
-            </li>
-          ))}
-        </ol>
+      <Section id="explorer" labelledBy="explorer-heading">
+        <SectionHeading label={s.explorer.label[locale]} heading={s.explorer.heading[locale]} id="explorer-heading" lead={s.explorer.lead[locale]} align="split" />
+        <div className="mt-12">
+          <MethodologyExplorer locale={locale} labels={{ stage: m.stage, loopNote: m.loopCloses, explorer: m.explorer }} />
+        </div>
       </Section>
 
       <Section id="ai" tone="tint" labelledBy="ai-heading">
