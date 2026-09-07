@@ -4,7 +4,11 @@ Durable checkpoint log. Re-read with `AGENTS.md` and `PLAN.md` after any long ga
 
 ## Current checkpoint
 
-**Demo News on the public site (2026-09-07):** three fictional News articles overlay in memory on every environment so they are visible on the site. They remain labelled as demonstration examples in source metadata and are not confirmed CIT news, events, partnerships or results. They are still not in `seedStore()` / `npm run seed` and cannot be saved to local or Supabase CMS. People fixtures stay behind `CIT_DEV_FIXTURES=1`.
+**Insights analyses (2026-09-07):** three concept notes overlay until saved from `/admin`, with locale-paired diagrams (`-bg` / `-en` media ids). They are not in `seedStore()` / `npm run seed`. They are working concept notes, not research publications or measured results. The supplied copy numbers some ASAESIS stages differently from the public ten-stage names in `src/content/methodology.ts` (e.g. Stage 05 as modelling/simulation vs official “Performance testing”); the copy was kept as supplied and not silently remapped. Confirmed seed Insights remain the original three framework notes. People fixtures stay behind `CIT_DEV_FIXTURES=1`. `/insights` listing uses the News card grammar with type label Анализ / Analysis; notes without library media use the drafting fallback marked Analysis, not News.
+
+**Confirmed News infographic (2026-09-07):** `kogato-praktikata-vleze-v-universiteta` now uses `media-bulgarian-construction-game` (`public/images/news/bulgarian-construction-game.jpg`). Caption credits idea and concept to Dr Eng. Stanislav Darachev, © 2025, and states that the graphic does not depict Center activity. Cards and the article hero use `object-contain` so labels are not cropped. Not campus atmosphere photography.
+
+Hero loop stutter: the 15s clip had been forced to 24 fps from a 30 fps source; it is re-encoded at the source rate, Main profile, with `preload="auto"`. The public loop is the full 3:00 source duration, not a 15s excerpt.
 
 ## Previous checkpoint
 
@@ -124,7 +128,7 @@ Rendered `meta robots` and `X-Robots-Tag`: `noindex, nofollow`. Missing project 
 - **Temporary UASG photographs** must be replaced before a final public launch (`docs/TEMP_IMAGE_SOURCES.md`). Homepage hall photo is a contained figure, not a full-bleed marine plate.
 - **`CIT_ALLOW_INDEXING` must stay unset/false** on the current Vercel preview alias. No production DNS was changed.
 - **No confirmed inquiry inbox** — Work with us has no submission form by design.
-- **News media library:** the one confirmed article has no `heroMediaId`. Card/hero photos appear only when editors attach legitimate media.
+- **News media library:** the confirmed UASG article uses the supplied construction-game infographic (`media-bulgarian-construction-game`). Campus atmosphere photos are not used as News filler.
 
 ## Quality gates
 

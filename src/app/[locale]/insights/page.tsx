@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/metadata";
 import { insightsPage as c } from "@/content/pages";
-import { listPublishedInsights } from "@/lib/cms/repository";
+import { listPublishedInsights, loadAllRecords } from "@/lib/cms/repository";
+import { newsMediaMap } from "@/lib/news-presentation";
 import { PageHeader } from "@/components/editorial/PageHeader";
 import { Container } from "@/components/layout/Container";
 import { InsightList } from "@/components/editorial/InsightList";
@@ -19,11 +20,13 @@ export default async function InsightsPage({ params }: Params) {
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "bg";
   const insights = await listPublishedInsights();
+  const { media } = await loadAllRecords();
+  const mediaMap = newsMediaMap(insights, media, locale);
   return (
     <>
       <PageHeader label={c.meta.title[locale]} heading={c.heading[locale]} lead={c.lead[locale]} />
       <Container className="pb-section">
-        <InsightList insights={insights} locale={locale} headingLevel={2} />
+        <InsightList insights={insights} locale={locale} headingLevel={2} media={mediaMap} />
       </Container>
     </>
   );

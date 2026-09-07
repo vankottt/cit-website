@@ -22,14 +22,35 @@ These files are **temporary development/preview assets**. They provide instituti
 
 | Asset | Source | Intended placement | Notes |
 |---|---|---|---|
-| `public/videos/hero.mp4` | Project folder `Video/202609062306.mp4` | Homepage overlay hero | Native muted loop. Grayscale H.264 web encode (no audio) of the supplied clip. Poster: `public/images/hero/poster.jpg` (frame from the same encode). Original in `Video/` stays in colour. Footage shows transport infrastructure; not presented as CIT activity. |
+| `public/videos/hero.mp4` | Project folder `Video/202609062306.mp4` | Homepage overlay hero | Native muted loop. Grayscale H.264 web encode (no audio) of the supplied clip, kept at the source ~30 fps. Poster: `public/images/hero/poster.jpg` (frame from the same encode). Original in `Video/` stays in colour. Footage shows transport infrastructure; not presented as CIT activity. |
 | YouTube `vlxegHXk2hU` | Retired | — | Previous UASG YouTube mock; no longer used on the homepage. |
 
 Stanford HAI homepage video (`https://hai.stanford.edu/assets/images/hero-video-1.mp4`) was inspected as a composition reference and **not used**.
 
+## Insights analysis diagrams
+
+Editorial diagrams supplied for three Insights analyses. They overlay until saved from `/admin`. They do **not** depict measured Center results or live CIT systems.
+
+| Filename | Article | Notes |
+|---|---|---|
+| `public/images/insights/closed-feedback-loop-bg.jpg` | `why-public-policies-fail` (BG) | Graphic 1. Media id `media-analysis-closed-feedback-loop-bg`. |
+| `public/images/insights/closed-feedback-loop-en.jpg` | `why-public-policies-fail` (EN) | Graphic 1. Media id `media-analysis-closed-feedback-loop-en`. |
+| `public/images/insights/hierarchy-network-bg.jpg` | `governance-and-systems-engineering` (BG) | Graphic 2. Media id `media-analysis-hierarchy-network-bg`. |
+| `public/images/insights/hierarchy-network-en.jpg` | `governance-and-systems-engineering` (EN) | Graphic 2. Media id `media-analysis-hierarchy-network-en`. |
+| `public/images/insights/algorithmic-decision-tree-bg.jpg` | `algorithmic-institutional-design` (BG) | Graphic 3. Media id `media-analysis-algorithmic-decision-tree-bg`. |
+| `public/images/insights/algorithmic-decision-tree-en.jpg` | `algorithmic-institutional-design` (EN) | Graphic 3. Media id `media-analysis-algorithmic-decision-tree-en`. |
+
+## Confirmed UASG news infographic
+
+Editorial infographic supplied for the confirmed UASG construction-game article. It is not campus atmosphere photography and does **not** depict CIT activity.
+
+| Filename | Article | Notes |
+|---|---|---|
+| `public/images/news/bulgarian-construction-game.jpg` | `kogato-praktikata-vleze-v-universiteta` | Footer credits idea and concept to Dr Eng. Stanislav Darachev, © 2025. Media id `media-bulgarian-construction-game`. Rendered with `object-contain` so labels are not cropped. |
+
 ## Development News fixtures (not CIT photography)
 
-Generated images for public demonstration News samples. They overlay in memory on every environment. They do **not** depict CIT staff, teaching, fieldwork, sites or results.
+Generated images for public demonstration News samples. They overlay until saved from `/admin`. They do **not** depict CIT staff, teaching, fieldwork, sites or results.
 
 | Filename | Intended placement | Notes |
 |---|---|---|
@@ -45,4 +66,4 @@ Generated images for public demonstration News samples. They overlay in memory o
 - National Forum poster (`uploads/articles/74/форум.webp`): text-heavy promotional graphic, not photography.
 - Alumni atrium image on [alumni.uacg.bg](https://alumni.uacg.bg/): identifiable students, not CIT staff; not used.
 - Archival 1942 building photograph on История: too low-resolution for a large editorial figure; historical, not current Center activity.
-- Not placed on Projects, Insights, Methodology or People: no authentic project/insight/portrait photography exists, and campus interiors must not be presented as wine-tourism results, published research, or CIT staff.
+- Not placed on Projects, Methodology or People: no authentic project/methodology/portrait photography exists, and campus interiors must not be presented as wine-tourism results, published research, or CIT staff. Insights analyses use supplied editorial diagrams, not campus photography.

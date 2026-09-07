@@ -1,10 +1,12 @@
+import { constructionGameInfographic } from "./media";
 import type { Insight } from "./types";
 
 /* Concept notes restating the Center's working framework — not research
    findings. News items in this file are confirmed external or institutional
    materials, republished with source; they are not CIT project results.
    Fictional News samples live in `dev-news-fixtures.ts` and overlay in memory
-   on the public site. They are never part of this confirmed seed. */
+   on the public site. Insights analyses live in `analysis-insights.ts` and
+   overlay the same way. Neither is part of this confirmed seed. */
 
 const UASG_CONSTRUCTION_GAME_VIDEO = "https://www.youtube.com/watch?v=kfV3dGGHO5s";
 const UASG_CONSTRUCTION_GAME_SOURCE =
@@ -171,6 +173,7 @@ export const insights: Insight[] = [
   {
     slug: "kogato-praktikata-vleze-v-universiteta",
     type: "news",
+    heroMediaId: constructionGameInfographic.id,
     title: {
       bg: "Когато практиката влезе в университета: Трето издание на „Българска строителна игра“",
       en: "When practice enters the university: Third edition of the Bulgarian Construction Game",

@@ -27,7 +27,14 @@ export function EditorialFigure({
   return (
     <figure className={cn("overflow-hidden border border-line bg-paper-3", className)}>
       <div className={cn("relative w-full", ratio)}>
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className={cn("object-cover object-left", imageClassName)} />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className={imageClassName ?? "object-cover object-left"}
+        />
       </div>
       {caption ? <figcaption className="border-t border-line px-4 py-3 text-small text-ink-3">{caption}</figcaption> : null}
     </figure>

@@ -34,7 +34,7 @@ describe("UASG construction-game news seed", () => {
     expect(article?.source.en).toContain("2 December 2025");
     expect(article?.date).toBe("2025-12-02");
     expect(article?.author).toBeUndefined();
-    expect(article?.heroMediaId).toBeUndefined();
+    expect(article?.heroMediaId).toBe("media-bulgarian-construction-game");
   });
 
   it("keeps news out of the Insights sitemap fallback set", () => {

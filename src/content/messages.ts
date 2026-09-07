@@ -43,6 +43,7 @@ export interface Messages {
   conceptNote: string;
   workingConcept: string;
   newsItem: string;
+  analysisItem: string;
   newsUpdate: string;
   diagramFallback: string;
   onThisPage: string;
@@ -115,6 +116,7 @@ const messages: Record<Locale, Messages> = {
     conceptNote: "Концептуална бележка",
     workingConcept: "Работна концепция",
     newsItem: "Новина",
+    analysisItem: "Анализ",
     newsUpdate: "Актуално",
     diagramFallback: "Текстово описание на диаграмата",
     onThisPage: "На тази страница",
@@ -191,6 +193,7 @@ const messages: Record<Locale, Messages> = {
     conceptNote: "Concept note",
     workingConcept: "Working concept",
     newsItem: "News",
+    analysisItem: "Analysis",
     newsUpdate: "Update",
     diagramFallback: "Text description of the diagram",
     onThisPage: "On this page",

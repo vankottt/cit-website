@@ -4,8 +4,8 @@ import type { Insight } from "./types";
 /**
  * Fictional editorial examples shown on the public News surface.
  * Not confirmed CIT news, completed research, real events, partnerships
- * or measured results. Overlay in memory on every environment; never include
- * these records in CMS seed or production imports.
+ * or measured results. Overlay until an editor saves them from /admin.
+ * Confirmed seed (`src/content/insights.ts` / `seedStore`) stays UASG-only.
  */
 
 export const DEV_NEWS_FIXTURE_INSIGHT_ID_PREFIX = "insight-dev-fixture-";
@@ -21,6 +21,8 @@ export const DEV_NEWS_FIXTURE_SLUGS = [
   "wine-tourism-and-regional-value",
 ] as const;
 
+const WINE_TOURISM_VIDEO = "https://www.youtube.com/watch?v=kuGllDpI0Y0";
+
 export type DevNewsFixtureSlug = (typeof DEV_NEWS_FIXTURE_SLUGS)[number];
 
 export function isDevNewsFixtureSlug(slug: string): boolean {
@@ -34,9 +36,6 @@ export function isDevNewsFixtureInsightId(id: string): boolean {
 export function isDevNewsFixtureMediaId(id: string): boolean {
   return id.startsWith(DEV_NEWS_FIXTURE_MEDIA_ID_PREFIX);
 }
-
-export const CMS_DEV_FIXTURE_WRITE_BLOCK =
-  "Development fixtures are not stored in the CMS and cannot be saved, published or deleted there.";
 
 export const devNewsFixtures: Insight[] = [
   {
@@ -141,6 +140,7 @@ export const devNewsFixtures: Insight[] = [
         "Именно тази взаимосвързаност стои в основата на пилотната концепция „Българско вино × Български туризъм“.",
         "Целта не е просто да се създаде още един туристически продукт. По-интересният въпрос е как изглежда цялата система: как посетителят открива даден регион, как избира място за посещение, как местните производители достигат до него, как информацията се движи между участниците и къде се губи потенциална стойност.",
         "ASAESIS позволява подобен казус да бъде разгледан последователно — чрез карта на системата, процесите и участниците, анализ на слабите места, формулиране на целева архитектура и определяне на измерими показатели.",
+        WINE_TOURISM_VIDEO,
         "Данните и AI могат да имат конкретна роля в този процес: анализ на туристическо търсене, структуриране на информация за производители и маршрути, персонализирани препоръки, подпомагане на съдържанието и наблюдение на ключови показатели.",
         "Но технологията е само част от решението. Устойчивият резултат зависи от това дали стимулите, процесите и ролите в системата са подредени така, че да създават стойност едновременно за посетителите, местния бизнес и регионите.",
         "Пилотната концепция е възможност методологията да бъде тествана върху реален секторен проблем и постепенно да се превърне в модел, който може да бъде адаптиран и към други области.",
@@ -150,6 +150,7 @@ export const devNewsFixtures: Insight[] = [
         "This interconnectedness is at the heart of the Bulgarian Wine × Bulgarian Tourism pilot concept.",
         "The objective is not simply to create another tourism product. The more interesting question is how the complete system works: how visitors discover a region, how they choose where to go, how local producers reach them, how information moves between participants and where potential value is lost.",
         "ASAESIS provides a way to examine such a challenge systematically — through system and stakeholder mapping, process analysis, identification of failure points, development of a target architecture and definition of measurable indicators.",
+        WINE_TOURISM_VIDEO,
         "Data and AI can play a practical role in this process: analysing tourism demand, structuring information about producers and routes, supporting personalised recommendations, assisting content creation and monitoring key indicators.",
         "Technology, however, is only one part of the solution. Sustainable outcomes depend on whether incentives, processes and roles across the system are aligned in a way that creates value for visitors, local businesses and regions at the same time.",
         "The pilot concept provides an opportunity to test the methodology on a real sectoral challenge and gradually develop an approach that can later be adapted to other domains.",

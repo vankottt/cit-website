@@ -356,6 +356,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: translateZ(0);
   }
 
   /* Editorial news strip — native scroll-snap, no carousel library. */

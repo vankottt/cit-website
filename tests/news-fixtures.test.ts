@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { insights, getInsight } from "../src/content/insights";
 import {
-  CMS_DEV_FIXTURE_WRITE_BLOCK,
   DEV_NEWS_FIXTURE_SLUGS,
   DEV_NEWS_FIXTURE_SOURCE,
   devNewsFixtures,
@@ -10,14 +9,12 @@ import { isDevFixturesEnabled } from "../src/content/dev-fixtures";
 import { devNewsFixturePhotos } from "../src/content/media";
 import {
   applyDevNewsFixtures,
-  cmsDevFixtureWriteBlock,
   devNewsFixtureInsightRecords,
-  isBlockedDevFixtureInsight,
-  isBlockedDevFixtureMedia,
 } from "../src/lib/cms/dev-news-overlay";
 import { recordToInsight, seedMedia, seedStore } from "../src/lib/cms/serialize";
 import { resolveNewsMedia } from "../src/lib/news-presentation";
 import { sortNewsNewestFirst } from "../src/lib/news-order";
+import { parseYouTubeBlock } from "../src/lib/youtube";
 
 const UASG_SLUG = "kogato-praktikata-vleze-v-universiteta";
 
@@ -42,7 +39,11 @@ describe("demo news fixtures", () => {
     }
     expect(seeded.insights.some((item) => item.id.startsWith("insight-dev-fixture-"))).toBe(false);
     expect(seeded.media.some((item) => item.id.startsWith("media-dev-fixture-"))).toBe(false);
-    expect(seedMedia().map((item) => item.id)).toEqual(["media-campus-facade", "media-campus-hall"]);
+    expect(seedMedia().map((item) => item.id)).toEqual([
+      "media-campus-facade",
+      "media-campus-hall",
+      "media-bulgarian-construction-game",
+    ]);
   });
 
   it("marks every demo article internally and never invents authors or source URLs", () => {
@@ -76,6 +77,19 @@ describe("demo news fixtures", () => {
     });
   });
 
+  it("places the wine YouTube URL in the middle of both locales without wrapping it in a sentence", () => {
+    const article = devNewsFixtures.find((item) => item.slug === "wine-tourism-and-regional-value");
+    const video = "https://www.youtube.com/watch?v=kuGllDpI0Y0";
+    expect(article).toBeDefined();
+    for (const locale of ["bg", "en"] as const) {
+      const body = article!.body[locale];
+      const index = body.indexOf(video);
+      expect(index).toBeGreaterThan(0);
+      expect(index).toBeLessThan(body.length - 1);
+      expect(parseYouTubeBlock(body[index]!)).toEqual({ id: "kuGllDpI0Y0" });
+    }
+  });
+
   it("overlays demo news on the public site by default, including production", () => {
     expect(applyDevNewsFixtures(emptyBundle()).insights.map((item) => item.slug)).toEqual([...DEV_NEWS_FIXTURE_SLUGS]);
     expect(isDevFixturesEnabled({ CIT_DEV_FIXTURES: "1", NODE_ENV: "production" })).toBe(false);
@@ -97,13 +111,15 @@ describe("demo news fixtures", () => {
     const uasg = overlaid.insights.find((item) => item.slug === UASG_SLUG);
     const original = seeded.insights.find((item) => item.slug === UASG_SLUG);
     expect(uasg).toEqual(original);
-    expect(uasg?.heroMediaId).toBeUndefined();
+    expect(uasg?.heroMediaId).toBe("media-bulgarian-construction-game");
 
     const blackSea = news.find((item) => item.slug === "data-for-a-more-resilient-black-sea");
     const resolved = resolveNewsMedia(blackSea!, overlaid.media, "en");
     expect(resolved?.src).toBe(devNewsFixturePhotos.coastalWaterSampling.src);
     expect(resolved?.alt).toContain("Generated fixture");
-    expect(resolveNewsMedia(recordToInsight(uasg!), overlaid.media, "bg")).toBeNull();
+    expect(resolveNewsMedia(recordToInsight(uasg!), overlaid.media, "bg")?.src).toBe(
+      "/images/news/bulgarian-construction-game.jpg",
+    );
   });
 
   it("does not override a real CMS record that already uses a fixture slug", () => {
@@ -121,21 +137,31 @@ describe("demo news fixtures", () => {
     expect(matches[0]?.titleEn).toBe("Existing CMS record");
   });
 
-  it("strips leaked fixture ids when the flag is off", () => {
+  it("preserves CMS edits that keep fixture ids", () => {
     const seeded = seedStore();
-    const leaked = applyDevNewsFixtures(seeded, true);
-    const cleaned = applyDevNewsFixtures(leaked, false);
-    expect(cleaned.insights.some((item) => item.id.startsWith("insight-dev-fixture-"))).toBe(false);
-    expect(cleaned.media.some((item) => item.id.startsWith("media-dev-fixture-"))).toBe(false);
-    expect(cleaned.insights.map((item) => item.slug)).toEqual(seeded.insights.map((item) => item.slug));
+    const edited = {
+      ...devNewsFixtureInsightRecords()[0]!,
+      titleEn: "Edited demonstration title",
+      bodyEn: ["Edited body.", "https://www.youtube.com/watch?v=kfV3dGGHO5s"],
+      updatedBy: "editor",
+    };
+    const overlaid = applyDevNewsFixtures({ ...seeded, insights: [...seeded.insights, edited] });
+    const matches = overlaid.insights.filter((item) => item.slug === edited.slug);
+    expect(matches).toHaveLength(1);
+    expect(matches[0]).toMatchObject({
+      id: edited.id,
+      titleEn: "Edited demonstration title",
+      bodyEn: edited.bodyEn,
+      updatedBy: "editor",
+    });
   });
 
-  it("blocks CMS writes for fixture records", () => {
-    expect(cmsDevFixtureWriteBlock()).toEqual({ ok: false, error: CMS_DEV_FIXTURE_WRITE_BLOCK });
-    expect(isBlockedDevFixtureInsight({ id: "insight-dev-fixture-data-for-a-more-resilient-black-sea" })).toBe(true);
-    expect(isBlockedDevFixtureInsight({ slug: "wine-tourism-and-regional-value" })).toBe(true);
-    expect(isBlockedDevFixtureInsight({ slug: UASG_SLUG, id: "insight-kogato-praktikata-vleze-v-universiteta" })).toBe(false);
-    expect(isBlockedDevFixtureMedia(devNewsFixturePhotos.goldenHourVineyard.id)).toBe(true);
-    expect(isBlockedDevFixtureMedia("media-campus-facade")).toBe(false);
+  it("does not strip saved fixture records when overlay is disabled", () => {
+    const seeded = seedStore();
+    const saved = applyDevNewsFixtures(seeded, true);
+    const leftAlone = applyDevNewsFixtures(saved, false);
+    expect(leftAlone.insights.some((item) => item.id.startsWith("insight-dev-fixture-"))).toBe(true);
+    expect(leftAlone.media.some((item) => item.id.startsWith("media-dev-fixture-"))).toBe(true);
+    expect(leftAlone.insights.map((item) => item.slug)).toEqual(saved.insights.map((item) => item.slug));
   });
 });

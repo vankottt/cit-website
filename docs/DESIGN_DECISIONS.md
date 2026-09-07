@@ -130,7 +130,7 @@ Operational, not editorial: system UI, no marine hero bands, no diagrams. Public
 
 ## 6. Homepage overlay — local video (2026-09-06)
 
-The opening uses a muted looping `<video>` from the project `Video/` folder (`202609062306.mp4`), served as a 15-second grayscale H.264 loop: `public/videos/hero.mp4` (1920×1080, ~2.3 MiB) and `public/videos/hero-mobile.mp4` (960×540, ~0.5 MiB) for viewports ≤767px. The video element uses `preload="none"`; the poster (`public/images/hero/poster.jpg`) is the first paint. Pause control remains. Reduced motion never mounts the video. The original file in `Video/` stays in colour and is three minutes; the web loop is an excerpt of the same footage, not a replacement concept. Insight YouTube embeds stay without autoplay.
+The opening uses a muted looping `<video>` from the project `Video/` folder (`202609062306.mp4`), served as a full-length grayscale H.264 loop at the source frame rate (~30 fps, 3:00): `public/videos/hero.mp4` (1920×1080, ~57 MiB) and `public/videos/hero-mobile.mp4` (960×540, ~19 MiB) for viewports ≤767px. The video element uses `preload="auto"`; the poster (`public/images/hero/poster.jpg`) is the first paint. Pause control remains. Reduced motion never mounts the video. The original file in `Video/` stays in colour; the web files are the same duration, not a 15-second excerpt. Insight YouTube embeds stay without autoplay.
 
 The clip shows transport infrastructure (aerial). It is not captioned as CIT laboratory, team or project activity. The previous UASG YouTube mock is retired. The older generic “no autoplay video” motion rule in section 2 is superseded by this homepage overlay decision.
 
@@ -160,7 +160,7 @@ Featured Wine × Tourism sits before News, with status, methodology link and the
 
 ### News editorial strip
 
-Homepage News is a CSS scroll-snap strip (no carousel library, no autoplay). Target peek of the next card when more than one item exists; previous/next controls only when the strip overflows. Published items are ordered newest source publication date first (slug tie-breaker); the homepage shows at most five (`HOME_NEWS_PREVIEW_LIMIT`), while `/news` lists the full published set. One confirmed article uses a CIT-native drafting fallback — no campus photography and no invented images. `/news` listing uses the same card hierarchy (media, type · date, headline, summary, link). Insights stay a ruled concept-note list.
+Homepage News is a CSS scroll-snap strip (no carousel library, no autoplay). Target peek of the next card when more than one item exists; previous/next controls only when the strip overflows. Published items are ordered newest source publication date first (slug tie-breaker); the homepage shows at most five (`HOME_NEWS_PREVIEW_LIMIT`), while `/news` lists the full published set. The confirmed UASG article uses the supplied Bulgarian Construction Game infographic (`object-contain`); campus photography is not used as News filler. Items without library media still use the drafting fallback. `/news` listing uses the same card hierarchy (media, type · date, headline, summary, link). `/insights` uses that same card hierarchy with type label Analysis / Анализ; notes without library media use the drafting fallback marked Analysis, not News.
 
 ### CIT curve experiment — rejected
 

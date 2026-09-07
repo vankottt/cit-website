@@ -1,5 +1,5 @@
 import { insights } from "@/content/insights";
-import { campusPhotos } from "@/content/media";
+import { campusPhotos, constructionGameInfographic } from "@/content/media";
 import { people } from "@/content/people";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
@@ -155,6 +155,26 @@ export function seedMedia(): MediaRecord[] {
       replacementRequired: true,
       width: campusPhotos.hall.width,
       height: campusPhotos.hall.height,
+      createdAt: ts,
+      updatedAt: ts,
+    },
+    {
+      id: constructionGameInfographic.id,
+      publicUrl: constructionGameInfographic.src,
+      title: "Bulgarian Construction Game infographic",
+      altBg: constructionGameInfographic.alt.bg,
+      altEn: constructionGameInfographic.alt.en,
+      captionBg: constructionGameInfographic.caption.bg,
+      captionEn: constructionGameInfographic.caption.en,
+      source: "Infographic supplied for the UASG construction-game news article. Idea and concept: Dr Eng. Stanislav Darachev.",
+      usageNote: "Editorial figure for the confirmed UASG news article. Does not depict CIT activity or results.",
+      copyrightNote: "© 2025. Idea and concept: Dr Eng. Stanislav Darachev.",
+      temporary: false,
+      replacementRequired: false,
+      mimeType: constructionGameInfographic.mimeType,
+      byteSize: constructionGameInfographic.byteSize,
+      width: constructionGameInfographic.width,
+      height: constructionGameInfographic.height,
       createdAt: ts,
       updatedAt: ts,
     },

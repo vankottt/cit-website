@@ -5,7 +5,8 @@ import { projects as seedProjects } from "@/content/projects";
 import { cmsMode } from "./mode";
 import { getLocalStore, updateLocalStore } from "./local-store";
 import { recordContentSource } from "./content-source";
-import { applyDevNewsFixtures, cmsDevFixtureWriteBlock, isBlockedDevFixtureInsight, isBlockedDevFixtureMedia } from "./dev-news-overlay";
+import { applyAnalysisInsights, analysisMediaNeededFor, missingAnalysisInsights } from "./analysis-overlay";
+import { applyDevNewsFixtures, demoNewsMediaNeededFor, missingDevNewsFixtures } from "./dev-news-overlay";
 import { insightToRecord, projectToRecord, recordToInsight, recordToPerson, recordToProject, seedMedia, seedPartners, seedSettings } from "./serialize";
 import { canViewForPublic, isPublished, partnerIsPublic, personIsPublic, seoIncomplete, translationState, validateInsightPublish, validatePersonPublish, validateProjectPublish } from "./truth";
 import type {
@@ -22,12 +23,82 @@ import type {
 import type { Insight, Person, Project } from "@/content/types";
 import { getPreviewGrant, type PreviewGrant } from "@/lib/preview";
 import { sortNewsNewestFirst } from "@/lib/news-order";
+import { mediaPairMatches } from "@/lib/news-presentation";
 
 function seedProjectRecords(): ProjectRecord[] {
   return seedProjects.map(projectToRecord);
 }
 function seedInsightRecords(): InsightRecord[] {
   return seedInsights.map(insightToRecord);
+}
+
+function missingEditorialOverlays(data: { insights: InsightRecord[]; media: MediaRecord[] }) {
+  const news = missingDevNewsFixtures(data);
+  const analyses = missingAnalysisInsights({
+    insights: [...data.insights, ...news.insights],
+    media: [...data.media, ...news.media],
+  });
+  return {
+    insights: [...news.insights, ...analyses.insights],
+    media: [...news.media, ...analyses.media],
+  };
+}
+
+function applyEditorialOverlays<T extends { insights: InsightRecord[]; media: MediaRecord[] }>(data: T): T {
+  return applyAnalysisInsights(applyDevNewsFixtures(data));
+}
+
+function overlayMediaNeededFor(record: InsightRecord): MediaRecord[] {
+  const byId = new Map<string, MediaRecord>();
+  for (const item of [...demoNewsMediaNeededFor(record), ...analysisMediaNeededFor(record)]) {
+    byId.set(item.id, item);
+  }
+  return [...byId.values()];
+}
+
+async function persistMissingLocalOverlays() {
+  const store = await getLocalStore();
+  const extras = missingEditorialOverlays(store);
+  if (!extras.insights.length && !extras.media.length) return applyEditorialOverlays(store);
+  return applyEditorialOverlays(
+    await updateLocalStore((data) => {
+      for (const media of extras.media) {
+        if (!data.media.some((item) => item.id === media.id)) data.media.push(media);
+      }
+      const analyses = extras.insights.filter((item) => item.id.startsWith("insight-analysis-"));
+      const others = extras.insights.filter((item) => !item.id.startsWith("insight-analysis-"));
+      for (const insight of [...analyses].reverse()) {
+        if (!data.insights.some((item) => item.slug === insight.slug)) data.insights.unshift(insight);
+      }
+      for (const insight of others) {
+        if (!data.insights.some((item) => item.slug === insight.slug)) data.insights.push(insight);
+      }
+    }),
+  );
+}
+
+async function persistMissingOverlayMedia(record: InsightRecord): Promise<{ ok: true } | { ok: false; error: string }> {
+  const needed = overlayMediaNeededFor(record);
+  if (!needed.length) return { ok: true };
+  const mode = cmsMode();
+  if (mode === "local") {
+    await updateLocalStore((data) => {
+      for (const media of needed) {
+        if (!data.media.some((item) => item.id === media.id)) data.media.push(media);
+      }
+    });
+    return { ok: true };
+  }
+  if (mode === "supabase") {
+    const { loadSupabaseRecords, saveSupabaseMedia } = await import("./supabase-repo");
+    const current = await loadSupabaseRecords();
+    for (const media of needed) {
+      if (current.media.some((item) => item.id === media.id)) continue;
+      const result = await saveSupabaseMedia(media);
+      if (!result.ok) return result;
+    }
+  }
+  return { ok: true };
 }
 
 export async function loadAllRecords(): Promise<{
@@ -42,14 +113,14 @@ export async function loadAllRecords(): Promise<{
   const mode = cmsMode();
   if (mode === "local") {
     recordContentSource("local");
-    return applyDevNewsFixtures(await getLocalStore());
+    return persistMissingLocalOverlays();
   }
   if (mode === "supabase") {
     try {
       const { loadSupabaseRecords } = await import("./supabase-repo");
       const records = await loadSupabaseRecords();
       recordContentSource("supabase");
-      return applyDevNewsFixtures(records);
+      return applyEditorialOverlays(records);
     } catch (error) {
       const reason = error instanceof Error ? error.message : "unknown CMS error";
       recordContentSource("seed-fallback", reason);
@@ -57,7 +128,7 @@ export async function loadAllRecords(): Promise<{
   } else {
     recordContentSource("seed");
   }
-  return applyDevNewsFixtures({
+  return applyEditorialOverlays({
     projects: seedProjectRecords(),
     insights: seedInsightRecords(),
     people: [],
@@ -174,9 +245,10 @@ export async function saveProject(record: ProjectRecord): Promise<{ ok: true } |
 }
 
 export async function saveInsight(record: InsightRecord): Promise<{ ok: true } | { ok: false; error: string }> {
-  if (isBlockedDevFixtureInsight(record)) return cmsDevFixtureWriteBlock();
   const mode = cmsMode();
   if (mode === "seed") return { ok: false, error: "CMS is read-only until local or Supabase credentials are configured." };
+  const mediaResult = await persistMissingOverlayMedia(record);
+  if (!mediaResult.ok) return mediaResult;
   if (mode === "local") {
     await updateLocalStore((data) => {
       const idx = data.insights.findIndex((p) => p.id === record.id || p.slug === record.slug);
@@ -236,7 +308,6 @@ export async function saveSettings(record: SiteSettingsRecord): Promise<{ ok: tr
 }
 
 export async function saveMedia(record: MediaRecord): Promise<{ ok: true } | { ok: false; error: string }> {
-  if (isBlockedDevFixtureMedia(record.id)) return cmsDevFixtureWriteBlock();
   const mode = cmsMode();
   if (mode === "seed") return { ok: false, error: "CMS is read-only until local or Supabase credentials are configured." };
   if (mode === "local") {
@@ -253,12 +324,11 @@ export async function saveMedia(record: MediaRecord): Promise<{ ok: true } | { o
 }
 
 export async function deleteMedia(id: string): Promise<{ ok: true } | { ok: false; error: string }> {
-  if (isBlockedDevFixtureMedia(id)) return cmsDevFixtureWriteBlock();
   const { projects, people, insights, settings, media } = await loadAllRecords();
   const used =
     projects.some((p) => p.heroMediaId === id) ||
     people.some((p) => p.photoMediaId === id) ||
-    insights.some((i) => i.heroMediaId === id) ||
+    insights.some((i) => mediaPairMatches(i.heroMediaId, id)) ||
     settings.data.heroMediaId === id ||
     settings.data.institutionalMediaId === id ||
     settings.data.researchMediaId === id ||
@@ -295,11 +365,9 @@ export async function transitionProject(id: string, state: PublicationState, act
 }
 
 export async function transitionInsight(id: string, state: PublicationState, actor?: string): Promise<{ ok: true } | { ok: false; error: string; issues?: string[] }> {
-  if (isBlockedDevFixtureInsight({ id, slug: id })) return cmsDevFixtureWriteBlock();
   const { insights } = await loadAllRecords();
   const record = insights.find((p) => p.id === id || p.slug === id);
   if (!record) return { ok: false as const, error: "Insight not found." };
-  if (isBlockedDevFixtureInsight(record)) return cmsDevFixtureWriteBlock();
   if (state === "published") {
     const issues = validateInsightPublish(record).filter((i) => i.blocking);
     if (issues.length) return { ok: false as const, error: "Publish blocked.", issues: issues.map((i) => i.message) };

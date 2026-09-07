@@ -64,7 +64,15 @@ export function InsightArticle({
 
       {hero ? (
         <Container className="pb-2">
-          <EditorialFigure src={hero.src} alt={hero.alt} sizes="(min-width: 1024px) 1120px, 92vw" ratio="aspect-[16/7]" />
+          <EditorialFigure
+            src={hero.src}
+            alt={hero.alt}
+            caption={hero.caption}
+            sizes="(min-width: 1024px) 1120px, 92vw"
+            ratio={hero.contain ? "aspect-[16/9]" : "aspect-[16/7]"}
+            imageClassName={hero.contain ? "object-contain" : "object-cover object-left"}
+            priority
+          />
         </Container>
       ) : null}
 

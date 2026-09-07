@@ -1,9 +1,6 @@
 import {
-  CMS_DEV_FIXTURE_WRITE_BLOCK,
   DEV_NEWS_FIXTURE_INSIGHT_ID_PREFIX,
   devNewsFixtures,
-  isDevNewsFixtureInsightId,
-  isDevNewsFixtureMediaId,
   isDevNewsFixtureSlug,
 } from "@/content/dev-news-fixtures";
 import { devNewsFixturePhotos } from "@/content/media";
@@ -13,19 +10,7 @@ import type { InsightRecord, MediaRecord } from "./types";
 const FIXTURE_TIMESTAMP = "2026-09-07T00:00:00.000Z";
 
 const FIXTURE_USAGE =
-  "Public demonstration editorial asset. Fictional example for the News UI. Does not depict CIT activity. Never import into the production CMS.";
-
-export function cmsDevFixtureWriteBlock(): { ok: false; error: string } {
-  return { ok: false, error: CMS_DEV_FIXTURE_WRITE_BLOCK };
-}
-
-export function isBlockedDevFixtureInsight(record: { id?: string; slug?: string }): boolean {
-  return Boolean((record.slug && isDevNewsFixtureSlug(record.slug)) || (record.id && isDevNewsFixtureInsightId(record.id)));
-}
-
-export function isBlockedDevFixtureMedia(id: string): boolean {
-  return isDevNewsFixtureMediaId(id);
-}
+  "Public demonstration editorial asset. Fictional example for the News UI. Does not depict CIT activity. May be saved from /admin; still labelled as a demonstration example unless the editor changes that.";
 
 export function devNewsFixtureInsightRecords(): InsightRecord[] {
   return devNewsFixtures.map((insight) => {
@@ -67,22 +52,37 @@ export function devNewsFixtureMediaRecords(): MediaRecord[] {
   }));
 }
 
+export function missingDevNewsFixtures(data: { insights: InsightRecord[]; media: MediaRecord[] }): {
+  insights: InsightRecord[];
+  media: MediaRecord[];
+} {
+  const insightSlugs = new Set(data.insights.map((item) => item.slug));
+  const mediaIds = new Set(data.media.map((item) => item.id));
+  return {
+    insights: devNewsFixtureInsightRecords().filter((item) => !insightSlugs.has(item.slug)),
+    media: devNewsFixtureMediaRecords().filter((item) => !mediaIds.has(item.id)),
+  };
+}
+
+export function demoNewsMediaNeededFor(record: Pick<InsightRecord, "slug" | "heroMediaId">): MediaRecord[] {
+  const all = devNewsFixtureMediaRecords();
+  if (isDevNewsFixtureSlug(record.slug)) return all;
+  if (record.heroMediaId) {
+    return all.filter((item) => item.id === record.heroMediaId);
+  }
+  return [];
+}
+
 export function applyDevNewsFixtures<T extends { insights: InsightRecord[]; media: MediaRecord[] }>(
   data: T,
   enabled = true,
 ): T {
-  const insights = data.insights.filter((item) => !isDevNewsFixtureInsightId(item.id));
-  const media = data.media.filter((item) => !isDevNewsFixtureMediaId(item.id));
-  if (!enabled) {
-    if (insights.length === data.insights.length && media.length === data.media.length) return data;
-    return { ...data, insights, media };
-  }
-
-  const insightSlugs = new Set(insights.map((item) => item.slug));
-  const mediaIds = new Set(media.map((item) => item.id));
+  if (!enabled) return data;
+  const extras = missingDevNewsFixtures(data);
+  if (!extras.insights.length && !extras.media.length) return data;
   return {
     ...data,
-    insights: [...insights, ...devNewsFixtureInsightRecords().filter((item) => !insightSlugs.has(item.slug))],
-    media: [...media, ...devNewsFixtureMediaRecords().filter((item) => !mediaIds.has(item.id))],
+    insights: [...data.insights, ...extras.insights],
+    media: [...data.media, ...extras.media],
   };
 }

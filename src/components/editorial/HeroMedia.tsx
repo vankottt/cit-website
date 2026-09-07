@@ -8,9 +8,9 @@ import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
 /**
  * Homepage overlay: muted looping local video, poster under reduced motion
- * or when paused. The public clip is a grayscale encode; the original in
- * `Video/` stays in colour. CSS grayscale on the poster is a fallback.
- * Insight YouTube embeds stay in YoutubeEmbed.
+ * or when paused. The public clip is a grayscale encode at the source frame
+ * rate; the original in `Video/` stays in colour. CSS grayscale on the poster
+ * is a fallback. Insight YouTube embeds stay in YoutubeEmbed.
  */
 export function HeroMedia({
   src,
@@ -30,21 +30,45 @@ export function HeroMedia({
   const videoRef = useRef<HTMLVideoElement>(null);
   const reducedMotion = usePrefersReducedMotion();
   const [userPaused, setUserPaused] = useState(false);
+  const [clipSrc, setClipSrc] = useState(src);
   const playing = !reducedMotion && !userPaused;
+  const showVideo = !reducedMotion;
+
+  useEffect(() => {
+    if (!mobileSrc) {
+      setClipSrc(src);
+      return;
+    }
+    const query = window.matchMedia("(max-width: 767px)");
+    const apply = () => setClipSrc(query.matches ? mobileSrc : src);
+    apply();
+    query.addEventListener("change", apply);
+    return () => query.removeEventListener("change", apply);
+  }, [src, mobileSrc]);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    if (playing) {
+
+    const tryPlay = () => {
       void video.play().catch(() => {
         setUserPaused(true);
       });
-    } else {
-      video.pause();
-    }
-  }, [playing]);
+    };
 
-  const showVideo = !reducedMotion;
+    if (!playing) {
+      video.pause();
+      return;
+    }
+
+    if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      tryPlay();
+      return;
+    }
+
+    video.addEventListener("canplay", tryPlay, { once: true });
+    return () => video.removeEventListener("canplay", tryPlay);
+  }, [playing, clipSrc]);
 
   return (
     <div className="absolute inset-0">
@@ -60,18 +84,17 @@ export function HeroMedia({
         />
         {showVideo ? (
           <video
+            key={clipSrc}
             ref={videoRef}
             className={cn("hero-video-cover", !playing && "invisible")}
+            src={clipSrc}
             muted
             loop
             playsInline
-            preload="none"
+            preload="auto"
             poster={posterSrc}
             aria-hidden="true"
-          >
-            {mobileSrc ? <source src={mobileSrc} type="video/mp4" media="(max-width: 767px)" /> : null}
-            <source src={src} type="video/mp4" />
-          </video>
+          />
         ) : null}
       </div>
       {reducedMotion ? null : (
