@@ -29,6 +29,8 @@ import { heroVideo } from "@/content/media";
 
 type Params = { params: Promise<{ locale: string }> };
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale: Locale = isLocale(raw) ? raw : "bg";

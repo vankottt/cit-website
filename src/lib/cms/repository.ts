@@ -7,6 +7,7 @@ import { getLocalStore, updateLocalStore } from "./local-store";
 import { recordContentSource } from "./content-source";
 import { applyAnalysisInsights, analysisMediaNeededFor, missingAnalysisInsights } from "./analysis-overlay";
 import { applyDevNewsFixtures, demoNewsMediaNeededFor, missingDevNewsFixtures } from "./dev-news-overlay";
+import { applyMissingSeedContent, missingSeedContent } from "./seed-overlay";
 import { insightToRecord, projectToRecord, recordToInsight, recordToPerson, recordToProject, seedMedia, seedPartners, seedSettings } from "./serialize";
 import { canViewForPublic, isPublished, partnerIsPublic, personIsPublic, seoIncomplete, translationState, validateInsightPublish, validatePersonPublish, validateProjectPublish } from "./truth";
 import type {
@@ -33,19 +34,24 @@ function seedInsightRecords(): InsightRecord[] {
 }
 
 function missingEditorialOverlays(data: { insights: InsightRecord[]; media: MediaRecord[] }) {
-  const news = missingDevNewsFixtures(data);
+  const seed = missingSeedContent(data);
+  const withSeed = {
+    insights: [...data.insights, ...seed.insights],
+    media: [...data.media, ...seed.media],
+  };
+  const news = missingDevNewsFixtures(withSeed);
   const analyses = missingAnalysisInsights({
-    insights: [...data.insights, ...news.insights],
-    media: [...data.media, ...news.media],
+    insights: [...withSeed.insights, ...news.insights],
+    media: [...withSeed.media, ...news.media],
   });
   return {
-    insights: [...news.insights, ...analyses.insights],
-    media: [...news.media, ...analyses.media],
+    insights: [...seed.insights, ...news.insights, ...analyses.insights],
+    media: [...seed.media, ...news.media, ...analyses.media],
   };
 }
 
 function applyEditorialOverlays<T extends { insights: InsightRecord[]; media: MediaRecord[] }>(data: T): T {
-  return applyAnalysisInsights(applyDevNewsFixtures(data));
+  return applyAnalysisInsights(applyDevNewsFixtures(applyMissingSeedContent(data)));
 }
 
 function overlayMediaNeededFor(record: InsightRecord): MediaRecord[] {

@@ -11,6 +11,7 @@ import {
   applyDevNewsFixtures,
   devNewsFixtureInsightRecords,
 } from "../src/lib/cms/dev-news-overlay";
+import { applyMissingSeedContent } from "../src/lib/cms/seed-overlay";
 import { recordToInsight, seedMedia, seedStore } from "../src/lib/cms/serialize";
 import { resolveNewsMedia } from "../src/lib/news-presentation";
 import { sortNewsNewestFirst } from "../src/lib/news-order";
@@ -158,6 +159,42 @@ describe("demo news fixtures", () => {
       bodyEn: edited.bodyEn,
       updatedBy: "editor",
     });
+  });
+
+  it("fills confirmed seed news when a CMS store never imported it", () => {
+    const seeded = seedStore();
+    const uasg = seeded.insights.find((item) => item.slug === UASG_SLUG)!;
+    const construction = seeded.media.find((item) => item.id === "media-bulgarian-construction-game")!;
+    const hosted = {
+      insights: seeded.insights.filter((item) => item.type !== "news"),
+      media: seeded.media.filter((item) => item.id === "media-campus-facade" || item.id === "media-campus-hall"),
+    };
+    const restored = applyDevNewsFixtures(applyMissingSeedContent(hosted));
+    expect(restored.insights.some((item) => item.slug === UASG_SLUG)).toBe(true);
+    expect(restored.insights.find((item) => item.slug === UASG_SLUG)?.heroMediaId).toBe(uasg.heroMediaId);
+    expect(restored.media.some((item) => item.id === construction.id)).toBe(true);
+    const news = sortNewsNewestFirst(
+      restored.insights.filter((item) => item.type === "news").map(recordToInsight),
+    );
+    expect(news.map((item) => item.slug)).toEqual([
+      "data-for-a-more-resilient-black-sea",
+      "from-classroom-to-real-world-systems",
+      "wine-tourism-and-regional-value",
+      UASG_SLUG,
+    ]);
+  });
+
+  it("fills an empty seed hero from versioned seed without replacing CMS copy", () => {
+    const seeded = seedStore();
+    const note = seeded.insights.find((item) => item.slug === "why-social-systems-behave-like-algorithms")!;
+    const hosted = {
+      insights: [{ ...note, heroMediaId: undefined, titleEn: "CMS title" }],
+      media: [] as ReturnType<typeof seedStore>["media"],
+    };
+    const restored = applyMissingSeedContent(hosted);
+    expect(restored.insights[0]?.heroMediaId).toBe(note.heroMediaId);
+    expect(restored.insights[0]?.titleEn).toBe("CMS title");
+    expect(restored.media.map((item) => item.id)).toEqual(seeded.media.map((item) => item.id));
   });
 
   it("does not strip saved fixture records when overlay is disabled", () => {
